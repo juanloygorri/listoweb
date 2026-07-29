@@ -1,0 +1,32 @@
+# ══ Regla: a GitHub solo va lo que la web necesita para servirse ══
+# Publicado: index.html, 404.html, CNAME, .nojekyll, assets/, templates/, clientes/
+# Todo lo demás (documentación, scripts, infraestructura) se queda SOLO en local.
+
+# Documentación interna — ningún .md se sirve ni debe verse en GitHub
+*.md
+
+# Scripts y herramientas internas (sync.sh, capturas.py, genimg…)
+*.sh
+*.py
+*.py[cod]
+__pycache__/
+
+# Infraestructura (el Worker se pega en Cloudflare, no se sirve)
+infra/
+
+# Restos pendientes de borrado manual
+_to_delete/
+
+# Secretos — jamás en un repo público
+.env
+.env.*
+.openai
+*.key
+*.pem
+
+# Capturas de QA (Playwright) y basura de sistema
+shot*.png
+captura*.png
+screenshot*.png
+*.log
+.DS_Store

@@ -1,0 +1,890 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Tienda de moda — plantilla demo</title>
+<meta name="description" id="metaDescription" content="Plantilla demo de tienda de moda: lookbook, novedades de temporada, tejidos naturales y atención cercana. Visítanos o escríbenos por WhatsApp.">
+<meta name="theme-color" content="#141311">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" id="ogSiteName" content="Tienda de moda">
+<meta property="og:title" id="ogTitle" content="Tienda de moda — plantilla demo">
+<meta property="og:description" id="ogDescription" content="Lookbook, novedades de temporada, tejidos naturales y atención cercana. Visítanos o escríbenos por WhatsApp.">
+<meta property="og:image" content="assets/hero.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='1' y='1' width='62' height='62' fill='%23141311'/%3E%3Cpath d='M20 16 L32 24 L44 16 L44 20 L36 26 L36 48 L28 48 L28 26 L20 20 Z' fill='none' stroke='%23F5F1E9' stroke-width='2'/%3E%3C/svg%3E">
+
+<!-- Fonts (única fuente externa permitida) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">
+{}
+</script>
+
+<style>
+  :root{
+    --paper:#FAF9F6;
+    --cream:#F1EDE4;
+    --ink:#141311;
+    --ink-soft:#4A463F;
+    --muted:#7A756A;
+    --terracotta:#BE5B34;
+    --terracotta-deep:#8C4321;
+    --line:rgba(20,19,17,.14);
+    --line-soft:rgba(20,19,17,.08);
+    --whatsapp:#25D366;
+    --font-display:'Bodoni Moda', 'Times New Roman', serif;
+    --font-body:'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --container:1240px;
+    --container-narrow:760px;
+    --ease:cubic-bezier(.25,.7,.35,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    font-weight:300;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .5em;font-weight:500;line-height:1.12;letter-spacing:.002em;}
+  p{margin:0 0 1em;}
+  ul{margin:0;padding:0;list-style:none;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 32px;}
+  .container-narrow{max-width:var(--container-narrow);margin:0 auto;padding:0 32px;}
+  section{padding:130px 0;position:relative;}
+  section.alt{background:var(--cream);}
+  @media (max-width:780px){
+    section{padding:76px 0;}
+    .container,.container-narrow{padding:0 22px;}
+  }
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--ink);color:var(--paper);
+    padding:12px 18px;z-index:1000;transition:top .2s var(--ease);font-size:.9rem;
+  }
+  .skip-link:focus{top:12px;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;font-family:var(--font-body);letter-spacing:.28em;
+    text-transform:uppercase;font-size:.68rem;font-weight:500;color:var(--terracotta-deep);margin-bottom:20px;
+  }
+  .eyebrow::before{content:'';width:28px;height:1px;background:currentColor;}
+  .section-head{max-width:640px;margin:0 auto 64px;text-align:center;}
+  .section-head h2{font-size:clamp(2.1rem,4vw,3.1rem);font-style:italic;}
+  .section-head p{color:var(--muted);font-size:1.02rem;margin:0;}
+  .section-head.left{text-align:left;margin-left:0;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:16px 34px;font-family:var(--font-body);font-weight:500;font-size:.82rem;
+    text-decoration:none;border:1px solid transparent;cursor:pointer;letter-spacing:.14em;text-transform:uppercase;
+    transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease),transform .3s var(--ease);
+  }
+  .btn-primary{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .btn-primary:hover{background:var(--terracotta-deep);border-color:var(--terracotta-deep);transform:translateY(-2px);}
+  .btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.7);}
+  .btn-outline:hover{background:#fff;color:var(--ink);border-color:#fff;transform:translateY(-2px);}
+  .btn-outline-dark{background:transparent;color:var(--ink);border-color:var(--ink);}
+  .btn-outline-dark:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px);}
+  .btn-block{width:100%;}
+
+  /* Header */
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:500;padding:28px 0;
+    transition:background .4s var(--ease),box-shadow .4s var(--ease),padding .4s var(--ease),border-color .4s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .brand{
+    font-family:var(--font-display);font-size:1.5rem;font-weight:500;font-style:italic;text-decoration:none;color:#fff;
+    letter-spacing:.01em;transition:color .4s var(--ease);
+  }
+  .main-nav{display:flex;align-items:center;gap:40px;}
+  .main-nav ul{display:flex;gap:32px;}
+  .main-nav a:not(.btn){
+    color:#fff;text-decoration:none;font-size:.74rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    position:relative;padding-bottom:5px;transition:color .4s var(--ease);
+  }
+  .main-nav a:not(.btn)::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:currentColor;
+    transition:width .3s var(--ease);
+  }
+  .main-nav a:not(.btn):hover::after{width:100%;}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;color:#fff;z-index:600;}
+  .nav-toggle svg{display:block;width:24px;height:24px;}
+
+  .site-header.scrolled{
+    background:rgba(250,249,246,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-color:var(--line);padding:16px 0;
+  }
+  .site-header.scrolled .brand,
+  .site-header.scrolled .main-nav a:not(.btn){color:var(--ink);}
+  .site-header.scrolled .nav-toggle{color:var(--ink);}
+  .site-header.scrolled .btn-outline{color:var(--ink);border-color:var(--ink);}
+  .site-header.scrolled .btn-outline:hover{background:var(--ink);color:var(--paper);}
+
+  @media (max-width:960px){
+    .main-nav ul{display:none;}
+    .main-nav .btn{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .site-header.nav-open .main-nav{
+      display:flex;position:fixed;inset:0;background:var(--ink);flex-direction:column;
+      align-items:center;justify-content:center;gap:0;
+    }
+    .site-header.nav-open .main-nav ul{
+      display:flex;flex-direction:column;align-items:center;gap:30px;margin-bottom:38px;
+    }
+    .site-header.nav-open .main-nav a:not(.btn){color:var(--paper);font-size:1.1rem;}
+    .site-header.nav-open .main-nav .btn{display:inline-flex;color:var(--paper);border-color:var(--paper);}
+    .main-nav{position:static;}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:100vh;display:flex;align-items:flex-end;position:relative;color:#fff;
+    background:linear-gradient(0deg, rgba(10,9,8,.82) 0%, rgba(10,9,8,.28) 55%, rgba(10,9,8,.42) 100%),
+      url('assets/hero.jpg') center 38%/cover no-repeat;
+  }
+  .hero-inner{max-width:720px;padding-bottom:96px;padding-top:140px;}
+  .hero .eyebrow{color:#E7C9B0;}
+  .hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem);color:#fff;font-style:italic;font-weight:400;text-shadow:0 4px 30px rgba(0,0,0,.2);}
+  .hero p.lead{font-size:1.14rem;color:rgba(255,255,255,.88);max-width:480px;margin-bottom:2.4em;font-weight:300;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:18px;}
+  .scroll-cue{
+    position:absolute;bottom:30px;right:32px;color:rgba(255,255,255,.7);
+    font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;display:flex;flex-direction:column;
+    align-items:center;gap:10px;
+  }
+  .scroll-cue::after{content:'';width:1px;height:36px;background:rgba(255,255,255,.55);animation:scrolldown 2.2s infinite;}
+  @keyframes scrolldown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.01%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* Lookbook — editorial bleed */
+  .lookbook-head{max-width:640px;margin:0 auto 88px;text-align:center;}
+  .look-row{
+    display:grid;grid-template-columns:1.3fr .7fr;gap:0 72px;align-items:center;margin-bottom:120px;
+  }
+  .look-row:last-child{margin-bottom:0;}
+  .look-row.reverse{grid-template-columns:.7fr 1.3fr;}
+  .look-row.reverse .look-media{order:2;}
+  .look-row.reverse .look-copy{order:1;}
+  .look-media{overflow:hidden;position:relative;}
+  .look-media img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;transition:transform 1s var(--ease);}
+  .look-media:hover img{transform:scale(1.035);}
+  .look-copy{padding:0 8px;}
+  .look-index{font-family:var(--font-display);font-style:italic;font-size:1rem;color:var(--terracotta-deep);letter-spacing:.06em;display:block;margin-bottom:18px;}
+  .look-copy h3{font-size:clamp(1.7rem,3vw,2.4rem);font-style:italic;font-weight:400;}
+  .look-copy p{color:var(--muted);font-size:.98rem;max-width:340px;}
+  @media (max-width:860px){
+    .look-row,.look-row.reverse{grid-template-columns:1fr;gap:34px;margin-bottom:72px;}
+    .look-row.reverse .look-media{order:1;}
+    .look-row.reverse .look-copy{order:2;}
+  }
+
+  /* Novedades grid */
+  .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:56px 40px;}
+  @media (max-width:860px){.products-grid{grid-template-columns:1fr;gap:48px;}}
+  .product-card .product-media{overflow:hidden;margin-bottom:22px;background:var(--cream);}
+  .product-card img{width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .8s var(--ease);}
+  .product-card:hover img{transform:scale(1.045);}
+  .product-info{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:1px solid var(--line);padding-top:14px;}
+  .product-info h3{font-size:1.05rem;font-style:normal;font-weight:500;margin:0;}
+  .product-info .price{font-family:var(--font-display);font-style:italic;color:var(--terracotta-deep);font-size:1.1rem;white-space:nowrap;}
+  .product-note{color:var(--muted);font-size:.85rem;margin-top:6px;}
+  .products-cta{text-align:center;margin-top:72px;}
+
+  /* Filosofía */
+  .philosophy-inner{max-width:760px;margin:0 auto;text-align:center;}
+  .philosophy-quote{
+    font-family:var(--font-display);font-style:italic;font-weight:400;font-size:clamp(1.5rem,3.2vw,2.2rem);
+    line-height:1.42;color:var(--ink);margin-bottom:52px;
+  }
+  .tenets{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:64px;text-align:left;}
+  @media (max-width:780px){.tenets{grid-template-columns:1fr;gap:36px;}}
+  .tenet-num{font-family:var(--font-display);font-style:italic;color:var(--terracotta-deep);font-size:1.3rem;display:block;margin-bottom:12px;}
+  .tenet h3{font-size:1.1rem;font-style:normal;font-weight:500;}
+  .tenet p{color:var(--muted);font-size:.92rem;margin:0;}
+
+  /* Visítanos */
+  .visit-section .container{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+  @media (max-width:900px){.visit-section .container{grid-template-columns:1fr;gap:40px;}}
+  .visit-media{overflow:hidden;}
+  .visit-media img{width:100%;aspect-ratio:5/6;object-fit:cover;object-position:60% 30%;}
+  .visit-text .eyebrow{color:var(--terracotta-deep);}
+  .visit-text p{color:var(--ink-soft);}
+  .visit-address{
+    font-family:var(--font-display);font-style:italic;font-size:1.3rem;margin:26px 0 30px;color:var(--ink);
+  }
+
+  /* Opiniones */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+  @media (max-width:860px){.testimonials-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    padding:40px 34px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .testimonials-grid .testimonial-card:last-child{border-right:1px solid var(--line);}
+  @media (max-width:860px){.testimonial-card{border-right:1px solid var(--line)!important;}}
+  .stars{color:var(--terracotta-deep);letter-spacing:2px;font-size:.95rem;margin-bottom:18px;}
+  .testimonial-card p.quote{font-style:italic;font-family:var(--font-display);color:var(--ink);font-size:1.12rem;margin-bottom:20px;line-height:1.5;}
+  .testimonial-name{font-weight:500;font-family:var(--font-body);letter-spacing:.08em;text-transform:uppercase;font-size:.78rem;color:var(--muted);}
+
+  /* Horario + ubicación */
+  .info-section .container{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:start;}
+  @media (max-width:860px){.info-section .container{grid-template-columns:1fr;}}
+  .schedule-list{border-top:1px solid var(--line);}
+  .schedule-row{
+    display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:.95rem;
+  }
+  .schedule-row.today{font-weight:500;color:var(--terracotta-deep);}
+  .map-frame{overflow:hidden;height:100%;min-height:360px;border:1px solid var(--line);}
+  .map-frame iframe{width:100%;height:100%;min-height:360px;border:0;display:block;}
+
+  /* Contacto */
+  .contact-section .container{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;}
+  @media (max-width:860px){.contact-section .container{grid-template-columns:1fr;}}
+  .contact-list{margin-top:28px;}
+  .contact-list li{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px;}
+  .contact-list .icon{
+    width:38px;height:38px;flex:none;border:1px solid var(--ink);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-list a{text-decoration:none;font-weight:400;}
+  .contact-list a:hover{color:var(--terracotta-deep);}
+  .contact-list .label{display:block;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px;}
+  .social-row{display:flex;gap:12px;margin-top:30px;}
+  .social-row a{
+    width:42px;height:42px;border:1px solid var(--line);display:flex;align-items:center;
+    justify-content:center;transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease);
+  }
+  .social-row a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+  form.contact-form{background:var(--paper);border:1px solid var(--line);padding:38px;}
+  .form-row{margin-bottom:20px;}
+  .form-row label{display:block;font-size:.72rem;font-weight:500;margin-bottom:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
+  .form-row input,.form-row textarea{
+    width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:0;
+    font-family:var(--font-body);font-size:.95rem;background:var(--paper);color:var(--ink);
+    transition:border-color .25s var(--ease);
+  }
+  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--terracotta-deep);}
+  .form-note{font-size:.78rem;color:var(--muted);margin-top:12px;}
+  .form-success{display:none;color:var(--terracotta-deep);font-size:.86rem;margin-top:12px;font-weight:500;}
+
+  /* CTA banda final */
+  .cta-band{background:var(--ink);color:var(--paper);text-align:center;}
+  .cta-band h2{color:var(--paper);font-style:italic;}
+  .cta-band p{color:rgba(250,249,246,.7);max-width:520px;margin:0 auto 36px;}
+
+  /* Footer */
+  .site-footer{background:var(--ink);color:rgba(250,249,246,.78);padding:72px 0 30px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:52px;}
+  @media (max-width:780px){.footer-grid{grid-template-columns:1fr;gap:36px;}}
+  .footer-grid h4{color:var(--paper);font-size:.78rem;margin-bottom:18px;font-family:var(--font-body);font-weight:500;letter-spacing:.12em;text-transform:uppercase;}
+  .footer-grid .brand{color:var(--paper);font-size:1.35rem;}
+  .footer-grid p{color:rgba(250,249,246,.6);font-size:.92rem;}
+  .footer-links li{margin-bottom:12px;}
+  .footer-links a{text-decoration:none;color:rgba(250,249,246,.75);transition:color .25s var(--ease);font-size:.92rem;}
+  .footer-links a:hover{color:var(--terracotta);}
+  .footer-bottom{
+    border-top:1px solid rgba(250,249,246,.16);padding-top:26px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;font-size:.78rem;color:rgba(250,249,246,.5);
+  }
+
+  /* Floating WhatsApp button */
+  .whatsapp-float{
+    position:fixed;right:22px;bottom:22px;width:58px;height:58px;border-radius:50%;background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.28);
+    z-index:400;text-decoration:none;transition:transform .25s var(--ease);
+  }
+  .whatsapp-float:hover{transform:scale(1.08);}
+  .whatsapp-float svg{width:29px;height:29px;}
+
+  :focus-visible{outline:2px solid var(--terracotta-deep);outline-offset:2px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#inicio" class="brand js-business-name">Tu Tienda de Moda</a>
+    <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#lookbook">Lookbook</a></li>
+        <li><a href="#novedades">Novedades</a></li>
+        <li><a href="#filosofia">Filosofía</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#horario">Horario y ubicación</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#horario" class="btn btn-outline">Visítanos</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+      <svg id="navIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="navIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="display:none"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-label="Presentación">
+    <div class="container hero-inner">
+      <span class="eyebrow">Boutique de moda en tu ciudad</span>
+      <h1>Prendas que envejecen bien</h1>
+      <p class="lead">Líneas depuradas, tejidos naturales y una selección pensada para acompañarte temporada tras temporada. Te esperamos en tienda, en tu barrio.</p>
+      <div class="hero-ctas">
+        <a href="#horario" class="btn btn-primary">Visítanos</a>
+        <a href="#" class="btn btn-outline js-whatsapp-link" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      </div>
+    </div>
+    <span class="scroll-cue" aria-hidden="true">Descubre más</span>
+  </section>
+
+  <!-- LOOKBOOK -->
+  <section id="lookbook" aria-labelledby="lookbook-title">
+    <div class="container">
+      <div class="lookbook-head reveal">
+        <span class="eyebrow" style="justify-content:center">Colección actual</span>
+        <h2 id="lookbook-title">Lookbook</h2>
+        <p style="color:var(--muted)">Dos siluetas de la temporada, fotografiadas tal y como se ven en tienda.</p>
+      </div>
+
+      <div class="look-row reveal">
+        <figure class="look-media">
+          <img src="assets/lookbook1.jpg" alt="Mujer con gabardina beige de líneas fluidas, retrato editorial sobre fondo neutro" loading="lazy" width="1600" height="1067">
+        </figure>
+        <div class="look-copy">
+          <span class="look-index">Look 01</span>
+          <h3>La gabardina esencial</h3>
+          <p>Corte holgado, cuello clásico y caída natural. Una pieza de entretiempo que combina con todo el armario.</p>
+        </div>
+      </div>
+
+      <div class="look-row reverse reveal">
+        <figure class="look-media">
+          <img src="assets/lookbook2.jpg" alt="Hombre con conjunto de lino en tono crudo, sentado, retrato editorial" loading="lazy" width="1600" height="1067">
+        </figure>
+        <div class="look-copy">
+          <span class="look-index">Look 02</span>
+          <h3>Lino de temporada</h3>
+          <p>Camisa y pantalón a juego en lino transpirable, pensados para los días de más calor sin renunciar al estilo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOVEDADES -->
+  <section id="novedades" class="alt" aria-labelledby="novedades-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" style="justify-content:center">Recién llegado</span>
+        <h2 id="novedades-title">Novedades</h2>
+        <p>Una primera muestra de la nueva colección. Disponibilidad y tallas, consúltanos por WhatsApp.</p>
+      </div>
+
+      <div class="products-grid">
+        <article class="product-card reveal">
+          <div class="product-media">
+            <img src="assets/novedades.jpg" alt="Perchero con abrigos y prendas de exterior en tonos tierra, iluminado con luz natural" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="product-info">
+            <h3>Abrigo cruzado</h3>
+            <span class="price">189 €</span>
+          </div>
+          <p class="product-note">Lana mezcla, forro interior, tonos camel y grafito.</p>
+        </article>
+
+        <article class="product-card reveal">
+          <div class="product-media">
+            <img src="assets/detalle.jpg" alt="Jerséis de punto doblados en tonos neutros apilados sobre una balda de madera" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="product-info">
+            <h3>Jersey de punto</h3>
+            <span class="price">79 €</span>
+          </div>
+          <p class="product-note">Punto grueso, algodón y lana natural, seis colores disponibles.</p>
+        </article>
+
+        <article class="product-card reveal">
+          <div class="product-media">
+            <img src="assets/accesorios.jpg" alt="Bolso de piel, gafas de sol y reloj sobre lino, composición de accesorios" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="product-info">
+            <h3>Set de accesorios</h3>
+            <span class="price">Desde 45 €</span>
+          </div>
+          <p class="product-note">Bolso de piel, gafas de sol y complementos de temporada.</p>
+        </article>
+      </div>
+
+      <div class="products-cta reveal">
+        <a href="#" class="btn btn-outline-dark js-whatsapp-link" target="_blank" rel="noopener">Consultar disponibilidad</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILOSOFÍA -->
+  <section id="filosofia" aria-labelledby="filosofia-title">
+    <div class="container philosophy-inner">
+      <span class="eyebrow" style="justify-content:center">Nuestra filosofía</span>
+      <h2 id="filosofia-title" class="visually-hidden">Filosofía</h2>
+      <p class="philosophy-quote reveal">«Creemos en una moda que no caduca: prendas bien hechas, con materiales nobles, elegidas una a una para que las lleves durante años, no durante una temporada.»</p>
+
+      <div class="tenets">
+        <div class="tenet reveal">
+          <span class="tenet-num">I.</span>
+          <h3>Atemporal</h3>
+          <p>Diseños depurados que no siguen tendencias pasajeras, pensados para durar en tu armario.</p>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet-num">II.</span>
+          <h3>Tejidos naturales</h3>
+          <p>Lana, lino y algodón seleccionados por su tacto, su caída y su durabilidad.</p>
+        </div>
+        <div class="tenet reveal">
+          <span class="tenet-num">III.</span>
+          <h3>Cercanía</h3>
+          <p>Te asesoramos en tienda con calma, sin prisas, hasta encontrar la prenda adecuada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISÍTANOS -->
+  <section class="visit-section alt" aria-labelledby="visitanos-title">
+    <div class="container">
+      <figure class="visit-media reveal">
+        <img src="assets/hero.jpg" alt="Interior de la boutique con perchas de tonos neutros, banco de piedra y luz natural" loading="lazy" width="1600" height="1067">
+      </figure>
+      <div class="visit-text reveal">
+        <span class="eyebrow">Ven a conocernos</span>
+        <h2 id="visitanos-title">Visítanos</h2>
+        <p>Nuestro espacio está pensado para tomarte tu tiempo: prueba, combina y pide consejo a nuestro equipo. Te recibimos con mucho gusto en <span class="js-city-ref">tu ciudad</span>.</p>
+        <p class="visit-address js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</p>
+        <a href="#horario" class="btn btn-outline-dark">Ver horario y cómo llegar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" aria-labelledby="opiniones-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" style="justify-content:center">Lo que dicen de nosotros</span>
+        <h2 id="opiniones-title">Opiniones</h2>
+        <p>Clientas y clientes que ya forman parte de nuestro armario habitual.</p>
+      </div>
+      <div class="testimonials-grid reveal">
+        <article class="testimonial-card">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Prendas de una calidad que ya no se ve fácilmente. El jersey de punto lo llevo puesto todo el invierno.»</p>
+          <p class="testimonial-name">Laura M.</p>
+        </article>
+        <article class="testimonial-card">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Me asesoraron con mucha paciencia para elegir tallas por WhatsApp antes de ir. Se nota el trato cercano.»</p>
+          <p class="testimonial-name">Álvaro R.</p>
+        </article>
+        <article class="testimonial-card">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Una tienda con criterio: pocas prendas, pero todas combinan entre sí. Ya es mi primera parada cada temporada.»</p>
+          <p class="testimonial-name">Marina S.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO + UBICACIÓN -->
+  <section id="horario" class="alt" aria-labelledby="horario-title">
+    <div class="container info-section">
+      <div class="reveal">
+        <span class="eyebrow">Te esperamos</span>
+        <h2 id="horario-title">Horario y ubicación</h2>
+        <p style="color:var(--muted)">Estamos en el centro de tu ciudad, en tu barrio, con fácil acceso.</p>
+        <div class="schedule-list js-schedule" aria-label="Horario de apertura"></div>
+        <p style="margin-top:20px;color:var(--muted)" class="js-address"></p>
+      </div>
+      <div class="map-frame reveal">
+        <!-- El src del iframe se rellena vía JS desde CONFIG.mapEmbedUrl -->
+        <iframe class="js-map" title="Ubicación en el mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banda -->
+  <section class="cta-band reveal" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title">¿Buscas una prenda concreta?</h2>
+      <p>Escríbenos por WhatsApp y te decimos si tenemos tu talla en tienda antes de que vengas.</p>
+      <a href="#" class="btn btn-outline js-whatsapp-link" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" aria-labelledby="contacto-title">
+    <div class="container contact-section">
+      <div class="reveal">
+        <span class="eyebrow">Hablemos</span>
+        <h2 id="contacto-title">Contacto</h2>
+        <p style="color:var(--muted)">Escríbenos, llámanos o pásate por la tienda. Estaremos encantados de atenderte.</p>
+        <ul class="contact-list">
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="label">Teléfono</span>
+              <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 5.54-13.58z"/></svg>
+            </span>
+            <div>
+              <span class="label">WhatsApp</span>
+              <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Escríbenos directamente</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="1"/></svg>
+            </span>
+            <div>
+              <span class="label">Email</span>
+              <a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <span class="label">Dirección</span>
+              <span class="js-address-contact">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+            </div>
+          </li>
+        </ul>
+        <div class="social-row js-socials" aria-label="Redes sociales"></div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm" aria-label="Formulario de contacto">
+          <div class="form-row">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email o teléfono</label>
+            <input type="text" id="cf-email" name="contact" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Mensaje</label>
+            <textarea id="cf-message" name="message" rows="4" required placeholder="Cuéntanos qué prenda o talla buscas..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Enviar mensaje</button>
+          <p class="form-note">Te responderemos por email. Al enviar, se abrirá tu programa de correo con el mensaje ya redactado.</p>
+          <p class="form-success" id="formSuccess" role="status">¡Gracias! Hemos abierto tu cliente de correo con el mensaje listo para enviar.</p>
+          <!-- Slot para widget de cita de personal shopping embebido, si el cliente lo contrata -->
+          <!--
+          <iframe src="[URL_DEL_WIDGET_DE_CITAS]" title="Reservar cita de personal shopping" loading="lazy" style="width:100%;border:0;min-height:600px;margin-top:24px;"></iframe>
+          -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand js-business-name">Tu Tienda de Moda</a>
+        <p style="margin-top:14px;max-width:320px;">Boutique de moda en el centro de tu ciudad. Lookbook de temporada, tejidos naturales y atención cercana.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#lookbook">Lookbook</a></li>
+          <li><a href="#novedades">Novedades</a></li>
+          <li><a href="#filosofia">Filosofía</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#horario">Horario y ubicación</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a class="js-tel" href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a></li>
+          <li><span class="js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span class="js-year"></span> <span class="js-business-name">Tu Tienda de Moda</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99zm5.47-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — único punto de edición para adaptar la plantilla
+     a un cliente real (nombre, contacto, horario, mapa, redes...)
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Tu Tienda de Moda",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { day: "Lunes",    hours: "10:00 – 20:00" },
+      { day: "Martes",   hours: "10:00 – 20:00" },
+      { day: "Miércoles",hours: "10:00 – 20:00" },
+      { day: "Jueves",   hours: "10:00 – 20:00" },
+      { day: "Viernes",  hours: "10:00 – 20:30" },
+      { day: "Sábado",   hours: "10:30 – 14:30" },
+      { day: "Domingo",  hours: "Cerrado" }
+    ],
+    // Sin sistema de citas por ahora: los CTA de WhatsApp abren una conversación directa.
+    // Si el cliente contrata una herramienta de cita de personal shopping (Calendly, etc.),
+    // añadir aquí la URL: los botones "js-book" (no usados en esta plantilla) la usarían.
+    bookingUrl: null,
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1&output=embed",
+    socials: {
+      instagram: "https://instagram.com/tutiendademoda",
+      facebook: "https://facebook.com/tutiendademoda"
+    }
+  };
+
+  const SITE_TAGLINE = "Tienda de moda";
+  const SITE_DESCRIPTION = "Lookbook de temporada, novedades, tejidos naturales y atención cercana. Visítanos o escríbenos por WhatsApp.";
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* --- Nombre del negocio --- */
+    document.querySelectorAll('.js-business-name').forEach(function(el){
+      el.textContent = CONFIG.businessName;
+    });
+    document.title = CONFIG.businessName + " — " + SITE_TAGLINE;
+
+    /* --- Meta description y Open Graph (generados desde CONFIG) --- */
+    const metaDescription = document.getElementById('metaDescription');
+    if (metaDescription) { metaDescription.setAttribute('content', CONFIG.businessName + ": " + SITE_DESCRIPTION); }
+    const ogSiteName = document.getElementById('ogSiteName');
+    if (ogSiteName) { ogSiteName.setAttribute('content', CONFIG.businessName); }
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) { ogTitle.setAttribute('content', CONFIG.businessName + " — " + SITE_TAGLINE); }
+    const ogDescription = document.getElementById('ogDescription');
+    if (ogDescription) { ogDescription.setAttribute('content', SITE_DESCRIPTION); }
+
+    /* --- Teléfono --- */
+    const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+    document.querySelectorAll('.js-tel').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+      el.textContent = CONFIG.phone;
+    });
+
+    /* --- Email --- */
+    document.querySelectorAll('.js-email').forEach(function(el){
+      el.href = 'mailto:' + CONFIG.email;
+      el.textContent = CONFIG.email;
+    });
+
+    /* --- Dirección --- */
+    document.querySelectorAll('.js-address, .js-address-contact').forEach(function(el){
+      el.textContent = CONFIG.address;
+    });
+
+    /* --- WhatsApp (flotante + enlaces de contacto + CTAs) --- */
+    const waMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', me gustaría consultar tallas y disponibilidad de una prenda.');
+    const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + waMessage;
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(el){
+      el.href = waUrl;
+    });
+
+    /* --- Horario --- */
+    const scheduleContainer = document.querySelector('.js-schedule');
+    if (scheduleContainer) {
+      const jsDay = new Date().getDay(); // 0 = domingo ... 6 = sábado
+      const dayIndexMap = [6,0,1,2,3,4,5]; // convierte getDay() a índice del array CONFIG.schedule (Lunes..Domingo)
+      const todayIndex = dayIndexMap[jsDay];
+      CONFIG.schedule.forEach(function(item, i){
+        const row = document.createElement('div');
+        row.className = 'schedule-row' + (i === todayIndex ? ' today' : '');
+        row.innerHTML = '<span class="day">' + item.day + '</span><span class="hours">' + item.hours + '</span>';
+        scheduleContainer.appendChild(row);
+      });
+    }
+
+    /* --- Mapa --- */
+    document.querySelectorAll('.js-map').forEach(function(el){
+      el.src = CONFIG.mapEmbedUrl;
+      el.title = 'Ubicación de ' + CONFIG.businessName + ' en el mapa';
+    });
+
+    /* --- Redes sociales --- */
+    const socialContainer = document.querySelector('.js-socials');
+    if (socialContainer) {
+      const icons = {
+        instagram: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        facebook: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+      };
+      Object.keys(CONFIG.socials).forEach(function(key){
+        const a = document.createElement('a');
+        a.href = CONFIG.socials[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key.charAt(0).toUpperCase() + key.slice(1));
+        a.innerHTML = icons[key] || '';
+        socialContainer.appendChild(a);
+      });
+    }
+
+    /* --- Año en footer --- */
+    const yearEl = document.querySelector('.js-year');
+    if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+
+    /* --- JSON-LD (datos estructurados ClothingStore) --- */
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "ClothingStore",
+      "name": CONFIG.businessName,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address,
+        "addressCountry": "ES"
+      },
+      "priceRange": "€€",
+      "openingHoursSpecification": CONFIG.schedule.filter(function(s){return s.hours !== 'Cerrado';}).map(function(s){
+        const parts = s.hours.split('–').map(function(p){return p.trim();});
+        return {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": s.day,
+          "opens": parts[0],
+          "closes": parts[1]
+        };
+      }),
+      "sameAs": Object.values(CONFIG.socials)
+    };
+    const ldScript = document.getElementById('ld-json');
+    if (ldScript) { ldScript.textContent = JSON.stringify(ld, null, 2); }
+
+    /* --- Header sticky que solidifica al hacer scroll --- */
+    const header = document.getElementById('siteHeader');
+    function onScroll(){
+      if (window.scrollY > 40) { header.classList.add('scrolled'); }
+      else { header.classList.remove('scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* --- Menú móvil --- */
+    const navToggle = document.getElementById('navToggle');
+    const iconOpen = document.getElementById('navIconOpen');
+    const iconClose = document.getElementById('navIconClose');
+    function closeMenu(){
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function openMenu(){
+      header.classList.add('nav-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = '';
+      document.body.style.overflow = 'hidden';
+    }
+    navToggle.addEventListener('click', function(){
+      if (header.classList.contains('nav-open')) { closeMenu(); } else { openMenu(); }
+    });
+    document.querySelectorAll('#mainNav a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    /* --- Scroll reveal --- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* --- Formulario de contacto: abre mailto con los datos --- */
+    const form = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const contact = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        const subject = encodeURIComponent('Solicitud de contacto — ' + CONFIG.businessName);
+        const body = encodeURIComponent(
+          'Nombre: ' + name + '\n' +
+          'Email/Teléfono: ' + contact + '\n\n' +
+          'Mensaje:\n' + message
+        );
+        window.location.href = 'mailto:' + CONFIG.email + '?subject=' + subject + '&body=' + body;
+        if (formSuccess) { formSuccess.style.display = 'block'; }
+      });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>

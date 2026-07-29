@@ -1,0 +1,916 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Kiosco de prensa, chuches y recargas — plantilla demo</title>
+<meta name="description" id="metaDescription" content="Plantilla demo de kiosco de barrio: prensa y revistas, chuches y golosinas, recargas de móvil de todas las compañías y papelería. Abierto todos los días.">
+<meta name="theme-color" content="#FFC93C">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" id="ogSiteName" content="Kiosco de barrio">
+<meta property="og:title" id="ogTitle" content="Kiosco de prensa, chuches y recargas — plantilla demo">
+<meta property="og:description" id="ogDescription" content="Prensa, chuches, recargas de móvil y papelería, en el kiosco de tu barrio de toda la vida.">
+<meta property="og:image" content="assets/hero.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23FFC93C'/%3E%3Cpath d='M18 24h28v18a3 3 0 0 1-3 3H21a3 3 0 0 1-3-3V24z' fill='%23fff' stroke='%232E2116' stroke-width='2'/%3E%3Cpath d='M18 24l6-6h16l6 6' fill='none' stroke='%232E2116' stroke-width='2' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='34' r='5' fill='%23E63950'/%3E%3C/svg%3E">
+
+<!-- Fonts (única fuente externa permitida) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">
+{}
+</script>
+
+<style>
+  :root{
+    --cream:#FFF8EC;
+    --cream-alt:#FFF1D6;
+    --ink:#2E2116;
+    --ink-soft:#4A3626;
+    --muted:#7A6650;
+    --yellow:#FFC93C;
+    --yellow-deep:#B9780A;
+    --orange:#FF8A3D;
+    --orange-deep:#C85A18;
+    --cherry:#E63950;
+    --cherry-deep:#B81F38;
+    --mint:#2FBF8F;
+    --mint-deep:#177A5C;
+    --whatsapp:#25D366;
+    --border:rgba(46,33,22,.14);
+    --font-display:'Fredoka', 'Segoe UI', sans-serif;
+    --font-body:'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --container:1180px;
+    --radius-sm:10px;
+    --radius-md:22px;
+    --radius-lg:34px;
+    --shadow-sm:0 4px 16px rgba(46,33,22,.10);
+    --shadow-md:0 20px 46px -18px rgba(46,33,22,.35);
+    --ease:cubic-bezier(.25,.8,.35,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .5em;font-weight:600;line-height:1.18;color:var(--ink);}
+  p{margin:0 0 1em;}
+  ul{margin:0;padding:0;list-style:none;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 24px;}
+  section{padding:100px 0;position:relative;}
+  section.alt{background:var(--cream-alt);}
+  @media (max-width:780px){
+    section{padding:60px 0;}
+  }
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--ink);color:var(--cream);
+    padding:12px 18px;border-radius:var(--radius-sm);z-index:1000;transition:top .2s var(--ease);
+    font-size:.9rem;font-weight:700;
+  }
+  .skip-link:focus{top:12px;}
+
+  /* Rayas de toldo, motivo decorativo recurrente */
+  .stripe-divider{
+    height:16px;width:100%;
+    background:repeating-linear-gradient(45deg, var(--orange) 0 20px, var(--cream) 20px 40px);
+  }
+  .stripe-divider.mint{background:repeating-linear-gradient(45deg, var(--mint) 0 20px, var(--cream) 20px 40px);}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);letter-spacing:.02em;
+    font-size:.82rem;font-weight:600;color:var(--cherry-deep);margin-bottom:14px;
+    background:rgba(230,57,80,.10);padding:6px 16px;border-radius:999px;
+  }
+  .section-head{max-width:640px;margin:0 auto 52px;text-align:center;}
+  .section-head h2{font-size:clamp(1.9rem,3.6vw,2.8rem);}
+  .section-head p{color:var(--muted);font-size:1.06rem;margin:0;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:16px 32px;border-radius:999px;font-family:var(--font-display);font-weight:600;font-size:1rem;
+    text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),color .25s var(--ease);
+  }
+  .btn-primary{background:var(--cherry);color:#fff;box-shadow:0 10px 24px -8px rgba(230,57,80,.55);}
+  .btn-primary:hover{background:var(--cherry-deep);transform:translateY(-2px) scale(1.02);}
+  .btn-outline{background:rgba(255,255,255,.14);color:#fff;border-color:#fff;}
+  .btn-outline:hover{background:#fff;color:var(--ink);transform:translateY(-2px);}
+  .btn-dark{background:var(--ink);color:var(--cream);}
+  .btn-dark:hover{background:var(--ink-soft);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-whatsapp{background:var(--whatsapp);color:#fff;}
+  .btn-whatsapp:hover{background:#1fb257;transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(37,211,102,.55);}
+  .btn-block{width:100%;}
+
+  /* Header */
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:500;
+    padding:18px 0;transition:background .35s var(--ease),box-shadow .35s var(--ease),padding .35s var(--ease);
+  }
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .brand{
+    font-family:var(--font-display);font-size:1.5rem;font-weight:700;text-decoration:none;color:#fff;
+    display:flex;align-items:center;gap:10px;transition:color .35s var(--ease);
+  }
+  .brand .brand-dot{width:12px;height:12px;border-radius:50%;background:var(--cherry);display:inline-block;box-shadow:0 0 0 4px rgba(255,255,255,.35);}
+  .main-nav{display:flex;align-items:center;gap:30px;}
+  .main-nav ul{display:flex;gap:26px;}
+  .main-nav a:not(.btn){
+    color:#fff;text-decoration:none;font-size:.92rem;font-weight:700;letter-spacing:.01em;
+    position:relative;padding-bottom:4px;transition:color .35s var(--ease);
+  }
+  .main-nav a:not(.btn)::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:2px;border-radius:2px;background:var(--yellow);
+    transition:width .3s var(--ease);
+  }
+  .main-nav a:not(.btn):hover::after{width:100%;}
+  .nav-toggle{
+    display:none;background:none;border:0;cursor:pointer;padding:8px;color:#fff;z-index:600;
+  }
+  .nav-toggle svg{display:block;width:26px;height:26px;}
+
+  .site-header.scrolled{
+    background:rgba(255,248,236,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    box-shadow:var(--shadow-sm);padding:10px 0;
+  }
+  .site-header.scrolled .brand,
+  .site-header.scrolled .main-nav a:not(.btn){color:var(--ink);}
+  .site-header.scrolled .main-nav a:not(.btn)::after{background:var(--cherry);}
+  .site-header.scrolled .nav-toggle{color:var(--ink);}
+  .site-header.scrolled .btn-outline{color:var(--ink);border-color:var(--ink);background:transparent;}
+  .site-header.scrolled .btn-outline:hover{background:var(--ink);color:var(--cream);}
+
+  @media (max-width:940px){
+    .main-nav ul{display:none;}
+    .main-nav .btn{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .site-header.nav-open .main-nav{
+      display:flex;position:fixed;inset:0;background:var(--ink);flex-direction:column;
+      align-items:center;justify-content:center;gap:0;
+    }
+    .site-header.nav-open .main-nav ul{
+      display:flex;flex-direction:column;align-items:center;gap:26px;margin-bottom:36px;
+    }
+    .site-header.nav-open .main-nav a:not(.btn){color:var(--cream);font-size:1.25rem;}
+    .site-header.nav-open .main-nav .btn{display:inline-flex;}
+    .main-nav{position:static;}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:100vh;display:flex;align-items:center;position:relative;color:#fff;
+    background:linear-gradient(180deg, rgba(40,26,10,.35) 0%, rgba(40,26,10,.42) 40%, rgba(40,26,10,.86) 100%),
+      url('assets/hero.jpg') center 40%/cover no-repeat;
+    overflow:hidden;
+  }
+  .hero-inner{max-width:680px;padding-top:120px;padding-bottom:70px;position:relative;z-index:2;}
+  .hero .eyebrow{background:rgba(255,255,255,.18);color:#fff;}
+  .hero h1{font-size:clamp(2.4rem,6vw,4rem);color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.3);}
+  .hero h1 .hl{color:var(--yellow);}
+  .hero p.lead{font-size:1.18rem;color:rgba(255,255,255,.94);max-width:520px;margin-bottom:2.2em;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:16px;}
+
+  /* Badge horario flotante sobre el hero */
+  .schedule-badge{
+    position:relative;z-index:3;margin-top:40px;display:inline-flex;align-items:center;gap:14px;
+    background:var(--mint);color:#fff;padding:16px 26px;border-radius:999px;box-shadow:var(--shadow-md);
+    font-family:var(--font-display);font-weight:600;font-size:1rem;
+  }
+  .schedule-badge svg{flex:none;width:26px;height:26px;}
+  @media (max-width:560px){
+    .schedule-badge{font-size:.86rem;padding:13px 20px;}
+  }
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* Qué encontrarás */
+  .find-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+  @media (max-width:980px){.find-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.find-grid{grid-template-columns:1fr;}}
+  .find-card{
+    border-radius:var(--radius-md);overflow:hidden;position:relative;box-shadow:var(--shadow-sm);
+    transition:transform .3s var(--ease),box-shadow .3s var(--ease);border:3px solid #fff;
+  }
+  .find-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+  .find-card .find-media{height:150px;position:relative;overflow:hidden;}
+  .find-card .find-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+  .find-card:hover .find-media img{transform:scale(1.08);}
+  .find-card .find-body{padding:22px 20px 24px;background:#fff;}
+  .find-card.no-photo .find-body{padding-top:26px;}
+  .find-icon{
+    width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+    margin-bottom:14px;color:#fff;flex:none;
+  }
+  .find-card h3{font-size:1.12rem;margin-bottom:8px;}
+  .find-card p{color:var(--muted);font-size:.92rem;margin:0;}
+  .find-card.no-photo{background:var(--cream);}
+  .find-card.no-photo .find-body{background:transparent;}
+
+  .find-card[data-accent="orange"] .find-icon{background:var(--orange);}
+  .find-card[data-accent="cherry"] .find-icon{background:var(--cherry);}
+  .find-card[data-accent="mint"] .find-icon{background:var(--mint);}
+  .find-card[data-accent="yellow"] .find-icon{background:var(--yellow-deep);}
+  .find-card[data-accent="orange"] .find-media::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg, rgba(200,90,24,.55), rgba(200,90,24,0) 55%);}
+  .find-card[data-accent="cherry"] .find-media::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg, rgba(184,31,56,.55), rgba(184,31,56,0) 55%);}
+  .find-card[data-accent="mint"] .find-media::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg, rgba(23,122,92,.55), rgba(23,122,92,0) 55%);}
+  .find-card.no-photo{border-color:var(--yellow-deep);}
+
+  /* Horario protagonista */
+  .schedule-hero{
+    display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:56px;
+  }
+  .schedule-big-badge{
+    display:inline-flex;flex-direction:column;align-items:center;gap:6px;
+    background:var(--cherry);color:#fff;padding:26px 46px;border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-md);transform:rotate(-2deg);
+  }
+  .schedule-big-badge .top{font-size:.86rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;opacity:.9;}
+  .schedule-big-badge .main{font-family:var(--font-display);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;}
+  .schedule-wrap{max-width:640px;margin:0 auto;width:100%;}
+  .schedule-list{border-top:2px dashed var(--border);}
+  .schedule-row{
+    display:flex;justify-content:space-between;padding:14px 6px;border-bottom:2px dashed var(--border);
+    font-size:1.02rem;
+  }
+  .schedule-row.today{font-weight:800;color:var(--cherry-deep);background:rgba(230,57,80,.06);border-radius:10px;}
+  .schedule-row .day{font-family:var(--font-display);font-weight:600;}
+
+  /* Sobre nosotros */
+  .about-section .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  @media (max-width:900px){.about-section .container{grid-template-columns:1fr;gap:36px;}}
+  .about-collage{position:relative;height:420px;}
+  .about-collage img{position:absolute;border-radius:var(--radius-md);box-shadow:var(--shadow-md);object-fit:cover;border:5px solid #fff;}
+  .about-collage .img-a{width:66%;height:78%;left:0;top:0;z-index:2;}
+  .about-collage .img-b{width:54%;height:56%;right:0;bottom:0;z-index:1;transform:rotate(3deg);}
+  @media (max-width:900px){.about-collage{height:340px;}}
+  @media (max-width:520px){.about-collage{height:280px;}}
+  .about-text p{color:var(--muted);}
+  .about-stats{display:flex;gap:32px;margin:28px 0;flex-wrap:wrap;}
+  .about-stats strong{display:block;font-family:var(--font-display);font-size:1.9rem;color:var(--cherry-deep);}
+  .about-stats span{color:var(--muted);font-size:.85rem;}
+
+  /* Opiniones */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  @media (max-width:860px){.testimonials-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    background:#fff;border:3px solid var(--cream-alt);border-radius:var(--radius-md);
+    padding:30px 26px;box-shadow:var(--shadow-sm);
+  }
+  .stars{color:var(--orange-deep);letter-spacing:2px;font-size:1rem;margin-bottom:12px;}
+  .testimonial-card p.quote{color:var(--ink-soft);margin-bottom:16px;}
+  .testimonial-name{font-weight:700;font-family:var(--font-display);color:var(--cherry-deep);}
+
+  /* Banda de encargos */
+  .cta-band{background:var(--yellow);text-align:center;}
+  .cta-band h2{color:var(--ink);}
+  .cta-band p{color:var(--ink-soft);max-width:520px;margin:0 auto 30px;font-size:1.06rem;}
+
+  /* Dónde estamos */
+  .location-section .container{display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;align-items:start;}
+  @media (max-width:860px){.location-section .container{grid-template-columns:1fr;}}
+  .map-frame{border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);height:100%;min-height:340px;border:4px solid #fff;}
+  .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+
+  /* Contacto */
+  .contact-section .container{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;}
+  @media (max-width:860px){.contact-section .container{grid-template-columns:1fr;}}
+  .contact-list{margin-top:24px;}
+  .contact-list li{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+  .contact-list .icon{
+    width:42px;height:42px;flex:none;border-radius:14px;background:var(--ink);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-list a{text-decoration:none;font-weight:700;}
+  .contact-list a:hover{color:var(--cherry-deep);}
+  .contact-list .label{display:block;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;font-weight:700;}
+  .social-row{display:flex;gap:12px;margin-top:26px;}
+  .social-row a{
+    width:42px;height:42px;border-radius:14px;border:2px solid var(--border);display:flex;align-items:center;
+    justify-content:center;transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
+  }
+  .social-row a:hover{background:var(--cherry);color:#fff;border-color:var(--cherry);}
+
+  form.contact-form{background:#fff;border:3px solid var(--cream-alt);border-radius:var(--radius-md);padding:32px;box-shadow:var(--shadow-sm);}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block;font-size:.85rem;font-weight:700;margin-bottom:6px;}
+  .form-row input,.form-row textarea{
+    width:100%;padding:13px 15px;border:2px solid var(--border);border-radius:var(--radius-sm);
+    font-family:var(--font-body);font-size:.95rem;background:var(--cream);color:var(--ink);
+    transition:border-color .25s var(--ease);
+  }
+  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--cherry);}
+  .form-note{font-size:.8rem;color:var(--muted);margin-top:10px;}
+  .form-success{display:none;color:var(--mint-deep);font-size:.88rem;margin-top:10px;font-weight:700;}
+
+  /* Footer */
+  .site-footer{background:var(--ink);color:rgba(255,248,236,.82);padding:60px 0 26px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:44px;margin-bottom:44px;}
+  @media (max-width:780px){.footer-grid{grid-template-columns:1fr;gap:30px;}}
+  .footer-grid h4{color:var(--cream);font-size:.95rem;margin-bottom:16px;font-family:var(--font-body);font-weight:800;letter-spacing:.04em;text-transform:uppercase;}
+  .footer-grid .brand{color:var(--cream);font-size:1.3rem;}
+  .footer-grid p{color:rgba(255,248,236,.62);}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{text-decoration:none;color:rgba(255,248,236,.78);transition:color .25s var(--ease);font-weight:600;}
+  .footer-links a:hover{color:var(--yellow);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,248,236,.14);padding-top:22px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;font-size:.82rem;color:rgba(255,248,236,.55);
+  }
+
+  /* Floating WhatsApp button */
+  .whatsapp-float{
+    position:fixed;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.28);
+    z-index:400;text-decoration:none;transition:transform .25s var(--ease);border:3px solid #fff;
+  }
+  .whatsapp-float:hover{transform:scale(1.08);}
+  .whatsapp-float svg{width:28px;height:28px;}
+
+  :focus-visible{outline:3px solid var(--cherry-deep);outline-offset:2px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#inicio" class="brand js-business-name"><span class="brand-dot" aria-hidden="true"></span>Tu Kiosco</a>
+    <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#encontraras">Qué encontrarás</a></li>
+        <li><a href="#horario">Horario</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#donde-estamos">Cómo llegar</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#" class="btn btn-outline js-tel">Llámanos</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+      <svg id="navIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="navIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-label="Presentación">
+    <div class="container hero-inner">
+      <span class="eyebrow">Prensa · chuches · recargas · papelería</span>
+      <h1>El kiosco de <span class="hl">tu barrio</span>,<br>de toda la vida</h1>
+      <p class="lead">Prensa recién llegada cada mañana, chuches para todos los gustos, recargas de móvil al momento y esos pequeños detalles que siempre hacen falta. Cerca de casa y con una sonrisa.</p>
+      <div class="hero-ctas">
+        <a href="#horario" class="btn btn-primary">Ven a vernos</a>
+        <a href="#" class="btn btn-outline js-tel">Llámanos</a>
+      </div>
+      <div class="schedule-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <span>Abierto todos los días</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe-divider" aria-hidden="true"></div>
+
+  <!-- QUÉ ENCONTRARÁS -->
+  <section id="encontraras" aria-labelledby="encontraras-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Todo lo que necesitas, aquí al lado</span>
+        <h2 id="encontraras-title">Qué encontrarás</h2>
+        <p>Un poco de todo, bien surtido y siempre a mano, como el kiosco de tu barrio manda.</p>
+      </div>
+
+      <div class="find-grid">
+        <article class="find-card reveal" data-accent="orange">
+          <div class="find-media">
+            <img src="assets/prensa.jpg" alt="Pila de periódicos y revistas doblados sobre un mostrador de madera" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="find-body">
+            <span class="find-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a2 2 0 0 1 2 2v13a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2z"/><path d="M19 4v14a1 1 0 0 0 1 1h1"/><line x1="7" y1="8" x2="14" y2="8"/><line x1="7" y1="12" x2="14" y2="12"/><line x1="7" y1="16" x2="11" y2="16"/></svg>
+            </span>
+            <h3>Prensa y revistas</h3>
+            <p>Diarios y revistas de actualidad, deportes y todos los gustos, recién llegados cada mañana.</p>
+          </div>
+        </article>
+
+        <article class="find-card reveal" data-accent="cherry">
+          <div class="find-media">
+            <img src="assets/chuches.jpg" alt="Tarros de cristal llenos de golosinas de colores variados" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="find-body">
+            <span class="find-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="5"/><path d="M12.5 12.5 19 19"/><path d="M19 19a2.5 2.5 0 1 0 0-5 2.5 2.5 0 1 0 0 5z"/></svg>
+            </span>
+            <h3>Chuches y golosinas</h3>
+            <p>Chucherías de toda la vida y las novedades que piden los peques, a granel y para compartir.</p>
+          </div>
+        </article>
+
+        <article class="find-card reveal" data-accent="mint">
+          <div class="find-media">
+            <img src="assets/recargas.jpg" alt="Tendero sonriente atendiendo a un cliente en el mostrador de la tienda" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="find-body">
+            <span class="find-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+            </span>
+            <h3>Recargas de móvil</h3>
+            <p>Recargas de saldo de todas las compañías, al momento y sin líos, mientras haces tus recados.</p>
+          </div>
+        </article>
+
+        <article class="find-card no-photo reveal" data-accent="yellow">
+          <div class="find-body">
+            <span class="find-icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+            </span>
+            <h3>Papelería y detalles</h3>
+            <p>Bolígrafos, libretas, sellos, tarjetas y esos pequeños detalles que siempre hacen falta.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO -->
+  <section id="horario" class="alt" aria-labelledby="horario-title">
+    <div class="container">
+      <div class="schedule-hero reveal">
+        <span class="eyebrow">Siempre que nos necesites</span>
+        <h2 id="horario-title">Horario amplio, todos los días</h2>
+        <div class="schedule-big-badge">
+          <span class="top">Kiosco</span>
+          <span class="main">Abierto todos los días</span>
+        </div>
+      </div>
+      <div class="schedule-wrap reveal">
+        <div class="schedule-list js-schedule" aria-label="Horario de apertura"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section id="nosotros" class="about-section" aria-labelledby="nosotros-title">
+    <div class="container">
+      <div class="about-collage reveal">
+        <img class="img-a" src="assets/interior.jpg" alt="Interior acogedor de un kiosco lleno de productos, con la dependienta sonriente tras el mostrador" loading="lazy" width="1600" height="1067">
+        <img class="img-b" src="assets/golosinas.jpg" alt="Expositor de dulces y piruletas de colores en una tienda de chuches" loading="lazy" width="1600" height="1067">
+      </div>
+      <div class="about-text reveal">
+        <span class="eyebrow">De toda la vida</span>
+        <h2 id="nosotros-title">El kiosco de tu barrio de siempre</h2>
+        <p>Aquí no somos un número: nos conocemos por el nombre, sabemos qué periódico lees y qué chuche prefieren tus hijos. Llevamos años en tu plaza de siempre, abriendo pronto y cerrando tarde para que nunca te falte de nada.</p>
+        <p>Un kiosco pequeño con un poco de todo: la prensa del día, un capricho dulce, la recarga que necesitas ya y ese detalle de última hora que se te olvidó comprar.</p>
+        <div class="about-stats">
+          <div>
+            <strong>+20</strong>
+            <span>años en tu barrio</span>
+          </div>
+          <div>
+            <strong>365</strong>
+            <span>días al año abiertos</span>
+          </div>
+          <div>
+            <strong>100%</strong>
+            <span>trato de confianza</span>
+          </div>
+        </div>
+        <a href="#horario" class="btn btn-primary">Ven a vernos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" class="alt" aria-labelledby="opiniones-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Lo que dicen de nosotros</span>
+        <h2 id="opiniones-title">Opiniones</h2>
+        <p>Vecinos y vecinas que pasan por aquí cada día, y así nos lo cuentan.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Paso todas las mañanas a por el periódico y siempre me saludan por mi nombre. Se agradece ese trato tan cercano.»</p>
+          <p class="testimonial-name">Rosa M.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Hago la recarga del móvil aquí desde hace años, nunca falla y siempre tienen un rato para charlar.»</p>
+          <p class="testimonial-name">Antonio P.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Mis hijos ya saben que los sábados toca pasarse a por chuches. Abren hasta tarde y siempre encuentro de todo.»</p>
+          <p class="testimonial-name">Marisol T.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANDA ENCARGOS WHATSAPP -->
+  <section class="cta-band reveal" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title">¿Buscas una revista concreta o un encargo especial?</h2>
+      <p>Escríbenos por WhatsApp y te lo guardamos o te avisamos en cuanto llegue.</p>
+      <a href="#" class="btn btn-whatsapp js-whatsapp-encargo">Hacer un encargo por WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- DÓNDE ESTAMOS -->
+  <section id="donde-estamos" aria-labelledby="donde-title">
+    <div class="container location-section">
+      <div class="reveal">
+        <span class="eyebrow">Justo en tu plaza de siempre</span>
+        <h2 id="donde-title">Dónde estamos</h2>
+        <p style="color:var(--muted)">Fácil de encontrar, en tu barrio de siempre y con parada cerca para no perder tiempo.</p>
+        <p style="margin-top:20px;color:var(--muted)" class="js-address"></p>
+        <a href="#" class="btn btn-dark js-tel" style="margin-top:12px;">Llamar antes de venir</a>
+      </div>
+      <div class="map-frame reveal">
+        <!-- El src del iframe se rellena vía JS desde CONFIG.mapEmbedUrl -->
+        <iframe class="js-map" title="Ubicación en el mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="alt" aria-labelledby="contacto-title">
+    <div class="container contact-section">
+      <div class="reveal">
+        <span class="eyebrow">Hablemos</span>
+        <h2 id="contacto-title">Contacto</h2>
+        <p style="color:var(--muted)">Escríbenos, llámanos o pásate por el kiosco. Te atendemos encantados.</p>
+        <ul class="contact-list">
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="label">Teléfono</span>
+              <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 5.54-13.58z"/></svg>
+            </span>
+            <div>
+              <span class="label">WhatsApp</span>
+              <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Escríbenos directamente</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </span>
+            <div>
+              <span class="label">Email</span>
+              <a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <span class="label">Dirección</span>
+              <span class="js-address-contact">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+            </div>
+          </li>
+        </ul>
+        <div class="social-row js-socials" aria-label="Redes sociales"></div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm" aria-label="Formulario de contacto">
+          <div class="form-row">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email o teléfono</label>
+            <input type="text" id="cf-email" name="contact" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Mensaje</label>
+            <textarea id="cf-message" name="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark btn-block">Enviar mensaje</button>
+          <p class="form-note">Te responderemos por email. Al enviar, se abrirá tu programa de correo con el mensaje ya redactado.</p>
+          <p class="form-success" id="formSuccess" role="status">¡Gracias! Hemos abierto tu cliente de correo con el mensaje listo para enviar.</p>
+          <!-- Slot para widget de reservas/encargos embebido, si el negocio lo incorpora más adelante -->
+          <!--
+          <iframe src="[URL_DEL_WIDGET_DE_ENCARGOS]" title="Hacer un encargo online" loading="lazy" style="width:100%;border:0;min-height:600px;margin-top:24px;"></iframe>
+          -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="stripe-divider mint" aria-hidden="true"></div>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand js-business-name"><span class="brand-dot" aria-hidden="true"></span>Tu Kiosco</a>
+        <p style="margin-top:14px;max-width:320px;">El kiosco de tu barrio de toda la vida: prensa, chuches, recargas de móvil y papelería, cerca de casa y todos los días.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#encontraras">Qué encontrarás</a></li>
+          <li><a href="#horario">Horario</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#donde-estamos">Cómo llegar</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a class="js-tel" href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a></li>
+          <li><span class="js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span class="js-year"></span> <span class="js-business-name">Tu Kiosco</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99zm5.47-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — único punto de edición para adaptar la plantilla
+     a un cliente real (nombre, contacto, horario, mapa, redes...)
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Tu Kiosco",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { day: "Lunes",    hours: "7:00 – 22:00" },
+      { day: "Martes",   hours: "7:00 – 22:00" },
+      { day: "Miércoles",hours: "7:00 – 22:00" },
+      { day: "Jueves",   hours: "7:00 – 22:00" },
+      { day: "Viernes",  hours: "7:00 – 22:00" },
+      { day: "Sábado",   hours: "8:00 – 22:00" },
+      { day: "Domingo",  hours: "8:00 – 15:00" }
+    ],
+    bookingUrl: null, // Sin sistema de reservas: los encargos se gestionan siempre por WhatsApp
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1&output=embed",
+    socials: {
+      instagram: "https://instagram.com/tukiosco",
+      facebook: "https://facebook.com/tukiosco"
+    }
+  };
+
+  const SITE_TAGLINE = "Kiosco de prensa, chuches y recargas";
+  const SITE_DESCRIPTION = "Prensa y revistas, chuches y golosinas, recargas de móvil de todas las compañías y papelería, en el kiosco de tu barrio de toda la vida.";
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* --- Nombre del negocio --- */
+    document.querySelectorAll('.js-business-name').forEach(function(el){
+      // Conserva el punto decorativo si existe dentro del enlace
+      const dot = el.querySelector('.brand-dot');
+      el.textContent = CONFIG.businessName;
+      if (dot) { el.prepend(dot); }
+    });
+    document.title = CONFIG.businessName + " — " + SITE_TAGLINE;
+
+    /* --- Meta description y Open Graph (generados desde CONFIG) --- */
+    const metaDescription = document.getElementById('metaDescription');
+    if (metaDescription) { metaDescription.setAttribute('content', CONFIG.businessName + ": " + SITE_DESCRIPTION); }
+    const ogSiteName = document.getElementById('ogSiteName');
+    if (ogSiteName) { ogSiteName.setAttribute('content', CONFIG.businessName); }
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) { ogTitle.setAttribute('content', CONFIG.businessName + " — " + SITE_TAGLINE); }
+    const ogDescription = document.getElementById('ogDescription');
+    if (ogDescription) { ogDescription.setAttribute('content', SITE_DESCRIPTION); }
+
+    /* --- Teléfono --- */
+    const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+    document.querySelectorAll('.js-tel').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+      if (!el.classList.contains('btn')) { el.textContent = CONFIG.phone; }
+    });
+
+    /* --- Email --- */
+    document.querySelectorAll('.js-email').forEach(function(el){
+      el.href = 'mailto:' + CONFIG.email;
+      el.textContent = CONFIG.email;
+    });
+
+    /* --- Dirección --- */
+    document.querySelectorAll('.js-address, .js-address-contact').forEach(function(el){
+      el.textContent = CONFIG.address;
+    });
+
+    /* --- WhatsApp (flotante + enlaces de contacto) --- */
+    const waMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', quería hacer una consulta.');
+    const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + waMessage;
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(el){
+      el.href = waUrl;
+    });
+
+    /* --- CTA de encargos: bookingUrl es null en un kiosco, siempre vía WhatsApp --- */
+    const waEncargoMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', quería hacer un encargo de prensa/revista.');
+    const waEncargoUrl = CONFIG.bookingUrl ? CONFIG.bookingUrl : ('https://wa.me/' + CONFIG.whatsapp + '?text=' + waEncargoMessage);
+    document.querySelectorAll('.js-whatsapp-encargo').forEach(function(el){
+      el.href = waEncargoUrl;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+
+    /* --- Horario --- */
+    const scheduleContainer = document.querySelector('.js-schedule');
+    if (scheduleContainer) {
+      const jsDay = new Date().getDay(); // 0 = domingo ... 6 = sábado
+      const dayIndexMap = [6,0,1,2,3,4,5]; // convierte getDay() a índice del array CONFIG.schedule (Lunes..Domingo)
+      const todayIndex = dayIndexMap[jsDay];
+      CONFIG.schedule.forEach(function(item, i){
+        const row = document.createElement('div');
+        row.className = 'schedule-row' + (i === todayIndex ? ' today' : '');
+        row.innerHTML = '<span class="day">' + item.day + '</span><span class="hours">' + item.hours + '</span>';
+        scheduleContainer.appendChild(row);
+      });
+    }
+
+    /* --- Mapa --- */
+    document.querySelectorAll('.js-map').forEach(function(el){
+      el.src = CONFIG.mapEmbedUrl;
+      el.title = 'Ubicación de ' + CONFIG.businessName + ' en el mapa';
+    });
+
+    /* --- Redes sociales --- */
+    const socialContainer = document.querySelector('.js-socials');
+    if (socialContainer) {
+      const icons = {
+        instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+      };
+      Object.keys(CONFIG.socials).forEach(function(key){
+        const a = document.createElement('a');
+        a.href = CONFIG.socials[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key.charAt(0).toUpperCase() + key.slice(1));
+        a.innerHTML = icons[key] || '';
+        socialContainer.appendChild(a);
+      });
+    }
+
+    /* --- Año en footer --- */
+    const yearEl = document.querySelector('.js-year');
+    if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+
+    /* --- JSON-LD (datos estructurados Store) --- */
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": CONFIG.businessName,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address,
+        "addressCountry": "ES"
+      },
+      "priceRange": "€",
+      "openingHoursSpecification": CONFIG.schedule.filter(function(s){return s.hours !== 'Cerrado';}).map(function(s){
+        const parts = s.hours.split('–').map(function(p){return p.trim();});
+        return {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": s.day,
+          "opens": parts[0],
+          "closes": parts[1]
+        };
+      }),
+      "sameAs": Object.values(CONFIG.socials)
+    };
+    const ldScript = document.getElementById('ld-json');
+    if (ldScript) { ldScript.textContent = JSON.stringify(ld, null, 2); }
+
+    /* --- Header sticky que solidifica al hacer scroll --- */
+    const header = document.getElementById('siteHeader');
+    function onScroll(){
+      if (window.scrollY > 40) { header.classList.add('scrolled'); }
+      else { header.classList.remove('scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* --- Menú móvil --- */
+    const navToggle = document.getElementById('navToggle');
+    const iconOpen = document.getElementById('navIconOpen');
+    const iconClose = document.getElementById('navIconClose');
+    function closeMenu(){
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function openMenu(){
+      header.classList.add('nav-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = '';
+      document.body.style.overflow = 'hidden';
+    }
+    navToggle.addEventListener('click', function(){
+      if (header.classList.contains('nav-open')) { closeMenu(); } else { openMenu(); }
+    });
+    document.querySelectorAll('#mainNav a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    /* --- Scroll reveal --- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* --- Formulario de contacto: abre mailto con los datos --- */
+    const form = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const contact = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        const subject = encodeURIComponent('Solicitud de contacto — ' + CONFIG.businessName);
+        const body = encodeURIComponent(
+          'Nombre: ' + name + '\n' +
+          'Email/Teléfono: ' + contact + '\n\n' +
+          'Mensaje:\n' + message
+        );
+        window.location.href = 'mailto:' + CONFIG.email + '?subject=' + subject + '&body=' + body;
+        if (formSuccess) { formSuccess.style.display = 'block'; }
+      });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>

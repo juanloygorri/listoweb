@@ -1,0 +1,964 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Reformas integrales — plantilla demo</title>
+<meta name="description" id="metaDescription" content="Plantilla demo de empresa de reformas: baños, cocinas, reformas integrales y locales comerciales. Presupuesto sin compromiso.">
+<meta name="theme-color" content="#2A2A2A">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" id="ogSiteName" content="Reformas integrales">
+<meta property="og:title" id="ogTitle" content="Reformas integrales — plantilla demo">
+<meta property="og:description" id="ogDescription" content="Baños, cocinas, reformas integrales y locales comerciales. Pide tu presupuesto sin compromiso.">
+<meta property="og:image" content="assets/hero.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%232A2A2A'/%3E%3Cpath d='M14 34 L32 18 L50 34 M20 30 V48 H44 V30' stroke='%23E8600A' stroke-width='4' fill='none' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E">
+
+<!-- Fonts (única fuente externa permitida) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">
+{}
+</script>
+
+<style>
+  :root{
+    --gray:#4A4A4A;
+    --charcoal:#2A2A2A;
+    --charcoal-soft:#383838;
+    --orange:#E8600A;
+    --orange-dark:#C24F06;
+    --orange-darker:#9C3F05;
+    --paper:#F3F1ED;
+    --white:#FFFFFF;
+    --text:#282624;
+    --muted:#6B6B68;
+    --line:rgba(42,42,42,.14);
+    --whatsapp:#25D366;
+    --font-display:'Archivo', Arial, sans-serif;
+    --font-body:'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --container:1200px;
+    --shadow-sm:0 2px 14px rgba(20,18,16,.08);
+    --shadow-md:0 20px 46px -20px rgba(20,18,16,.45);
+    --ease:cubic-bezier(.22,.7,.3,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--text);
+    background:var(--white);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .5em;font-weight:800;line-height:1.08;letter-spacing:-.01em;}
+  p{margin:0 0 1em;}
+  ul{margin:0;padding:0;list-style:none;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 24px;}
+  section{padding:104px 0;position:relative;}
+  section.alt{background:var(--paper);}
+  @media (max-width:780px){
+    section{padding:64px 0;}
+  }
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--charcoal);color:var(--white);
+    padding:12px 18px;z-index:1000;transition:top .2s var(--ease);font-size:.9rem;font-weight:600;
+  }
+  .skip-link:focus{top:12px;}
+
+  /* Hazard-stripe divider (obra motif) */
+  .hazard-stripe{
+    height:8px;width:100%;
+    background:repeating-linear-gradient(-45deg, var(--orange) 0 18px, var(--charcoal) 18px 36px);
+  }
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);letter-spacing:.16em;text-transform:uppercase;
+    font-size:.74rem;font-weight:700;color:var(--orange-dark);margin-bottom:16px;
+  }
+  .eyebrow::before{content:'';width:22px;height:3px;background:var(--orange);display:inline-block;}
+  .section-head{max-width:660px;margin:0 auto 56px;text-align:center;}
+  .section-head h2{font-size:clamp(2rem,3.6vw,2.9rem);text-transform:uppercase;}
+  .section-head p{color:var(--muted);font-size:1.06rem;margin:0;}
+
+  /* Buttons — square, industrial */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:16px 32px;font-family:var(--font-body);font-weight:700;font-size:.92rem;
+    text-decoration:none;border:2px solid transparent;cursor:pointer;
+    transition:transform .22s var(--ease),box-shadow .22s var(--ease),background .22s var(--ease),color .22s var(--ease),border-color .22s var(--ease);
+    letter-spacing:.05em;text-transform:uppercase;
+  }
+  .btn-primary{background:var(--orange-dark);color:#fff;box-shadow:var(--shadow-sm);border-color:var(--orange-dark);}
+  .btn-primary:hover{background:var(--orange-darker);border-color:var(--orange-darker);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.7);}
+  .btn-outline:hover{background:#fff;color:var(--charcoal);border-color:#fff;transform:translateY(-2px);}
+  .btn-dark{background:var(--charcoal);color:#fff;border-color:var(--charcoal);}
+  .btn-dark:hover{background:var(--charcoal-soft);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-block{width:100%;}
+
+  /* Header */
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:500;background:var(--charcoal);
+    border-bottom:3px solid var(--orange);padding:16px 0;transition:padding .3s var(--ease),box-shadow .3s var(--ease);
+  }
+  .site-header.scrolled{padding:10px 0;box-shadow:0 8px 24px rgba(0,0,0,.28);}
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .brand{
+    display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:1.28rem;font-weight:800;
+    text-decoration:none;color:#fff;letter-spacing:.01em;text-transform:uppercase;
+  }
+  .brand-mark{
+    width:36px;height:36px;background:var(--orange);display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .brand-mark svg{width:20px;height:20px;}
+  .main-nav{display:flex;align-items:center;gap:34px;}
+  .main-nav ul{display:flex;gap:26px;}
+  .main-nav a:not(.btn){
+    color:#fff;text-decoration:none;font-size:.85rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    position:relative;padding-bottom:4px;transition:color .3s var(--ease);
+  }
+  .main-nav a:not(.btn)::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--orange);
+    transition:width .3s var(--ease);
+  }
+  .main-nav a:not(.btn):hover::after{width:100%;}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;color:#fff;z-index:600;}
+  .nav-toggle svg{display:block;width:26px;height:26px;}
+
+  @media (max-width:960px){
+    .main-nav ul{display:none;}
+    .main-nav .btn{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .site-header.nav-open .main-nav{
+      display:flex;position:fixed;inset:0;top:0;background:var(--charcoal);flex-direction:column;
+      align-items:center;justify-content:center;gap:0;
+    }
+    .site-header.nav-open .main-nav ul{
+      display:flex;flex-direction:column;align-items:center;gap:28px;margin-bottom:36px;
+    }
+    .site-header.nav-open .main-nav a:not(.btn){color:#fff;font-size:1.2rem;}
+    .site-header.nav-open .main-nav .btn{display:inline-flex;}
+    .main-nav{position:static;}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:100vh;display:flex;align-items:flex-end;position:relative;color:#fff;
+    background:linear-gradient(0deg, rgba(20,18,16,.92) 0%, rgba(20,18,16,.55) 46%, rgba(20,18,16,.4) 100%),
+      url('assets/hero.jpg') center 42%/cover no-repeat;
+    padding-bottom:76px;
+  }
+  .hero-inner{max-width:760px;padding-top:150px;}
+  .hero h1{font-size:clamp(2.5rem,6.4vw,4.3rem);color:#fff;text-transform:uppercase;}
+  .hero h1 mark{background:var(--orange);color:#fff;padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+  .hero p.lead{font-size:1.18rem;color:rgba(255,255,255,.9);max-width:540px;margin-bottom:2em;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:44px;}
+  .hero-trust{
+    display:flex;flex-wrap:wrap;gap:0;border-top:1px solid rgba(255,255,255,.22);padding-top:26px;
+  }
+  .hero-trust div{
+    flex:1 1 160px;padding-right:24px;
+  }
+  .hero-trust strong{display:block;font-family:var(--font-display);font-size:1.5rem;color:var(--orange);}
+  .hero-trust span{font-size:.82rem;color:rgba(255,255,255,.78);text-transform:uppercase;letter-spacing:.04em;}
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease),transform .75s var(--ease);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* Tipos de reforma */
+  .types-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+  @media (max-width:1040px){.types-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.types-grid{grid-template-columns:1fr;}}
+  .type-card{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease);}
+  .type-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+  .type-media{position:relative;aspect-ratio:4/3;overflow:hidden;clip-path:polygon(0 0,100% 0,100% 100%,26px 100%,0 calc(100% - 26px));}
+  .type-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+  .type-card:hover .type-media img{transform:scale(1.07);}
+  .price-tag{
+    position:absolute;top:14px;left:0;background:var(--orange-dark);color:#fff;font-family:var(--font-display);
+    font-weight:800;font-size:.86rem;padding:8px 14px 8px 12px;letter-spacing:.01em;
+  }
+  .type-body{padding:24px 22px 26px;}
+  .type-body h3{font-size:1.15rem;text-transform:uppercase;margin-bottom:.4em;}
+  .type-body p{color:var(--muted);font-size:.92rem;margin-bottom:1.1em;}
+  .type-link{
+    display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.84rem;text-transform:uppercase;
+    letter-spacing:.04em;color:var(--charcoal);text-decoration:none;
+  }
+  .type-link svg{width:15px;height:15px;transition:transform .25s var(--ease);}
+  .type-link:hover{color:var(--orange-dark);}
+  .type-link:hover svg{transform:translateX(4px);}
+
+  /* Proceso */
+  .process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;}
+  @media (max-width:860px){.process-grid{grid-template-columns:1fr;gap:40px;}}
+  .process-step{padding:0 20px;position:relative;}
+  .process-num{
+    font-family:var(--font-display);font-weight:900;font-size:5rem;line-height:1;
+    color:transparent;-webkit-text-stroke:2px var(--orange);margin-bottom:14px;
+  }
+  .process-step h3{font-size:1.25rem;text-transform:uppercase;margin-bottom:.5em;}
+  .process-step p{color:var(--muted);}
+  .process-icon{width:46px;height:46px;background:var(--charcoal);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+  .process-icon svg{width:24px;height:24px;color:var(--orange);}
+  .process-arrow{
+    position:absolute;top:24px;right:-30px;color:var(--orange);display:block;
+  }
+  @media (max-width:860px){.process-arrow{display:none;}}
+
+  /* Resultados / galería */
+  .gallery-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:290px;gap:18px;
+  }
+  .gallery-item{position:relative;overflow:hidden;}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease);}
+  .gallery-item:hover img{transform:scale(1.06);}
+  .gallery-item figcaption{
+    position:absolute;left:0;right:0;bottom:0;padding:16px 18px;color:#fff;font-size:.86rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;
+    background:linear-gradient(0deg, rgba(20,18,16,.82) 0%, rgba(20,18,16,0) 68%);
+  }
+  .gallery-item.is-progress figcaption{color:var(--orange);}
+  .ribbon{
+    position:absolute;top:14px;left:-38px;background:var(--orange-dark);color:#fff;font-family:var(--font-display);
+    font-weight:800;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:6px 44px;
+    transform:rotate(-45deg);box-shadow:0 3px 8px rgba(0,0,0,.3);
+  }
+  @media (max-width:940px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:240px;}
+  }
+  @media (max-width:520px){
+    .gallery-grid{grid-template-columns:1fr;grid-auto-rows:260px;}
+  }
+
+  /* Sobre nosotros */
+  .about-section .container{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;}
+  @media (max-width:860px){.about-section .container{grid-template-columns:1fr;gap:44px;}}
+  .about-media{position:relative;}
+  .about-media::before{
+    content:'';position:absolute;top:22px;left:-22px;right:-22px;bottom:-22px;background:var(--orange);z-index:0;
+  }
+  .about-media img{position:relative;z-index:1;width:100%;object-fit:cover;box-shadow:var(--shadow-md);}
+  @media (max-width:520px){.about-media::before{left:-12px;right:-12px;top:14px;bottom:-14px;}}
+  .about-text p{color:var(--muted);}
+  .about-stats{display:flex;gap:0;margin:32px 0;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:26px;}
+  .about-stats div{flex:1 1 140px;padding-right:20px;}
+  .about-stats strong{display:block;font-family:var(--font-display);font-size:2.1rem;color:var(--orange);}
+  .about-stats span{color:var(--muted);font-size:.84rem;text-transform:uppercase;letter-spacing:.03em;}
+
+  /* Opiniones */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  @media (max-width:860px){.testimonials-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    background:#fff;border:1px solid var(--line);border-left:5px solid var(--orange);
+    padding:32px 28px;box-shadow:var(--shadow-sm);
+  }
+  .stars{color:var(--orange);letter-spacing:2px;font-size:1rem;margin-bottom:14px;}
+  .testimonial-card p.quote{color:var(--gray);margin-bottom:18px;}
+  .testimonial-name{font-weight:800;font-family:var(--font-display);text-transform:uppercase;font-size:.92rem;}
+
+  /* Horario + ubicación */
+  .info-section .container{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;}
+  @media (max-width:860px){.info-section .container{grid-template-columns:1fr;}}
+  .schedule-list{border-top:1px solid var(--line);}
+  .schedule-row{
+    display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);
+  }
+  .schedule-row.today{font-weight:800;color:var(--orange-dark);}
+  .map-frame{overflow:hidden;box-shadow:var(--shadow-md);height:100%;min-height:340px;border:3px solid var(--charcoal);}
+  .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+
+  /* Contacto */
+  .contact-section .container{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;}
+  @media (max-width:860px){.contact-section .container{grid-template-columns:1fr;}}
+  .contact-list{margin-top:24px;}
+  .contact-list li{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+  .contact-list .icon{
+    width:40px;height:40px;flex:none;background:var(--charcoal);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-list a{text-decoration:none;font-weight:700;}
+  .contact-list a:hover{color:var(--orange-dark);}
+  .contact-list .label{display:block;font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
+  .social-row{display:flex;gap:12px;margin-top:28px;}
+  .social-row a{
+    width:42px;height:42px;border:1px solid var(--line);display:flex;align-items:center;
+    justify-content:center;transition:background .25s var(--ease),color .25s var(--ease);
+  }
+  .social-row a:hover{background:var(--charcoal);color:var(--orange);}
+
+  form.contact-form{background:var(--paper);border:1px solid var(--line);padding:32px;box-shadow:var(--shadow-sm);}
+  .form-row{margin-bottom:20px;}
+  .form-row label{display:block;font-size:.8rem;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+  .form-row input,.form-row textarea{
+    width:100%;padding:12px 4px;border:none;border-bottom:2px solid var(--line);
+    font-family:var(--font-body);font-size:.95rem;background:transparent;color:var(--text);
+    transition:border-color .25s var(--ease);border-radius:0;
+  }
+  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--orange);}
+  .form-note{font-size:.8rem;color:var(--muted);margin-top:10px;}
+  .form-success{display:none;color:var(--orange-dark);font-size:.88rem;margin-top:10px;font-weight:700;}
+
+  /* CTA banda final */
+  .cta-band{background:var(--charcoal);color:#fff;text-align:center;}
+  .cta-band h2{color:#fff;}
+  .cta-band p{color:rgba(255,255,255,.72);max-width:540px;margin:0 auto 32px;}
+
+  /* Footer */
+  .site-footer{background:var(--charcoal);color:rgba(255,255,255,.8);padding:60px 0 28px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+  @media (max-width:780px){.footer-grid{grid-template-columns:1fr;gap:32px;}}
+  .footer-grid h4{color:#fff;font-size:.92rem;margin-bottom:16px;font-family:var(--font-body);font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+  .footer-grid .brand{color:#fff;font-size:1.2rem;}
+  .footer-grid p{color:rgba(255,255,255,.6);}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{text-decoration:none;color:rgba(255,255,255,.75);transition:color .25s var(--ease);}
+  .footer-links a:hover{color:var(--orange);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,.14);padding-top:24px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;font-size:.8rem;color:rgba(255,255,255,.5);
+  }
+
+  /* Floating WhatsApp button */
+  .whatsapp-float{
+    position:fixed;right:22px;bottom:22px;width:58px;height:58px;background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.3);
+    z-index:400;text-decoration:none;transition:transform .25s var(--ease);
+  }
+  .whatsapp-float:hover{transform:scale(1.08);}
+  .whatsapp-float svg{width:29px;height:29px;}
+
+  :focus-visible{outline:3px solid var(--orange);outline-offset:2px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#inicio" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="square"><path d="M4 12 L12 5 L20 12 M6.5 10 V19 H17.5 V10"/></svg>
+      </span>
+      <span class="js-business-name">Tu Empresa de Reformas</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#reformas">Reformas</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#resultados">Resultados</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#horario">Horario</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#" class="btn btn-primary js-book">Presupuesto sin compromiso</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+      <svg id="navIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="navIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" style="display:none"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-label="Presentación">
+    <div class="container hero-inner">
+      <span class="eyebrow">Reformas integrales</span>
+      <h1>Reformamos tu casa<br>o tu <mark>negocio</mark>, sin sorpresas</h1>
+      <p class="lead">Baños, cocinas, viviendas completas y locales comerciales. Presupuesto claro, plazos que cumplimos y un único responsable de obra durante todo el proyecto.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary js-book">Presupuesto sin compromiso</a>
+        <a href="#reformas" class="btn btn-outline">Ver tipos de reforma</a>
+      </div>
+      <div class="hero-trust">
+        <div>
+          <strong>+15</strong>
+          <span>años de experiencia</span>
+        </div>
+        <div>
+          <strong>2 años</strong>
+          <span>de garantía en obra</span>
+        </div>
+        <div>
+          <strong>24-48h</strong>
+          <span>respuesta al presupuesto</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIPOS DE REFORMA -->
+  <section id="reformas" aria-labelledby="reformas-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Qué reformamos</span>
+        <h2 id="reformas-title">Tipos de reforma</h2>
+        <p>Cada proyecto es distinto. Estos son precios orientativos de partida para que puedas hacerte una idea antes de pedir tu presupuesto real.</p>
+      </div>
+      <div class="types-grid">
+        <article class="type-card reveal">
+          <div class="type-media">
+            <img src="assets/bano.jpg" alt="Baño reformado con mármol, mueble de madera y grifería negra" loading="lazy" width="1600" height="1067">
+            <span class="price-tag">Desde 3.900 €</span>
+          </div>
+          <div class="type-body">
+            <h3>Reforma de baño</h3>
+            <p>Alicatado, sanitarios, mampara, grifería y electricidad. Plazo medio de obra: 1-2 semanas.</p>
+            <a href="#contacto" class="type-link">Pedir presupuesto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+        <article class="type-card reveal">
+          <div class="type-media">
+            <img src="assets/hero.jpg" alt="Cocina moderna recién reformada con isla central blanca y madera" loading="lazy" width="1600" height="1067">
+            <span class="price-tag">Desde 6.900 €</span>
+          </div>
+          <div class="type-body">
+            <h3>Reforma de cocina</h3>
+            <p>Muebles a medida, encimera, electrodomésticos e instalaciones. Diseño 3D incluido.</p>
+            <a href="#contacto" class="type-link">Pedir presupuesto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+        <article class="type-card reveal">
+          <div class="type-media">
+            <img src="assets/salon.jpg" alt="Salón luminoso reformado con suelo de madera y sofás claros" loading="lazy" width="1600" height="1067">
+            <span class="price-tag">Desde 19.500 €</span>
+          </div>
+          <div class="type-body">
+            <h3>Reforma integral</h3>
+            <p>Vivienda completa: distribución, instalaciones, carpintería, suelos y acabados llave en mano.</p>
+            <a href="#contacto" class="type-link">Pedir presupuesto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+        <article class="type-card reveal">
+          <div class="type-media">
+            <img src="assets/planos.jpg" alt="Planos de obra sobre una mesa con metro, lápiz y casco de seguridad" loading="lazy" width="1600" height="1067">
+            <span class="price-tag">Desde 12.000 €</span>
+          </div>
+          <div class="type-body">
+            <h3>Locales comerciales</h3>
+            <p>Proyecto y adecuación de tu negocio: licencias, instalaciones y acabados a tu imagen de marca.</p>
+            <a href="#contacto" class="type-link">Pedir presupuesto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="hazard-stripe" aria-hidden="true"></div>
+
+  <!-- PROCESO -->
+  <section id="proceso" class="alt" aria-labelledby="proceso-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Cómo trabajamos</span>
+        <h2 id="proceso-title">Proceso en 3 pasos</h2>
+        <p>Transparencia de principio a fin: sabrás en todo momento qué se hace, cuánto cuesta y cuándo termina.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step reveal">
+          <span class="process-num">01</span>
+          <h3>Visita y presupuesto</h3>
+          <p>Visitamos el espacio, escuchamos lo que necesitas y te entregamos un presupuesto detallado y cerrado, sin sorpresas.</p>
+          <svg class="process-arrow" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+        <div class="process-step reveal">
+          <span class="process-num">02</span>
+          <h3>Obra con plazos</h3>
+          <p>Un jefe de obra único coordina a todos los gremios y te informa del avance semana a semana, cumpliendo el calendario pactado.</p>
+          <svg class="process-arrow" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+        <div class="process-step reveal">
+          <span class="process-num">03</span>
+          <h3>Entrega y garantía</h3>
+          <p>Revisión final contigo, limpieza de la obra y 2 años de garantía por escrito sobre todos los trabajos realizados.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS / GALERÍA -->
+  <section id="resultados" aria-labelledby="resultados-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Nuestro trabajo</span>
+        <h2 id="resultados-title">Resultados</h2>
+        <p>Una muestra de reformas entregadas, y un vistazo a cómo trabajamos mientras la obra está en marcha.</p>
+      </div>
+      <div class="gallery-grid reveal">
+        <figure class="gallery-item">
+          <img src="assets/hero.jpg" alt="Cocina moderna recién reformada con isla central blanca y madera" loading="lazy" width="1600" height="1600">
+          <figcaption>Cocina terminada</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="assets/bano.jpg" alt="Baño reformado con mármol, mueble de madera y grifería negra" loading="lazy" width="1600" height="1600">
+          <figcaption>Baño terminado</figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="assets/salon.jpg" alt="Salón luminoso reformado con suelo de madera y sofás claros" loading="lazy" width="1600" height="1600">
+          <figcaption>Salón terminado</figcaption>
+        </figure>
+        <figure class="gallery-item is-progress">
+          <span class="ribbon">En obra</span>
+          <img src="assets/obra.jpg" alt="Operario con chaleco naranja y casco enluciendo una pared en obra" loading="lazy" width="1600" height="1600">
+          <figcaption>Durante la obra</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section id="nosotros" class="alt about-section" aria-labelledby="nosotros-title">
+    <div class="container">
+      <div class="about-media reveal">
+        <img src="assets/equipo.jpg" alt="Dos operarios con casco revisando un plano de obra, sonrientes" loading="lazy" width="1600" height="1067">
+      </div>
+      <div class="about-text reveal">
+        <span class="eyebrow">Sobre nosotros</span>
+        <h2 id="nosotros-title">Un equipo propio, sin subcontratas sorpresa</h2>
+        <p>Somos un equipo de albañiles, fontaneros, electricistas y carpinteros que trabaja unido en cada proyecto, coordinado por un único jefe de obra. Nada de intermediarios que desaparecen a mitad de reforma.</p>
+        <p>Trabajamos en tu ciudad y alrededores, con materiales de proveedores homologados y presupuesto cerrado antes de empezar.</p>
+        <div class="about-stats">
+          <div>
+            <strong>15</strong>
+            <span>años de experiencia</span>
+          </div>
+          <div>
+            <strong>+400</strong>
+            <span>reformas entregadas</span>
+          </div>
+          <div>
+            <strong>2 años</strong>
+            <span>de garantía</span>
+          </div>
+        </div>
+        <a href="#" class="btn btn-primary js-book">Presupuesto sin compromiso</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" aria-labelledby="opiniones-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Lo que dicen de nosotros</span>
+        <h2 id="opiniones-title">Opiniones</h2>
+        <p>La confianza de nuestros clientes, obra tras obra.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Nos dieron un presupuesto cerrado y lo cumplieron al céntimo. La cocina quedó mejor de lo que imaginábamos.»</p>
+          <p class="testimonial-name">Javier M.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«El jefe de obra nos avisaba cada semana del avance. Terminaron el baño en el plazo que nos dijeron, sin retrasos.»</p>
+          <p class="testimonial-name">Beatriz L.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Reformaron nuestro local sin parar la actividad del negocio de al lado. Muy profesionales y limpios con la obra.»</p>
+          <p class="testimonial-name">Ramón P.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO + UBICACIÓN -->
+  <section id="horario" class="alt" aria-labelledby="horario-title">
+    <div class="container info-section">
+      <div class="reveal">
+        <span class="eyebrow">Visítanos</span>
+        <h2 id="horario-title">Horario y ubicación</h2>
+        <p style="color:var(--muted)">Nuestra oficina y almacén están en tu ciudad, con fácil acceso para revisar materiales y muestras.</p>
+        <div class="schedule-list js-schedule" aria-label="Horario de atención"></div>
+        <p style="margin-top:20px;color:var(--muted)" class="js-address"></p>
+      </div>
+      <div class="map-frame reveal">
+        <!-- El src del iframe se rellena vía JS desde CONFIG.mapEmbedUrl -->
+        <iframe class="js-map" title="Ubicación en el mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banda -->
+  <section class="cta-band reveal" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title">¿Tienes un proyecto en mente?</h2>
+      <p>Cuéntanos qué quieres reformar y te enviamos un presupuesto claro, sin compromiso y sin letra pequeña.</p>
+      <a href="#" class="btn btn-primary js-book">Presupuesto sin compromiso</a>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="alt contact-section" aria-labelledby="contacto-title">
+    <div class="container contact-section">
+      <div class="reveal">
+        <span class="eyebrow">Hablemos</span>
+        <h2 id="contacto-title">Contacto</h2>
+        <p style="color:var(--muted)">Cuéntanos tu proyecto por teléfono, WhatsApp o email. Te respondemos en menos de 48 horas.</p>
+        <ul class="contact-list">
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="label">Teléfono</span>
+              <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 5.54-13.58z"/></svg>
+            </span>
+            <div>
+              <span class="label">WhatsApp</span>
+              <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Pide tu presupuesto por WhatsApp</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </span>
+            <div>
+              <span class="label">Email</span>
+              <a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <span class="label">Dirección</span>
+              <span class="js-address-contact">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+            </div>
+          </li>
+        </ul>
+        <div class="social-row js-socials" aria-label="Redes sociales"></div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm" aria-label="Formulario de contacto">
+          <div class="form-row">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email o teléfono</label>
+            <input type="text" id="cf-email" name="contact" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Cuéntanos tu proyecto</label>
+            <textarea id="cf-message" name="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark btn-block">Enviar mensaje</button>
+          <p class="form-note">Te responderemos por email. Al enviar, se abrirá tu programa de correo con el mensaje ya redactado.</p>
+          <p class="form-success" id="formSuccess" role="status">¡Gracias! Hemos abierto tu cliente de correo con el mensaje listo para enviar.</p>
+          <!-- Slot para widget de presupuesto/reservas embebido -->
+          <!--
+          <iframe src="[URL_DEL_WIDGET_DE_PRESUPUESTO]" title="Solicitar presupuesto online" loading="lazy" style="width:100%;border:0;min-height:600px;margin-top:24px;"></iframe>
+          -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="hazard-stripe" aria-hidden="true"></div>
+  <div class="container">
+    <div class="footer-grid" style="margin-top:56px;">
+      <div>
+        <a href="#inicio" class="brand js-business-name">Tu Empresa de Reformas</a>
+        <p style="margin-top:14px;max-width:320px;">Reformas de baños, cocinas, viviendas completas y locales comerciales en tu ciudad. Presupuesto claro y plazos que cumplimos.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#reformas">Reformas</a></li>
+          <li><a href="#proceso">Proceso</a></li>
+          <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#horario">Horario</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a class="js-tel" href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a></li>
+          <li><span class="js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span class="js-year"></span> <span class="js-business-name">Tu Empresa de Reformas</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99zm5.47-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — único punto de edición para adaptar la plantilla
+     a un cliente real (nombre, contacto, horario, mapa, redes...)
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Tu Empresa de Reformas",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { day: "Lunes",    hours: "8:00 – 19:00" },
+      { day: "Martes",   hours: "8:00 – 19:00" },
+      { day: "Miércoles",hours: "8:00 – 19:00" },
+      { day: "Jueves",   hours: "8:00 – 19:00" },
+      { day: "Viernes",  hours: "8:00 – 19:00" },
+      { day: "Sábado",   hours: "9:00 – 13:00" },
+      { day: "Domingo",  hours: "Cerrado" }
+    ],
+    bookingUrl: null, // Si el cliente usa un formulario de presupuesto externo, poner la URL aquí; si no, se usa WhatsApp
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1&output=embed",
+    socials: {
+      instagram: "https://instagram.com/tureformas",
+      facebook: "https://facebook.com/tureformas"
+    }
+  };
+
+  const SITE_TAGLINE = "Reformas integrales";
+  const SITE_DESCRIPTION = "Baños, cocinas, reformas integrales y locales comerciales. Presupuesto sin compromiso.";
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* --- Nombre del negocio --- */
+    document.querySelectorAll('.js-business-name').forEach(function(el){
+      el.textContent = CONFIG.businessName;
+    });
+    document.title = CONFIG.businessName + " — " + SITE_TAGLINE;
+
+    /* --- Meta description y Open Graph (generados desde CONFIG) --- */
+    const metaDescription = document.getElementById('metaDescription');
+    if (metaDescription) { metaDescription.setAttribute('content', CONFIG.businessName + ": " + SITE_DESCRIPTION); }
+    const ogSiteName = document.getElementById('ogSiteName');
+    if (ogSiteName) { ogSiteName.setAttribute('content', CONFIG.businessName); }
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) { ogTitle.setAttribute('content', CONFIG.businessName + " — " + SITE_TAGLINE); }
+    const ogDescription = document.getElementById('ogDescription');
+    if (ogDescription) { ogDescription.setAttribute('content', SITE_DESCRIPTION); }
+
+    /* --- Teléfono --- */
+    const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+    document.querySelectorAll('.js-tel').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+      el.textContent = CONFIG.phone;
+    });
+
+    /* --- Email --- */
+    document.querySelectorAll('.js-email').forEach(function(el){
+      el.href = 'mailto:' + CONFIG.email;
+      el.textContent = CONFIG.email;
+    });
+
+    /* --- Dirección --- */
+    document.querySelectorAll('.js-address, .js-address-contact').forEach(function(el){
+      el.textContent = CONFIG.address;
+    });
+
+    /* --- WhatsApp (flotante + enlaces de contacto) --- */
+    const waMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', me gustaría pedir un presupuesto sin compromiso.');
+    const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + waMessage;
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(el){
+      el.href = waUrl;
+    });
+
+    /* --- Botón "Presupuesto": booking del cliente si existe, si no WhatsApp --- */
+    const bookHref = CONFIG.bookingUrl ? CONFIG.bookingUrl : waUrl;
+    document.querySelectorAll('.js-book').forEach(function(el){
+      el.href = bookHref;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+
+    /* --- Horario --- */
+    const scheduleContainer = document.querySelector('.js-schedule');
+    if (scheduleContainer) {
+      const jsDay = new Date().getDay(); // 0 = domingo ... 6 = sábado
+      const dayIndexMap = [6,0,1,2,3,4,5]; // convierte getDay() a índice del array CONFIG.schedule (Lunes..Domingo)
+      const todayIndex = dayIndexMap[jsDay];
+      CONFIG.schedule.forEach(function(item, i){
+        const row = document.createElement('div');
+        row.className = 'schedule-row' + (i === todayIndex ? ' today' : '');
+        row.innerHTML = '<span class="day">' + item.day + '</span><span class="hours">' + item.hours + '</span>';
+        scheduleContainer.appendChild(row);
+      });
+    }
+
+    /* --- Mapa --- */
+    document.querySelectorAll('.js-map').forEach(function(el){
+      el.src = CONFIG.mapEmbedUrl;
+      el.title = 'Ubicación de ' + CONFIG.businessName + ' en el mapa';
+    });
+
+    /* --- Redes sociales --- */
+    const socialContainer = document.querySelector('.js-socials');
+    if (socialContainer) {
+      const icons = {
+        instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+      };
+      Object.keys(CONFIG.socials).forEach(function(key){
+        const a = document.createElement('a');
+        a.href = CONFIG.socials[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key.charAt(0).toUpperCase() + key.slice(1));
+        a.innerHTML = icons[key] || '';
+        socialContainer.appendChild(a);
+      });
+    }
+
+    /* --- Año en footer --- */
+    const yearEl = document.querySelector('.js-year');
+    if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+
+    /* --- JSON-LD (datos estructurados GeneralContractor) --- */
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "GeneralContractor",
+      "name": CONFIG.businessName,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address,
+        "addressCountry": "ES"
+      },
+      "priceRange": "€€",
+      "openingHoursSpecification": CONFIG.schedule.filter(function(s){return s.hours !== 'Cerrado';}).map(function(s){
+        const parts = s.hours.split('–').map(function(p){return p.trim();});
+        return {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": s.day,
+          "opens": parts[0],
+          "closes": parts[1]
+        };
+      }),
+      "sameAs": Object.values(CONFIG.socials)
+    };
+    const ldScript = document.getElementById('ld-json');
+    if (ldScript) { ldScript.textContent = JSON.stringify(ld, null, 2); }
+
+    /* --- Header sticky que reduce padding al hacer scroll --- */
+    const header = document.getElementById('siteHeader');
+    function onScroll(){
+      if (window.scrollY > 40) { header.classList.add('scrolled'); }
+      else { header.classList.remove('scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* --- Menú móvil --- */
+    const navToggle = document.getElementById('navToggle');
+    const iconOpen = document.getElementById('navIconOpen');
+    const iconClose = document.getElementById('navIconClose');
+    function closeMenu(){
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function openMenu(){
+      header.classList.add('nav-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = '';
+      document.body.style.overflow = 'hidden';
+    }
+    navToggle.addEventListener('click', function(){
+      if (header.classList.contains('nav-open')) { closeMenu(); } else { openMenu(); }
+    });
+    document.querySelectorAll('#mainNav a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    /* --- Scroll reveal --- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* --- Formulario de contacto: abre mailto con los datos --- */
+    const form = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const contact = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        const subject = encodeURIComponent('Solicitud de presupuesto — ' + CONFIG.businessName);
+        const body = encodeURIComponent(
+          'Nombre: ' + name + '\n' +
+          'Email/Teléfono: ' + contact + '\n\n' +
+          'Mensaje:\n' + message
+        );
+        window.location.href = 'mailto:' + CONFIG.email + '?subject=' + subject + '&body=' + body;
+        if (formSuccess) { formSuccess.style.display = 'block'; }
+      });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>

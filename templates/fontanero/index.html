@@ -1,0 +1,1088 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Fontanero urgente 24h — plantilla demo</title>
+<meta name="description" id="metaDescription" content="Plantilla demo de fontanería: urgencias 24 horas, detección y reparación de fugas, desatascos, calderas, termos e instalaciones. Presupuesto sin compromiso.">
+<meta name="theme-color" content="#0B5FA5">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" id="ogSiteName" content="Fontanero urgente 24h">
+<meta property="og:title" id="ogTitle" content="Fontanero urgente 24h — plantilla demo">
+<meta property="og:description" id="ogDescription" content="Urgencias 24 horas, fugas, desatascos, calderas e instalaciones. Presupuesto sin compromiso.">
+<meta property="og:image" content="assets/hero.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B5FA5'/%3E%3Cpath d='M22 16c0 6 6 6 6 12s-6 6-6 12M42 16c0 6-6 6-6 12s6 6 6 12' stroke='%23FFC845' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<!-- Fonts (única fuente externa permitida) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">
+{}
+</script>
+
+<style>
+  :root{
+    --blue:#0B5FA5;
+    --blue-dark:#083F6E;
+    --blue-deep:#062C4D;
+    --blue-pale:#EAF2FA;
+    --bg:#F3F6FA;
+    --white:#ffffff;
+    --text:#12202E;
+    --muted:#54697C;
+    --amber:#FFC845;
+    --amber-dark:#B8860B;
+    --green:#1FAA59;
+    --border:rgba(11,95,165,.14);
+    --whatsapp:#25D366;
+    --font-display:'Poppins', 'Segoe UI', sans-serif;
+    --font-body:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --container:1200px;
+    --radius-sm:6px;
+    --radius-md:16px;
+    --shadow-sm:0 4px 16px rgba(6,44,77,.08);
+    --shadow-md:0 24px 56px -22px rgba(6,44,77,.4);
+    --ease:cubic-bezier(.25,.7,.35,1);
+    --bar-h:44px;
+    --header-h:76px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .5em;font-weight:700;line-height:1.18;color:var(--blue-deep);}
+  p{margin:0 0 1em;}
+  ul{margin:0;padding:0;list-style:none;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 24px;}
+  section{padding:100px 0;position:relative;}
+  section.alt{background:var(--white);}
+  @media (max-width:780px){
+    section{padding:60px 0;}
+  }
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--blue-deep);color:#fff;
+    padding:12px 18px;border-radius:var(--radius-sm);z-index:1100;transition:top .2s var(--ease);
+    font-size:.9rem;
+  }
+  .skip-link:focus{top:12px;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);letter-spacing:.16em;text-transform:uppercase;
+    font-size:.72rem;font-weight:700;color:var(--blue);margin-bottom:14px;
+  }
+  .eyebrow::before{content:'';width:22px;height:3px;border-radius:2px;background:var(--amber);display:inline-block;}
+  .section-head{max-width:660px;margin:0 auto 52px;text-align:center;}
+  .section-head h2{font-size:clamp(1.9rem,3.4vw,2.6rem);}
+  .section-head p{color:var(--muted);font-size:1.05rem;margin:0;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:15px 28px;border-radius:10px;font-family:var(--font-body);font-weight:700;font-size:.95rem;
+    text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .22s var(--ease),box-shadow .22s var(--ease),background .22s var(--ease),color .22s var(--ease);
+    letter-spacing:.01em;
+  }
+  .btn svg{flex:none;}
+  .btn-call{background:var(--amber);color:var(--blue-deep);box-shadow:var(--shadow-sm);}
+  .btn-call:hover{background:#ffd668;transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-whats{background:var(--whatsapp);color:#fff;box-shadow:var(--shadow-sm);}
+  .btn-whats:hover{background:#1fb659;transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.6);}
+  .btn-outline:hover{background:rgba(255,255,255,.14);transform:translateY(-2px);}
+  .btn-blue{background:var(--blue);color:#fff;}
+  .btn-blue:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-block{width:100%;}
+
+  /* Urgency top bar (always visible, sticky) */
+  .urgency-bar{
+    position:sticky;top:0;height:var(--bar-h);z-index:600;
+    background:linear-gradient(90deg,var(--amber-dark),var(--amber));
+    color:var(--blue-deep);display:flex;align-items:center;
+  }
+  .urgency-bar .container{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center;}
+  .urgency-bar strong{font-weight:800;letter-spacing:.02em;font-size:.85rem;}
+  .urgency-bar a.bar-tel{
+    font-weight:800;text-decoration:none;color:var(--blue-deep);display:inline-flex;align-items:center;gap:6px;
+    font-size:.88rem;border-bottom:2px solid rgba(6,44,77,.35);
+  }
+  .urgency-bar .pulse-dot{
+    width:9px;height:9px;border-radius:50%;background:var(--green);flex:none;
+    box-shadow:0 0 0 0 rgba(31,170,89,.6);animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(31,170,89,.55);}
+    70%{box-shadow:0 0 0 8px rgba(31,170,89,0);}
+    100%{box-shadow:0 0 0 0 rgba(31,170,89,0);}
+  }
+  @media (max-width:560px){
+    .urgency-bar strong{display:none;}
+  }
+
+  /* Header */
+  .site-header{
+    position:sticky;top:var(--bar-h);z-index:500;height:var(--header-h);
+    display:flex;align-items:center;background:var(--blue-deep);
+    transition:background .3s var(--ease),box-shadow .3s var(--ease),height .3s var(--ease);
+  }
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .brand{
+    font-family:var(--font-display);font-size:1.28rem;font-weight:800;text-decoration:none;color:#fff;
+    letter-spacing:.01em;display:flex;align-items:center;gap:10px;
+  }
+  .brand .brand-icon{
+    width:38px;height:38px;border-radius:10px;background:var(--amber);color:var(--blue-deep);
+    display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .main-nav{display:flex;align-items:center;gap:30px;}
+  .main-nav ul{display:flex;gap:26px;}
+  .main-nav a:not(.btn){
+    color:rgba(255,255,255,.88);text-decoration:none;font-size:.9rem;font-weight:600;letter-spacing:.01em;
+    position:relative;padding-bottom:4px;transition:color .3s var(--ease);
+  }
+  .main-nav a:not(.btn)::after{
+    content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--amber);
+    transition:width .3s var(--ease);
+  }
+  .main-nav a:not(.btn):hover{color:#fff;}
+  .main-nav a:not(.btn):hover::after{width:100%;}
+  .nav-toggle{
+    display:none;background:none;border:0;cursor:pointer;padding:8px;color:#fff;z-index:600;
+  }
+  .nav-toggle svg{display:block;width:26px;height:26px;}
+
+  .site-header.scrolled{box-shadow:var(--shadow-sm);height:66px;}
+
+  @media (max-width:980px){
+    .main-nav ul{display:none;}
+    .main-nav .btn{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .site-header.nav-open .main-nav{
+      display:flex;position:fixed;inset:calc(var(--bar-h) + var(--header-h)) 0 0 0;background:var(--blue-deep);flex-direction:column;
+      align-items:center;justify-content:center;gap:0;
+    }
+    .site-header.nav-open .main-nav ul{
+      display:flex;flex-direction:column;align-items:center;gap:26px;margin-bottom:34px;
+    }
+    .site-header.nav-open .main-nav a:not(.btn){color:#fff;font-size:1.2rem;}
+    .site-header.nav-open .main-nav .btn{display:inline-flex;}
+    .main-nav{position:static;}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:calc(100vh - var(--bar-h) - var(--header-h));display:flex;align-items:center;position:relative;color:#fff;
+    background:linear-gradient(100deg, rgba(6,29,53,.86) 0%, rgba(6,29,53,.62) 45%, rgba(6,29,53,.3) 100%),
+      url('assets/hero.jpg') center 30%/cover no-repeat;
+    padding-top:60px;
+    padding-bottom:70px;
+  }
+  .hero-inner{max-width:660px;}
+  .hero .eyebrow{color:var(--amber);}
+  .hero .eyebrow::before{background:var(--amber);}
+  .hero h1{font-size:clamp(2.4rem,5.6vw,3.9rem);color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.3);}
+  .hero p.lead{font-size:1.15rem;color:rgba(255,255,255,.9);max-width:520px;margin-bottom:1.8em;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:30px;}
+  .hero-trust{display:flex;flex-wrap:wrap;gap:22px;font-size:.85rem;color:rgba(255,255,255,.85);}
+  .hero-trust span{display:flex;align-items:center;gap:8px;}
+  .hero-trust svg{color:var(--amber);flex:none;}
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* Urgencias destacadas */
+  .urgent-section{
+    background:linear-gradient(120deg,var(--blue-deep),var(--blue-dark) 60%,var(--blue));
+    color:#fff;overflow:hidden;
+  }
+  .urgent-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;}
+  @media (max-width:900px){.urgent-grid{grid-template-columns:1fr;gap:36px;}}
+  .urgent-media{position:relative;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);}
+  .urgent-media img{width:100%;height:100%;object-fit:cover;}
+  .urgent-badge{
+    position:absolute;top:18px;left:18px;background:var(--amber);color:var(--blue-deep);
+    font-weight:800;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+    padding:8px 14px;border-radius:999px;box-shadow:0 8px 18px rgba(0,0,0,.25);
+  }
+  .urgent-text .eyebrow{color:var(--amber);}
+  .urgent-text .eyebrow::before{background:var(--amber);}
+  .urgent-text h2{color:#fff;}
+  .urgent-text p{color:rgba(255,255,255,.82);}
+  .urgent-points{margin:26px 0 32px;display:grid;gap:14px;}
+  .urgent-points li{display:flex;align-items:flex-start;gap:12px;font-weight:600;font-size:.98rem;}
+  .urgent-points svg{flex:none;color:var(--amber);margin-top:2px;}
+  .urgent-phone{
+    display:inline-flex;align-items:center;gap:14px;background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-md);padding:18px 22px;margin-bottom:24px;
+  }
+  .urgent-phone .icon-circle{
+    width:46px;height:46px;border-radius:50%;background:var(--amber);color:var(--blue-deep);
+    display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .urgent-phone .label{display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65);}
+  .urgent-phone a{font-family:var(--font-display);font-weight:800;font-size:1.3rem;text-decoration:none;color:#fff;}
+
+  /* Servicios */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media (max-width:940px){.services-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:620px){.services-grid{grid-template-columns:1fr;}}
+  .service-card{
+    background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);
+    padding:32px 26px;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  }
+  .service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+  .service-icon{
+    width:56px;height:56px;border-radius:14px;background:var(--blue-pale);color:var(--blue);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .service-card:nth-child(3n+2) .service-icon{background:#FFF6E0;color:var(--amber-dark);}
+  .service-card:nth-child(3n) .service-icon{background:#E9F8EF;color:var(--green);}
+  .service-card h3{font-size:1.15rem;margin-bottom:8px;}
+  .service-card p{color:var(--muted);font-size:.92rem;margin-bottom:0;}
+
+  .services-media-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px;}
+  @media (max-width:940px){.services-media-row{grid-template-columns:repeat(2,1fr);}}
+  .media-card{position:relative;overflow:hidden;border-radius:var(--radius-md);aspect-ratio:4/3;box-shadow:var(--shadow-sm);}
+  .media-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease);}
+  .media-card:hover img{transform:scale(1.07);}
+  .media-card figcaption{
+    position:absolute;left:0;right:0;bottom:0;padding:14px 16px;color:#fff;font-size:.85rem;font-weight:600;
+    background:linear-gradient(0deg, rgba(6,29,53,.78) 0%, rgba(6,29,53,0) 70%);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  @media (max-width:480px){
+    .media-card figcaption{font-size:.74rem;padding:10px 12px;}
+  }
+
+  /* Zona de trabajo */
+  .coverage-section .container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  @media (max-width:900px){.coverage-section .container{grid-template-columns:1fr;gap:32px;}}
+  .coverage-map-visual{
+    background:var(--blue-pale);border-radius:var(--radius-md);padding:40px;position:relative;
+    min-height:320px;display:flex;align-items:center;justify-content:center;
+  }
+  .coverage-rings{position:relative;width:220px;height:220px;}
+  .coverage-rings .ring{position:absolute;border-radius:50%;border:2px dashed rgba(11,95,165,.35);}
+  .coverage-rings .ring1{inset:0;}
+  .coverage-rings .ring2{inset:34px;}
+  .coverage-rings .ring3{inset:68px;}
+  .coverage-rings .pin{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:54px;height:54px;border-radius:50%;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(11,95,165,.4);
+  }
+  .coverage-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:26px 0 30px;}
+  .coverage-chip{
+    background:var(--white);border:1px solid var(--border);border-radius:999px;padding:10px 16px;
+    font-size:.88rem;font-weight:600;color:var(--blue-dark);text-align:center;
+  }
+
+  /* Insignias de confianza */
+  .badges-section{background:var(--blue-deep);color:#fff;}
+  .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  @media (max-width:780px){.badges-grid{grid-template-columns:1fr;}}
+  .badge-card{text-align:center;padding:10px;}
+  .badge-icon{
+    width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid var(--amber);
+    color:var(--amber);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+  }
+  .badge-card h3{color:#fff;font-size:1.1rem;}
+  .badge-card p{color:rgba(255,255,255,.72);font-size:.92rem;margin:0;}
+
+  /* Opiniones */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  @media (max-width:860px){.testimonials-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    background:var(--white);border:1px solid var(--border);border-top:4px solid var(--blue);border-radius:var(--radius-md);
+    padding:30px 26px;box-shadow:var(--shadow-sm);
+  }
+  .stars{color:var(--amber-dark);letter-spacing:2px;font-size:1rem;margin-bottom:14px;}
+  .testimonial-card p.quote{font-style:italic;color:var(--text);margin-bottom:18px;}
+  .testimonial-name{font-weight:700;font-family:var(--font-display);color:var(--blue-deep);}
+
+  /* Sobre nosotros */
+  .about-section .container{display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center;}
+  @media (max-width:900px){.about-section .container{grid-template-columns:1fr;gap:32px;}}
+  .about-media{position:relative;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);}
+  .about-media img{width:100%;height:100%;object-fit:cover;}
+  .about-text p{color:var(--muted);}
+  .about-stats{display:flex;gap:36px;margin:28px 0;flex-wrap:wrap;}
+  .about-stats strong{display:block;font-family:var(--font-display);font-size:2rem;color:var(--blue);}
+  .about-stats span{color:var(--muted);font-size:.85rem;}
+
+  /* Horario + ubicación */
+  .info-section .container{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;}
+  @media (max-width:860px){.info-section .container{grid-template-columns:1fr;}}
+  .schedule-list{border-top:1px solid var(--border);}
+  .schedule-row{
+    display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border);
+  }
+  .schedule-row.today{font-weight:700;color:var(--blue);}
+  .map-frame{border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);height:100%;min-height:340px;}
+  .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+
+  /* Contacto */
+  .contact-section{background:var(--blue-pale);}
+  .contact-section .container{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;}
+  @media (max-width:860px){.contact-section .container{grid-template-columns:1fr;}}
+  .contact-list{margin-top:24px;}
+  .contact-list li{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+  .contact-list .icon{
+    width:40px;height:40px;flex:none;border-radius:12px;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-list a{text-decoration:none;font-weight:600;}
+  .contact-list a:hover{color:var(--blue);}
+  .contact-list .label{display:block;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
+  .social-row{display:flex;gap:12px;margin-top:28px;}
+  .social-row a{
+    width:40px;height:40px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;
+    justify-content:center;background:var(--white);transition:background .25s var(--ease),color .25s var(--ease);
+  }
+  .social-row a:hover{background:var(--blue);color:#fff;}
+
+  form.contact-form{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:32px;box-shadow:var(--shadow-sm);}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block;font-size:.85rem;font-weight:600;margin-bottom:6px;}
+  .form-row input,.form-row textarea{
+    width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);
+    font-family:var(--font-body);font-size:.95rem;background:var(--bg);color:var(--text);
+    transition:border-color .25s var(--ease);
+  }
+  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--blue);}
+  .form-note{font-size:.8rem;color:var(--muted);margin-top:10px;}
+  .form-success{display:none;color:var(--green);font-size:.88rem;margin-top:10px;font-weight:700;}
+
+  /* CTA banda final */
+  .cta-band{
+    background:linear-gradient(120deg,var(--blue-deep),var(--blue));color:#fff;text-align:center;
+  }
+  .cta-band h2{color:#fff;}
+  .cta-band p{color:rgba(255,255,255,.8);max-width:540px;margin:0 auto 32px;}
+  .cta-band .hero-ctas{justify-content:center;}
+
+  /* Footer */
+  .site-footer{background:var(--blue-deep);color:rgba(255,255,255,.78);padding:60px 0 26px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:44px;}
+  @media (max-width:780px){.footer-grid{grid-template-columns:1fr;gap:32px;}}
+  .footer-grid h4{color:#fff;font-size:1rem;margin-bottom:16px;font-family:var(--font-body);font-weight:700;letter-spacing:.03em;text-transform:uppercase;}
+  .footer-grid .brand{color:#fff;font-size:1.2rem;}
+  .footer-grid p{color:rgba(255,255,255,.62);}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{text-decoration:none;color:rgba(255,255,255,.75);transition:color .25s var(--ease);}
+  .footer-links a:hover{color:var(--amber);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,.14);padding-top:22px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;font-size:.82rem;color:rgba(255,255,255,.55);
+  }
+
+  /* Floating WhatsApp button */
+  .whatsapp-float{
+    position:fixed;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.28);
+    z-index:400;text-decoration:none;transition:transform .25s var(--ease);
+  }
+  .whatsapp-float:hover{transform:scale(1.08);}
+  .whatsapp-float svg{width:30px;height:30px;}
+
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<div class="urgency-bar" role="note" aria-label="Urgencias 24 horas">
+  <div class="container">
+    <span class="pulse-dot" aria-hidden="true"></span>
+    <strong>Urgencias 24h, los 365 días del año</strong>
+    <a class="bar-tel js-tel" href="tel:+34600000000">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      +34 600 000 000
+    </a>
+  </div>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#inicio" class="brand">
+      <span class="brand-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6c0 4-4 4-4 8s4 4 4 8M18 6c0 4-4 4-4 8s4 4 4 8"/></svg>
+      </span>
+      <span class="js-business-name">Tu Fontanería</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#urgencias">Urgencias 24h</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#zona">Zona de trabajo</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#horario">Horario y ubicación</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#" class="btn btn-call js-tel-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Llámanos ahora
+      </a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+      <svg id="navIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="navIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-label="Presentación">
+    <div class="container hero-inner">
+      <span class="eyebrow">Fontanería profesional</span>
+      <h1>Fugas, atascos y averías,<br>resueltos hoy mismo</h1>
+      <p class="lead">Fontaneros colegiados con servicio de urgencias 24 horas en tu ciudad y alrededores. Diagnóstico claro, presupuesto cerrado antes de empezar y garantía por escrito.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-call js-tel-btn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Llámanos ahora
+        </a>
+        <a href="#" class="btn btn-whats js-whatsapp-link" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99z"/></svg>
+          Escríbenos por WhatsApp
+        </a>
+      </div>
+      <div class="hero-trust">
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg> Profesional colegiado</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> Urgencias 24h, todo el año</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Garantía por escrito</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- URGENCIAS 24H DESTACADAS -->
+  <section id="urgencias" class="urgent-section" aria-labelledby="urgencias-title">
+    <div class="container urgent-grid">
+      <div class="urgent-media reveal">
+        <span class="urgent-badge">Respuesta inmediata</span>
+        <img src="assets/urgencia.jpg" alt="Manos apretando una tubería de cobre con una llave inglesa para reparar una fuga" loading="lazy" width="1600" height="1067">
+      </div>
+      <div class="urgent-text reveal">
+        <span class="eyebrow">Urgencias 24 horas</span>
+        <h2 id="urgencias-title">Una fuga no avisa. Nosotros tampoco tardamos.</h2>
+        <p>Atendemos avisos urgentes las 24 horas, los 365 días del año: fugas, atascos, roturas y fallos de calefacción. Salimos con furgoneta equipada para resolver la mayoría de averías en la primera visita.</p>
+        <ul class="urgent-points">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Aviso y llegada rápida en tu ciudad y alrededores</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Presupuesto cerrado antes de intervenir, sin sorpresas</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Recargo de urgencia nocturna claro y sin letra pequeña</li>
+        </ul>
+        <div class="urgent-phone">
+          <span class="icon-circle" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span>
+            <span class="label">Línea de urgencias</span>
+            <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+          </span>
+        </div>
+        <div class="hero-ctas">
+          <a href="#" class="btn btn-call js-tel-btn">Llámanos ahora</a>
+          <a href="#" class="btn btn-outline js-whatsapp-link" target="_blank" rel="noopener">WhatsApp urgente</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="alt" aria-labelledby="servicios-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Qué hacemos</span>
+        <h2 id="servicios-title">Servicios de fontanería</h2>
+        <p>Desde una avería puntual hasta la reforma completa de un baño. Trabajamos con materiales homologados y dejamos la zona limpia al terminar.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>
+          </div>
+          <h3>Fugas y detección</h3>
+          <p>Localizamos fugas ocultas en pared o suelo sin obra a ciegas, y reparamos el punto exacto de la avería.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 12a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4M4 12a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4"/></svg>
+          </div>
+          <h3>Desatascos</h3>
+          <p>Desatascos de tuberías, bajantes y arquetas con equipo especializado, sin productos agresivos.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="9" r="2"/><path d="M9 15h6"/></svg>
+          </div>
+          <h3>Calderas y termos</h3>
+          <p>Instalación, mantenimiento y reparación de calderas de gas y termos eléctricos de cualquier marca.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16v4a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6v-4z"/><path d="M8 10V6a2 2 0 0 1 2-2h1"/></svg>
+          </div>
+          <h3>Instalaciones y reforma de baños</h3>
+          <p>Reforma integral de baños, cambio de bañera por ducha y nuevas instalaciones de agua a medida.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M8 6a4 4 0 0 0 4 4 4 4 0 0 1 4 4v6"/><circle cx="12" cy="20" r="2"/></svg>
+          </div>
+          <h3>Grifería</h3>
+          <p>Suministro e instalación de grifos, monomandos y termostáticos para cocina y baño.</p>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 1.4 1.4l3.3-3.3a4 4 0 0 1-4.5 4.5L5.4 18.4a2 2 0 0 1-2.8-2.8L13.1 5.1a4 4 0 0 1 4.5-4.5l-3.3 3.3a1 1 0 0 0 0 1.4z"/></svg>
+          </div>
+          <h3>Presupuesto sin compromiso</h3>
+          <p>Visita de diagnóstico y presupuesto claro antes de tocar nada. Tú decides si seguimos adelante.</p>
+        </div>
+      </div>
+
+      <div class="services-media-row reveal">
+        <figure class="media-card">
+          <img src="assets/bano.jpg" alt="Baño moderno reformado con mampara de cristal, ducha y mueble de madera" loading="lazy" width="1600" height="1067">
+          <figcaption>Baños</figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="assets/caldera.jpg" alt="Técnico revisando el interior de una caldera mural de gas" loading="lazy" width="1600" height="1067">
+          <figcaption>Calderas</figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="assets/grifo.jpg" alt="Instalación de un grifo cromado moderno en un lavabo de baño" loading="lazy" width="1600" height="1067">
+          <figcaption>Grifería</figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="assets/herramientas.jpg" alt="Herramientas de fontanería ordenadas sobre una mesa de madera, vista cenital" loading="lazy" width="1600" height="1067">
+          <figcaption>Equipo</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONA DE TRABAJO / COBERTURA -->
+  <section id="zona" class="coverage-section" aria-labelledby="zona-title">
+    <div class="container">
+      <div class="coverage-map-visual reveal">
+        <div class="coverage-rings" aria-hidden="true">
+          <div class="ring ring1"></div>
+          <div class="ring ring2"></div>
+          <div class="ring ring3"></div>
+          <div class="pin">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Dónde trabajamos</span>
+        <h2 id="zona-title">Zona de trabajo y cobertura</h2>
+        <p style="color:var(--muted)">Damos servicio en tu ciudad y alrededores, con especial atención a tu barrio y tu zona. Si tienes dudas sobre si llegamos hasta tu dirección, escríbenos y te lo confirmamos en minutos.</p>
+        <div class="coverage-list">
+          <span class="coverage-chip">Tu barrio</span>
+          <span class="coverage-chip">Tu zona</span>
+          <span class="coverage-chip">Centro de tu ciudad</span>
+          <span class="coverage-chip">Polígonos y afueras</span>
+        </div>
+        <a href="#" class="btn btn-blue js-whatsapp-link" target="_blank" rel="noopener">Consultar cobertura por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGNIAS DE CONFIANZA -->
+  <section class="badges-section" aria-labelledby="badges-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow" style="color:var(--amber)">Trabaja con quien te da garantías</span>
+        <h2 id="badges-title" style="color:#fff">Confianza en cada intervención</h2>
+      </div>
+      <div class="badges-grid">
+        <div class="badge-card reveal">
+          <div class="badge-icon" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg>
+          </div>
+          <h3>Profesional colegiado</h3>
+          <p>Instaladores autorizados con la cualificación oficial para trabajos de fontanería y gas.</p>
+        </div>
+        <div class="badge-card reveal">
+          <div class="badge-icon" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+          </div>
+          <h3>Seguro de responsabilidad civil</h3>
+          <p>Cada intervención está cubierta por un seguro de RC que protege tu vivienda o local.</p>
+        </div>
+        <div class="badge-card reveal">
+          <div class="badge-icon" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+          </div>
+          <h3>Garantía por escrito</h3>
+          <p>Todos nuestros trabajos incluyen garantía por escrito sobre materiales y mano de obra.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" class="alt" aria-labelledby="opiniones-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Lo que dicen de nosotros</span>
+        <h2 id="opiniones-title">Opiniones</h2>
+        <p>Clientes reales que confiaron en nosotros para resolver una urgencia o una reforma completa.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Se nos rompió una tubería un domingo por la noche y vinieron en menos de una hora. Rapidísimos y muy limpios trabajando.»</p>
+          <p class="testimonial-name">Javier M.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Nos dieron el presupuesto cerrado antes de empezar la reforma del baño y lo cumplieron al céntimo. Muy profesionales.»</p>
+          <p class="testimonial-name">Ana P.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«La caldera dejó de dar agua caliente un día muy frío y la revisaron el mismo día. Explican todo con detalle antes de cobrar.»</p>
+          <p class="testimonial-name">Rubén D.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section id="sobre-nosotros" class="about-section" aria-labelledby="about-title">
+    <div class="container">
+      <div class="about-media reveal">
+        <img src="assets/hero.jpg" alt="Fontanero con mono azul reparando la tubería bajo el fregadero de una cocina" loading="lazy" width="1600" height="1067">
+      </div>
+      <div class="about-text reveal">
+        <span class="eyebrow">Sobre nosotros</span>
+        <h2 id="about-title">Fontaneros de confianza en tu ciudad</h2>
+        <p>Somos un equipo de fontaneros colegiados que atiende tu ciudad y alrededores desde hace años, combinando la rapidez de una urgencia con el trato cercano de un negocio de barrio.</p>
+        <p>Explicamos cada avería en lenguaje sencillo, sin tecnicismos, y no empezamos ningún trabajo sin que sepas antes lo que va a costar.</p>
+        <div class="about-stats">
+          <div>
+            <strong>+15</strong>
+            <span>años de experiencia</span>
+          </div>
+          <div>
+            <strong>24h</strong>
+            <span>servicio de urgencias</span>
+          </div>
+          <div>
+            <strong>100%</strong>
+            <span>trabajos con garantía</span>
+          </div>
+        </div>
+        <a href="#" class="btn btn-blue js-tel-btn">Llámanos ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO + UBICACIÓN -->
+  <section id="horario" class="alt" aria-labelledby="horario-title">
+    <div class="container info-section">
+      <div class="reveal">
+        <span class="eyebrow">Te esperamos</span>
+        <h2 id="horario-title">Horario y ubicación</h2>
+        <p style="color:var(--muted)">Horario de oficina para citas programadas. Para averías urgentes fuera de horario, llama a la línea de urgencias 24h.</p>
+        <div class="schedule-list js-schedule" aria-label="Horario de apertura"></div>
+        <p style="margin-top:20px;color:var(--muted)" class="js-address"></p>
+      </div>
+      <div class="map-frame reveal">
+        <!-- El src del iframe se rellena vía JS desde CONFIG.mapEmbedUrl -->
+        <iframe class="js-map" title="Ubicación en el mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banda -->
+  <section class="cta-band reveal" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title">¿Tienes una avería ahora mismo?</h2>
+      <p>Llama a nuestra línea de urgencias 24 horas o escríbenos por WhatsApp y te atendemos al momento.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-call js-tel-btn">Llámanos ahora</a>
+        <a href="#" class="btn btn-whats js-whatsapp-link" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="contact-section" aria-labelledby="contacto-title">
+    <div class="container contact-section-inner" style="display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;">
+      <div class="reveal">
+        <span class="eyebrow">Hablemos</span>
+        <h2 id="contacto-title">Contacto</h2>
+        <p style="color:var(--muted)">Escríbenos, llámanos o pide presupuesto sin compromiso. Respondemos rápido, también fuera de horario si es una urgencia.</p>
+        <ul class="contact-list">
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="label">Teléfono / urgencias</span>
+              <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 5.54-13.58z"/></svg>
+            </span>
+            <div>
+              <span class="label">WhatsApp</span>
+              <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Escríbenos directamente</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </span>
+            <div>
+              <span class="label">Email</span>
+              <a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <span class="label">Dirección</span>
+              <span class="js-address-contact">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+            </div>
+          </li>
+        </ul>
+        <div class="social-row js-socials" aria-label="Redes sociales"></div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm" aria-label="Formulario de contacto">
+          <div class="form-row">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email o teléfono</label>
+            <input type="text" id="cf-email" name="contact" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Cuéntanos qué avería tienes</label>
+            <textarea id="cf-message" name="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-blue btn-block">Enviar mensaje</button>
+          <p class="form-note">Te responderemos por email. Al enviar, se abrirá tu programa de correo con el mensaje ya redactado. Para urgencias, mejor llama o escribe por WhatsApp.</p>
+          <p class="form-success" id="formSuccess" role="status">¡Gracias! Hemos abierto tu cliente de correo con el mensaje listo para enviar.</p>
+          <!-- Slot para widget de reservas/citas embebido (si el cliente dispone de uno) -->
+          <!--
+          <iframe src="[URL_DEL_WIDGET_DE_RESERVAS]" title="Pedir cita online" loading="lazy" style="width:100%;border:0;min-height:600px;margin-top:24px;"></iframe>
+          -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand js-business-name">Tu Fontanería</a>
+        <p style="margin-top:14px;max-width:320px;">Fontaneros colegiados en tu ciudad y alrededores. Urgencias 24 horas, fugas, desatascos, calderas, instalaciones y reforma de baños.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#urgencias">Urgencias 24h</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#zona">Zona de trabajo</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#horario">Horario y ubicación</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a class="js-tel" href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a></li>
+          <li><span class="js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span class="js-year"></span> <span class="js-business-name">Tu Fontanería</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99zm5.47-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — único punto de edición para adaptar la plantilla
+     a un cliente real (nombre, contacto, horario, mapa, redes...)
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Tu Fontanería",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { day: "Lunes",    hours: "8:00 – 19:00" },
+      { day: "Martes",   hours: "8:00 – 19:00" },
+      { day: "Miércoles",hours: "8:00 – 19:00" },
+      { day: "Jueves",   hours: "8:00 – 19:00" },
+      { day: "Viernes",  hours: "8:00 – 19:00" },
+      { day: "Sábado",   hours: "9:00 – 13:00" },
+      { day: "Domingo",  hours: "Solo urgencias 24h" }
+    ],
+    bookingUrl: null, // Si el cliente usa un sistema de citas online, poner la URL aquí; si no, se usa WhatsApp
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1&output=embed",
+    socials: {
+      instagram: "https://instagram.com/tufontaneria",
+      facebook: "https://facebook.com/tufontaneria"
+    }
+  };
+
+  const SITE_TAGLINE = "Fontanero urgente 24h";
+  const SITE_DESCRIPTION = "Urgencias 24 horas, fugas, desatascos, calderas, termos e instalaciones. Presupuesto sin compromiso.";
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* --- Nombre del negocio --- */
+    document.querySelectorAll('.js-business-name').forEach(function(el){
+      el.textContent = CONFIG.businessName;
+    });
+    document.title = CONFIG.businessName + " — " + SITE_TAGLINE;
+
+    /* --- Meta description y Open Graph (generados desde CONFIG) --- */
+    const metaDescription = document.getElementById('metaDescription');
+    if (metaDescription) { metaDescription.setAttribute('content', CONFIG.businessName + ": " + SITE_DESCRIPTION); }
+    const ogSiteName = document.getElementById('ogSiteName');
+    if (ogSiteName) { ogSiteName.setAttribute('content', CONFIG.businessName); }
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) { ogTitle.setAttribute('content', CONFIG.businessName + " — " + SITE_TAGLINE); }
+    const ogDescription = document.getElementById('ogDescription');
+    if (ogDescription) { ogDescription.setAttribute('content', SITE_DESCRIPTION); }
+
+    /* --- Teléfono --- */
+    const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+    document.querySelectorAll('.js-tel').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+      el.textContent = CONFIG.phone;
+    });
+    document.querySelectorAll('.js-tel-btn').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+    });
+
+    /* --- Email --- */
+    document.querySelectorAll('.js-email').forEach(function(el){
+      el.href = 'mailto:' + CONFIG.email;
+      el.textContent = CONFIG.email;
+    });
+
+    /* --- Dirección --- */
+    document.querySelectorAll('.js-address, .js-address-contact').forEach(function(el){
+      el.textContent = CONFIG.address;
+    });
+
+    /* --- WhatsApp (flotante + enlaces de contacto) --- */
+    const waMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', tengo una avería y necesito ayuda.');
+    const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + waMessage;
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(el){
+      el.href = waUrl;
+    });
+
+    /* --- Botón de reserva/cita (por si el cliente añade un sistema de citas): booking del cliente si existe, si no WhatsApp --- */
+    const bookHref = CONFIG.bookingUrl ? CONFIG.bookingUrl : waUrl;
+    document.querySelectorAll('.js-book').forEach(function(el){
+      el.href = bookHref;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+
+    /* --- Horario --- */
+    const scheduleContainer = document.querySelector('.js-schedule');
+    if (scheduleContainer) {
+      const jsDay = new Date().getDay(); // 0 = domingo ... 6 = sábado
+      const dayIndexMap = [6,0,1,2,3,4,5]; // convierte getDay() a índice del array CONFIG.schedule (Lunes..Domingo)
+      const todayIndex = dayIndexMap[jsDay];
+      CONFIG.schedule.forEach(function(item, i){
+        const row = document.createElement('div');
+        row.className = 'schedule-row' + (i === todayIndex ? ' today' : '');
+        row.innerHTML = '<span class="day">' + item.day + '</span><span class="hours">' + item.hours + '</span>';
+        scheduleContainer.appendChild(row);
+      });
+    }
+
+    /* --- Mapa --- */
+    document.querySelectorAll('.js-map').forEach(function(el){
+      el.src = CONFIG.mapEmbedUrl;
+      el.title = 'Ubicación de ' + CONFIG.businessName + ' en el mapa';
+    });
+
+    /* --- Redes sociales --- */
+    const socialContainer = document.querySelector('.js-socials');
+    if (socialContainer) {
+      const icons = {
+        instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+      };
+      Object.keys(CONFIG.socials).forEach(function(key){
+        const a = document.createElement('a');
+        a.href = CONFIG.socials[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key.charAt(0).toUpperCase() + key.slice(1));
+        a.innerHTML = icons[key] || '';
+        socialContainer.appendChild(a);
+      });
+    }
+
+    /* --- Año en footer --- */
+    const yearEl = document.querySelector('.js-year');
+    if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+
+    /* --- JSON-LD (datos estructurados LocalBusiness / Plumber) --- */
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "Plumber",
+      "name": CONFIG.businessName,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address,
+        "addressCountry": "ES"
+      },
+      "priceRange": "€€",
+      "openingHoursSpecification": CONFIG.schedule.filter(function(s){return s.hours.indexOf('–') !== -1;}).map(function(s){
+        const parts = s.hours.split('–').map(function(p){return p.trim();});
+        return {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": s.day,
+          "opens": parts[0],
+          "closes": parts[1]
+        };
+      }),
+      "sameAs": Object.values(CONFIG.socials)
+    };
+    const ldScript = document.getElementById('ld-json');
+    if (ldScript) { ldScript.textContent = JSON.stringify(ld, null, 2); }
+
+    /* --- Header sticky que se compacta al hacer scroll --- */
+    const header = document.getElementById('siteHeader');
+    function onScroll(){
+      if (window.scrollY > 40) { header.classList.add('scrolled'); }
+      else { header.classList.remove('scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* --- Menú móvil --- */
+    const navToggle = document.getElementById('navToggle');
+    const iconOpen = document.getElementById('navIconOpen');
+    const iconClose = document.getElementById('navIconClose');
+    function closeMenu(){
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function openMenu(){
+      header.classList.add('nav-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = '';
+      document.body.style.overflow = 'hidden';
+    }
+    navToggle.addEventListener('click', function(){
+      if (header.classList.contains('nav-open')) { closeMenu(); } else { openMenu(); }
+    });
+    document.querySelectorAll('#mainNav a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    /* --- Scroll reveal --- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* --- Formulario de contacto: abre mailto con los datos --- */
+    const form = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const contact = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        const subject = encodeURIComponent('Solicitud de contacto — ' + CONFIG.businessName);
+        const body = encodeURIComponent(
+          'Nombre: ' + name + '\n' +
+          'Email/Teléfono: ' + contact + '\n\n' +
+          'Mensaje:\n' + message
+        );
+        window.location.href = 'mailto:' + CONFIG.email + '?subject=' + subject + '&body=' + body;
+        if (formSuccess) { formSuccess.style.display = 'block'; }
+      });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>

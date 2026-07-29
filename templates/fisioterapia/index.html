@@ -1,0 +1,1072 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Fisioterapia — plantilla demo</title>
+<meta name="description" id="metaDescription" content="Plantilla demo de clínica de fisioterapia: terapia manual, punción seca, ejercicio terapéutico y masaje descontracturante. Valoración inicial incluida. Pide cita hoy mismo.">
+<meta name="theme-color" content="#4B6353">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" id="ogSiteName" content="Clínica de fisioterapia">
+<meta property="og:title" id="ogTitle" content="Fisioterapia — plantilla demo">
+<meta property="og:description" id="ogDescription" content="Terapia manual, punción seca, ejercicio terapéutico y masaje descontracturante. Valoración inicial incluida.">
+<meta property="og:image" content="assets/hero.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%234B6353'/%3E%3Cpath d='M20 34c0-8 6-14 12-14s12 6 12 14-6 16-12 16-12-8-12-16z' fill='none' stroke='%23F4EFE4' stroke-width='3'/%3E%3Ccircle cx='32' cy='30' r='4' fill='%23F4EFE4'/%3E%3C/svg%3E">
+
+<!-- Fonts (única fuente externa permitida) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">
+{}
+</script>
+
+<style>
+  :root{
+    --cream:#FBF7EF;
+    --cream-alt:#F1EBDC;
+    --sage-50:#EEF3ED;
+    --sage-100:#DCE7DA;
+    --sage-300:#A9C2A5;
+    --sage-500:#71916C;
+    --sage-600:#557558;
+    --sage-700:#3F5C44;
+    --sage-900:#28402D;
+    --ink:#2B342C;
+    --muted:#647063;
+    --coral:#E2795C;
+    --coral-dark:#B04F32;
+    --coral-soft:#F6DDD1;
+    --whatsapp:#25D366;
+    --border:rgba(43,52,44,.12);
+    --font-display:'Outfit', 'Segoe UI', sans-serif;
+    --font-body:'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --container:1180px;
+    --radius-lg:32px;
+    --radius-md:20px;
+    --radius-sm:12px;
+    --shadow-sm:0 4px 18px rgba(40,64,45,.08);
+    --shadow-md:0 24px 60px -24px rgba(40,64,45,.38);
+    --ease:cubic-bezier(.25,.7,.35,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .5em;font-weight:700;line-height:1.18;color:var(--sage-900);}
+  p{margin:0 0 1em;}
+  ul{margin:0;padding:0;list-style:none;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 24px;position:relative;z-index:2;}
+  section{padding:112px 0;position:relative;}
+  section.alt{background:var(--sage-50);}
+  @media (max-width:780px){
+    section{padding:72px 0;}
+  }
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--sage-900);color:var(--cream);
+    padding:12px 18px;border-radius:var(--radius-sm);z-index:1000;transition:top .2s var(--ease);
+    font-size:.9rem;
+  }
+  .skip-link:focus{top:12px;}
+
+  /* Decorative blobs */
+  .blob{position:absolute;border-radius:50%;filter:blur(60px);z-index:0;pointer-events:none;}
+  .blob-sage{background:rgba(113,145,108,.25);}
+  .blob-coral{background:rgba(226,121,92,.18);}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);letter-spacing:.14em;text-transform:uppercase;
+    font-size:.72rem;font-weight:700;color:var(--coral-dark);margin-bottom:16px;
+  }
+  .eyebrow::before{content:'';width:20px;height:2px;background:var(--coral-dark);border-radius:2px;}
+  .section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+  .section-head h2{font-size:clamp(1.9rem,3.4vw,2.75rem);}
+  .section-head p{color:var(--muted);font-size:1.05rem;margin:0;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:16px 32px;border-radius:999px;font-family:var(--font-body);font-weight:700;font-size:.95rem;
+    text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
+    letter-spacing:.01em;
+  }
+  .btn-primary{background:var(--coral-dark);color:#fff;box-shadow:var(--shadow-sm);}
+  .btn-primary:hover{background:#8f3f28;transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-outline{background:transparent;color:var(--sage-900);border-color:var(--sage-900);}
+  .btn-outline:hover{background:var(--sage-900);color:#fff;transform:translateY(-2px);}
+  .btn-outline-light{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.65);}
+  .btn-outline-light:hover{background:#fff;color:var(--sage-900);transform:translateY(-2px);}
+  .btn-dark{background:var(--sage-900);color:var(--cream);}
+  .btn-dark:hover{background:var(--sage-700);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-block{width:100%;}
+
+  /* Header (floating pill) */
+  .header-wrap{position:fixed;top:0;left:0;right:0;z-index:500;}
+  .site-header{
+    max-width:1180px;margin:14px auto 0;padding:10px 14px 10px 26px;border-radius:999px;
+    background:rgba(251,247,239,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    transition:background .35s var(--ease),box-shadow .35s var(--ease);
+    box-shadow:0 8px 30px -18px rgba(40,64,45,.25);
+  }
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0;max-width:none;}
+  .brand{
+    font-family:var(--font-display);font-size:1.28rem;font-weight:800;text-decoration:none;color:var(--sage-900);
+    letter-spacing:.01em;display:flex;align-items:center;gap:8px;
+  }
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--coral-dark);display:inline-block;}
+  .main-nav{display:flex;align-items:center;gap:8px;}
+  .main-nav ul{display:flex;gap:2px;}
+  .main-nav a:not(.btn){
+    color:var(--sage-900);text-decoration:none;font-size:.88rem;font-weight:600;letter-spacing:.01em;
+    padding:9px 15px;border-radius:999px;transition:background .25s var(--ease);
+  }
+  .main-nav a:not(.btn):hover{background:var(--sage-100);}
+  .nav-toggle{
+    display:none;background:none;border:0;cursor:pointer;padding:8px;color:var(--sage-900);z-index:600;
+  }
+  .nav-toggle svg{display:block;width:24px;height:24px;}
+
+  .site-header.scrolled{
+    background:rgba(251,247,239,.92);box-shadow:0 10px 34px -18px rgba(40,64,45,.35);
+  }
+
+  @media (max-width:960px){
+    .site-header{border-radius:0;padding:14px 20px;margin-top:0;}
+    .main-nav ul{display:none;}
+    .main-nav .btn{display:none;}
+    .nav-toggle{display:inline-flex;}
+    /* backdrop-filter on .site-header creates a containing block for
+       position:fixed descendants, so the full-screen nav overlay must
+       be lifted out of that filtered box while it is open. */
+    .site-header.nav-open{backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent;box-shadow:none;}
+    .site-header.nav-open .brand{color:var(--cream);}
+    .site-header.nav-open .nav-toggle{color:var(--cream);position:relative;z-index:601;}
+    .site-header.nav-open .main-nav{
+      display:flex;position:fixed;inset:0;background:var(--sage-900);flex-direction:column;
+      align-items:center;justify-content:center;gap:0;border-radius:0;
+    }
+    .site-header.nav-open .main-nav ul{
+      display:flex;flex-direction:column;align-items:center;gap:26px;margin-bottom:36px;
+    }
+    .site-header.nav-open .main-nav a:not(.btn){color:var(--cream);font-size:1.2rem;}
+    .site-header.nav-open .main-nav .btn{display:inline-flex;}
+    .main-nav{position:static;}
+  }
+
+  /* Announcement strip */
+  .announce{
+    background:var(--sage-900);color:var(--cream);text-align:center;font-size:.85rem;font-weight:600;
+    padding:10px 20px;letter-spacing:.01em;
+  }
+  .announce span{color:var(--sage-300);}
+  @media (max-width:600px){
+    .announce{font-size:.7rem;padding:8px 14px;}
+    .announce span{display:none;}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:100vh;display:flex;align-items:center;position:relative;color:#fff;padding-top:190px;
+    background:
+      linear-gradient(100deg, rgba(28,42,31,.82) 0%, rgba(28,42,31,.62) 32%, rgba(40,64,45,.28) 58%, rgba(40,64,45,.1) 100%),
+      url('assets/hero.jpg') center 30%/cover no-repeat;
+  }
+  .hero-inner{max-width:640px;}
+  .hero .eyebrow{color:var(--sage-300);}
+  .hero .eyebrow::before{background:var(--sage-300);}
+  .hero h1{font-size:clamp(2.4rem,5.6vw,3.8rem);color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.2);}
+  .hero p.lead{font-size:1.15rem;color:rgba(255,255,255,.9);max-width:520px;margin-bottom:1.8em;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:34px;}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:10px;background:rgba(251,247,239,.14);
+    border:1px solid rgba(255,255,255,.3);padding:11px 20px 11px 14px;border-radius:999px;font-size:.85rem;font-weight:600;
+    backdrop-filter:blur(6px);
+  }
+  .hero-badge .ic{
+    width:28px;height:28px;border-radius:50%;background:var(--coral-dark);display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .hero-badge .ic svg{width:15px;height:15px;}
+
+  /* Wave divider */
+  .wave-divider{display:block;width:100%;height:auto;position:relative;margin-top:-2px;z-index:2;}
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* A quién ayudamos */
+  .ayuda-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;}
+  @media (max-width:900px){.ayuda-grid{grid-template-columns:1fr;gap:40px;}}
+  .ayuda-photo{position:relative;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);}
+  .ayuda-photo img{width:100%;height:100%;object-fit:cover;min-height:340px;}
+  .ayuda-photo .caption{
+    position:absolute;left:0;right:0;bottom:0;padding:26px 28px;color:#fff;
+    background:linear-gradient(0deg, rgba(24,36,26,.82) 0%, rgba(24,36,26,0) 65%);
+  }
+  .ayuda-photo .caption p{margin:0;font-weight:600;font-size:1.05rem;max-width:280px;}
+  .cards-2x2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media (max-width:560px){.cards-2x2{grid-template-columns:1fr;}}
+  .ayuda-card{
+    background:var(--cream);border-radius:var(--radius-md);padding:26px 24px;
+    box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  }
+  .ayuda-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .ayuda-card.tone-sage{background:var(--sage-100);}
+  .ayuda-card.tone-coral{background:var(--coral-soft);}
+  .ic-circle{
+    width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+    background:var(--sage-900);color:var(--cream);flex:none;
+  }
+  .ic-circle.coral{background:var(--coral-dark);}
+  .ic-circle svg{width:24px;height:24px;}
+  .ayuda-card h3{font-size:1.05rem;margin-bottom:8px;}
+  .ayuda-card p{color:var(--muted);font-size:.92rem;margin:0;}
+
+  /* Tratamientos */
+  .tratamientos-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:flex-start;}
+  @media (max-width:900px){.tratamientos-grid{grid-template-columns:1fr;gap:44px;}}
+  .collage{position:relative;height:100%;min-height:420px;}
+  .collage img{
+    position:absolute;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);object-fit:cover;
+  }
+  .collage .img-main{width:78%;height:360px;top:0;left:0;}
+  .collage .img-sub{width:56%;height:220px;bottom:0;right:0;border:6px solid var(--cream-alt);}
+  @media (max-width:900px){
+    .collage{min-height:340px;}
+    .collage .img-main{height:280px;}
+    .collage .img-sub{height:170px;}
+  }
+  @media (max-width:520px){
+    .collage{min-height:300px;}
+    .collage .img-main{width:82%;height:240px;}
+    .collage .img-sub{width:60%;height:150px;}
+  }
+  .treat-list{display:flex;flex-direction:column;gap:16px;}
+  .treat-item{
+    display:flex;align-items:center;gap:18px;background:var(--cream);border-radius:var(--radius-md);
+    padding:20px 22px;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease);
+  }
+  .treat-item:hover{transform:translateX(4px);}
+  .treat-item .ic-circle{margin-bottom:0;}
+  .treat-item .info{flex:1;}
+  .treat-item h3{font-size:1.05rem;margin-bottom:4px;}
+  .treat-item p{color:var(--muted);font-size:.88rem;margin:0;}
+  .treat-item .price{
+    font-family:var(--font-display);font-weight:700;color:var(--coral-dark);white-space:nowrap;font-size:1.15rem;
+    text-align:right;
+  }
+  .treat-item .price span{display:block;font-family:var(--font-body);font-weight:600;color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;}
+  .treat-cta{margin-top:28px;text-align:center;}
+  @media (max-width:560px){
+    .treat-item{flex-wrap:wrap;}
+    .treat-item .price{margin-left:auto;}
+  }
+
+  /* Bonos */
+  .bonos-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:900px;margin:0 auto;}
+  @media (max-width:700px){.bonos-grid{grid-template-columns:1fr;}}
+  .bono-card{
+    background:var(--cream);border-radius:var(--radius-lg);padding:40px 34px;text-align:center;
+    box-shadow:var(--shadow-sm);position:relative;border:2px solid transparent;
+  }
+  .bono-card.featured{border-color:var(--coral-dark);box-shadow:var(--shadow-md);}
+  .bono-ribbon{
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--coral-dark);color:#fff;
+    padding:6px 20px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .bono-card h3{font-size:1.3rem;margin-bottom:6px;}
+  .bono-card .sessions{color:var(--muted);font-size:.9rem;margin-bottom:20px;}
+  .bono-price{font-family:var(--font-display);font-size:2.6rem;font-weight:800;color:var(--sage-900);line-height:1;}
+  .bono-price sup{font-size:1.1rem;font-weight:700;}
+  .bono-old{color:var(--muted);text-decoration:line-through;font-size:.95rem;margin:6px 0 0;}
+  .bono-save{
+    display:inline-block;margin:14px 0 22px;background:var(--sage-100);color:var(--sage-700);
+    padding:6px 16px;border-radius:999px;font-size:.82rem;font-weight:700;
+  }
+
+  /* Equipo */
+  .equipo-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center;}
+  @media (max-width:900px){.equipo-grid{grid-template-columns:1fr;gap:40px;}}
+  .team-cards{display:flex;flex-direction:column;gap:18px;}
+  .team-card{
+    display:flex;align-items:center;gap:18px;background:var(--cream);border-radius:var(--radius-md);
+    padding:22px;box-shadow:var(--shadow-sm);
+  }
+  .team-avatar{
+    width:58px;height:58px;border-radius:50%;background:var(--sage-900);color:var(--cream);flex:none;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .team-avatar svg{width:28px;height:28px;}
+  .team-card h3{font-size:1.02rem;margin-bottom:4px;}
+  .team-card p{color:var(--muted);font-size:.88rem;margin:0;}
+  .team-card .badge{
+    display:inline-block;margin-top:6px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--coral-dark);
+  }
+
+  /* Opiniones */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  @media (max-width:860px){.testimonials-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    background:var(--cream);border-radius:var(--radius-md);
+    padding:32px 28px;box-shadow:var(--shadow-sm);position:relative;
+  }
+  .quote-mark{
+    font-family:var(--font-display);font-size:3rem;color:var(--sage-300);line-height:1;margin-bottom:4px;display:block;
+  }
+  .stars{color:var(--coral-dark);letter-spacing:2px;font-size:1rem;margin-bottom:12px;}
+  .testimonial-card p.quote{color:var(--ink);margin-bottom:18px;}
+  .testimonial-name{font-weight:700;font-family:var(--font-display);color:var(--sage-900);}
+  .testimonial-context{display:block;color:var(--muted);font-size:.82rem;font-weight:500;font-family:var(--font-body);margin-top:2px;}
+
+  /* Horario + ubicación */
+  .info-section .container{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;}
+  @media (max-width:860px){.info-section .container{grid-template-columns:1fr;}}
+  .schedule-list{border-top:1px solid var(--border);}
+  .schedule-row{
+    display:flex;justify-content:space-between;padding:14px 4px;border-bottom:1px solid var(--border);font-size:.95rem;
+  }
+  .schedule-row.today{font-weight:700;color:var(--coral-dark);}
+  .map-frame{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);height:100%;min-height:340px;}
+  .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+
+  /* Contacto */
+  .contact-section .container{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;}
+  @media (max-width:860px){.contact-section .container{grid-template-columns:1fr;}}
+  .contact-list{margin-top:24px;}
+  .contact-list li{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+  .contact-list .icon{
+    width:40px;height:40px;flex:none;border-radius:50%;background:var(--sage-900);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-list a{text-decoration:none;font-weight:600;}
+  .contact-list a:hover{color:var(--coral-dark);}
+  .contact-list .label{display:block;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
+  .social-row{display:flex;gap:12px;margin-top:28px;}
+  .social-row a{
+    width:42px;height:42px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;
+    justify-content:center;transition:background .25s var(--ease),color .25s var(--ease);
+  }
+  .social-row a:hover{background:var(--sage-900);color:var(--cream);}
+
+  form.contact-form{background:#fff;border-radius:var(--radius-md);padding:34px;box-shadow:var(--shadow-sm);}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block;font-size:.85rem;font-weight:700;margin-bottom:6px;}
+  .form-row input,.form-row textarea{
+    width:100%;padding:13px 15px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+    font-family:var(--font-body);font-size:.95rem;background:var(--cream);color:var(--ink);
+    transition:border-color .25s var(--ease);
+  }
+  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--coral-dark);}
+  .form-note{font-size:.8rem;color:var(--muted);margin-top:10px;}
+  .form-success{display:none;color:var(--sage-700);font-size:.88rem;margin-top:10px;font-weight:700;}
+
+  /* CTA banda final */
+  .cta-band{
+    background:var(--sage-900);color:var(--cream);text-align:center;
+  }
+  .cta-band h2{color:var(--cream);}
+  .cta-band p{color:rgba(251,247,239,.75);max-width:520px;margin:0 auto 32px;}
+
+  /* Footer */
+  .site-footer{background:var(--sage-900);color:rgba(251,247,239,.8);padding:64px 0 28px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+  @media (max-width:780px){.footer-grid{grid-template-columns:1fr;gap:32px;}}
+  .footer-grid h4{color:var(--cream);font-size:.95rem;margin-bottom:16px;font-family:var(--font-body);font-weight:700;letter-spacing:.03em;text-transform:uppercase;}
+  .footer-grid .brand{color:var(--cream);font-size:1.25rem;}
+  .footer-grid .brand .dot{background:var(--sage-300);}
+  .footer-grid p{color:rgba(251,247,239,.65);}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{text-decoration:none;color:rgba(251,247,239,.75);transition:color .25s var(--ease);}
+  .footer-links a:hover{color:var(--sage-300);}
+  .footer-bottom{
+    border-top:1px solid rgba(251,247,239,.14);padding-top:24px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;font-size:.82rem;color:rgba(251,247,239,.55);
+  }
+
+  /* Floating WhatsApp button */
+  .whatsapp-float{
+    position:fixed;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.28);
+    z-index:400;text-decoration:none;transition:transform .25s var(--ease);
+  }
+  .whatsapp-float:hover{transform:scale(1.08);}
+  .whatsapp-float svg{width:30px;height:30px;}
+
+  :focus-visible{outline:2px solid var(--coral-dark);outline-offset:2px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<div class="header-wrap" id="headerWrap">
+<div class="announce">Valoración inicial incluida en tu primera visita <span>· Colegiados y con experiencia clínica</span></div>
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#inicio" class="brand js-business-name"><span class="dot" aria-hidden="true"></span>Tu Clínica de Fisioterapia</a>
+    <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#ayuda">A quién ayudamos</a></li>
+        <li><a href="#tratamientos">Tratamientos</a></li>
+        <li><a href="#bonos">Bonos</a></li>
+        <li><a href="#equipo">Equipo</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#horario">Horario</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#" class="btn btn-primary js-book">Pide cita</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+      <svg id="navIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="navIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</header>
+</div>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-label="Presentación">
+    <div class="container hero-inner">
+      <span class="eyebrow">Fisioterapia con calma y criterio clínico</span>
+      <h1>Recupera tu movimiento, sin prisa pero sin pausa</h1>
+      <p class="lead">Tratamos el dolor de espalda, las lesiones deportivas y la recuperación post-operatoria con un plan personalizado, en un espacio pensado para respirar tranquilo.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary js-book">Pide cita</a>
+        <a href="#tratamientos" class="btn btn-outline-light">Ver tratamientos</a>
+      </div>
+      <div class="hero-badge">
+        <span class="ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </span>
+        Valoración inicial incluida en tu primera cita
+      </div>
+    </div>
+  </section>
+  <svg class="wave-divider" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true" style="height:70px;">
+    <path fill="#FBF7EF" d="M0,32L60,37.3C120,43,240,53,360,53.3C480,53,600,43,720,42.7C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,90L1380,90C1320,90,1200,90,1080,90C960,90,840,90,720,90C600,90,480,90,360,90C240,90,120,90,60,90L0,90Z"></path>
+  </svg>
+
+  <!-- A QUIÉN AYUDAMOS -->
+  <section id="ayuda" aria-labelledby="ayuda-title" style="padding-top:0;">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Tratamiento a medida</span>
+        <h2 id="ayuda-title">A quién ayudamos</h2>
+        <p>Cada cuerpo y cada dolencia son distintos. Adaptamos el plan de tratamiento a tu momento, tu edad y tu objetivo.</p>
+      </div>
+      <div class="ayuda-grid">
+        <div class="ayuda-photo reveal">
+          <img src="assets/deporte.jpg" alt="Fisioterapeuta ayudando a un deportista a estirar la pierna tras una lesión" loading="lazy" width="1600" height="1067">
+          <div class="caption"><p>Volver a moverte con confianza, sea cual sea tu punto de partida.</p></div>
+        </div>
+        <div class="cards-2x2 reveal">
+          <div class="ayuda-card tone-sage">
+            <span class="ic-circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="5" r="2"/><path d="M9 21l3-6 3 2 3-5"/><path d="M4 21l4-8 3 2"/><path d="M13 9l-2 4-3-1"/></svg>
+            </span>
+            <h3>Lesión deportiva</h3>
+            <p>Esguinces, sobrecargas y molestias de rodilla o tobillo. Te devolvemos al entrenamiento con seguridad.</p>
+          </div>
+          <div class="ayuda-card tone-coral">
+            <span class="ic-circle coral" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/></svg>
+            </span>
+            <h3>Dolor de espalda y cervicales</h3>
+            <p>Contracturas, hernias y tensión acumulada por posturas de oficina o esfuerzo físico repetido.</p>
+          </div>
+          <div class="ayuda-card tone-coral">
+            <span class="ic-circle coral" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5 5 0 0 0-7.07 0L12 6.34l-1.73-1.74a5 5 0 1 0-7.07 7.07L12 20.34l8.8-8.67a5 5 0 0 0 0-7.07z"/></svg>
+            </span>
+            <h3>Tercera edad</h3>
+            <p>Trabajo de movilidad, equilibrio y fuerza funcional para ganar autonomía y prevenir caídas.</p>
+          </div>
+          <div class="ayuda-card tone-sage">
+            <span class="ic-circle" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14l1.5 1.5a2.121 2.121 0 0 1-3 3L16 17"/><path d="M14 19l-1.5 1.5a2.121 2.121 0 0 1-3-3L11 16"/><path d="M8.5 8.5l7 7"/><path d="M5 10L3.5 8.5a2.121 2.121 0 0 1 3-3L8 7"/><path d="M10 5l1.5-1.5a2.121 2.121 0 0 1 3 3L13 8"/></svg>
+            </span>
+            <h3>Post-operatorio y rehabilitación</h3>
+            <p>Planes de recuperación tras cirugía traumatológica, con seguimiento progresivo y objetivos claros.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRATAMIENTOS -->
+  <section id="tratamientos" class="alt" aria-labelledby="tratamientos-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Carta de tratamientos</span>
+        <h2 id="tratamientos-title">Tratamientos y precios</h2>
+        <p>Sesiones individuales con diagnóstico funcional previo. Precios por sesión, claros desde el primer momento.</p>
+      </div>
+      <div class="tratamientos-grid">
+        <div class="collage reveal">
+          <img class="img-main" src="assets/manos.jpg" alt="Primer plano de manos tratando la zona del hombro de una paciente" loading="lazy" width="1600" height="1067">
+          <img class="img-sub" src="assets/masaje.jpg" alt="Manos de un fisioterapeuta aplicando un masaje descontracturante en la parte alta de la espalda" loading="lazy" width="1600" height="1067">
+        </div>
+        <div class="reveal">
+          <div class="treat-list">
+            <div class="treat-item">
+              <span class="ic-circle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2a3 3 0 0 0-3 3v7l-1.4-1.4a2 2 0 1 0-2.83 2.83L8 18l1 2h8l1.5-4.5A4 4 0 0 0 20 14V9a2 2 0 0 0-4 0"/><path d="M8 12V5a3 3 0 0 1 6 0v6"/></svg>
+              </span>
+              <div class="info">
+                <h3>Terapia manual</h3>
+                <p>Movilizaciones articulares y técnicas miofasciales para restaurar el movimiento sin dolor.</p>
+              </div>
+              <span class="price">40 €<span>por sesión</span></span>
+            </div>
+            <div class="treat-item">
+              <span class="ic-circle coral" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L20 4"/><path d="M14.5 4.5l5 5"/><circle cx="6" cy="18" r="1.6" fill="currentColor" stroke="none"/></svg>
+              </span>
+              <div class="info">
+                <h3>Punción seca</h3>
+                <p>Tratamiento de puntos gatillo con agujas de fisioterapia para liberar la musculatura profunda.</p>
+              </div>
+              <span class="price">35 €<span>por sesión</span></span>
+            </div>
+            <div class="treat-item">
+              <span class="ic-circle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11"/><path d="M4 8l4-4 2 2-4 4z"/><path d="M14 18l4-4 2 2-4 4z"/><path d="M9 9l1.5 1.5M13 13l1.5 1.5"/></svg>
+              </span>
+              <div class="info">
+                <h3>Ejercicio terapéutico</h3>
+                <p>Programa de ejercicio activo y progresivo, guiado y adaptado a tu lesión y tu objetivo.</p>
+              </div>
+              <span class="price">30 €<span>por sesión</span></span>
+            </div>
+            <div class="treat-item">
+              <span class="ic-circle coral" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-9.5-8.8C.7 8.6 2.4 5 6 5c2 0 3.4 1.2 4 2.2C10.6 6.2 12 5 14 5c3.6 0 5.3 3.6 3.5 7.2C17 16.65 12 21 12 21z"/></svg>
+              </span>
+              <div class="info">
+                <h3>Masaje descontracturante</h3>
+                <p>Masaje profundo dirigido a zonas de tensión y sobrecarga muscular.</p>
+              </div>
+              <span class="price">38 €<span>por sesión</span></span>
+            </div>
+          </div>
+          <div class="treat-cta">
+            <a href="#" class="btn btn-dark js-book">Pide cita</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BONOS -->
+  <section id="bonos" aria-labelledby="bonos-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Ahorra con tu tratamiento</span>
+        <h2 id="bonos-title">Bonos de sesiones</h2>
+        <p>Para tratamientos que requieren continuidad. Sesiones generales de fisioterapia, válidas durante 3 meses.</p>
+      </div>
+      <div class="bonos-grid">
+        <div class="bono-card reveal">
+          <h3>Bono 5 sesiones</h3>
+          <p class="sessions">Ideal para procesos puntuales</p>
+          <div class="bono-price">175 <sup>€</sup></div>
+          <p class="bono-old">200 €</p>
+          <span class="bono-save">Ahorras 25 €</span>
+          <div><a href="#" class="btn btn-outline js-book">Pide cita</a></div>
+        </div>
+        <div class="bono-card featured reveal">
+          <span class="bono-ribbon">Más elegido</span>
+          <h3>Bono 10 sesiones</h3>
+          <p class="sessions">Para procesos de recuperación completos</p>
+          <div class="bono-price">320 <sup>€</sup></div>
+          <p class="bono-old">400 €</p>
+          <span class="bono-save">Ahorras 80 €</span>
+          <div><a href="#" class="btn btn-primary js-book">Pide cita</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section id="equipo" class="alt" aria-labelledby="equipo-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Profesionales colegiados</span>
+        <h2 id="equipo-title">Nuestro equipo</h2>
+        <p>Un equipo colegiado, con formación continua y trato cercano, en un espacio pensado para tu recuperación.</p>
+      </div>
+      <div class="equipo-grid">
+        <div class="collage reveal">
+          <img class="img-main" src="assets/sala.jpg" alt="Sala de tratamiento serena con camilla verde salvia, toallas y plantas junto a la ventana" loading="lazy" width="1600" height="1067">
+          <img class="img-sub" src="assets/ejercicio.jpg" alt="Paciente de tercera edad haciendo ejercicio terapéutico con banda elástica guiada por su fisioterapeuta" loading="lazy" width="1600" height="1067">
+        </div>
+        <div class="team-cards reveal">
+          <div class="team-card">
+            <span class="team-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            </span>
+            <div>
+              <h3>Fisioterapeuta colegiado/a</h3>
+              <p>Traumatología y readaptación deportiva</p>
+              <span class="badge">Nº de colegiado disponible en consulta</span>
+            </div>
+          </div>
+          <div class="team-card">
+            <span class="team-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            </span>
+            <div>
+              <h3>Fisioterapeuta colegiado/a</h3>
+              <p>Suelo pélvico y fisioterapia neurológica</p>
+              <span class="badge">Nº de colegiado disponible en consulta</span>
+            </div>
+          </div>
+          <div class="team-card">
+            <span class="team-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            </span>
+            <div>
+              <h3>Fisioterapeuta colegiado/a</h3>
+              <p>Geriatría, terapia manual y punción seca</p>
+              <span class="badge">Nº de colegiado disponible en consulta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" aria-labelledby="opiniones-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Lo que cuentan nuestros pacientes</span>
+        <h2 id="opiniones-title">Opiniones</h2>
+        <p>La confianza y la mejora real de nuestros pacientes son nuestra mejor carta de presentación.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <span class="quote-mark" aria-hidden="true">"</span>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">Llegué con un dolor de espalda que arrastraba desde hacía meses y en pocas sesiones noté la diferencia. Explican todo con mucha calma.</p>
+          <p class="testimonial-name">Marta<span class="testimonial-context">Dolor de espalda y cervicales</span></p>
+        </article>
+        <article class="testimonial-card reveal">
+          <span class="quote-mark" aria-hidden="true">"</span>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">Volví a correr después de la lesión de rodilla gracias al plan de ejercicio terapéutico. Un seguimiento muy cercano en cada sesión.</p>
+          <p class="testimonial-name">Javier<span class="testimonial-context">Lesión deportiva</span></p>
+        </article>
+        <article class="testimonial-card reveal">
+          <span class="quote-mark" aria-hidden="true">"</span>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">A mi edad no pensé que podría moverme con tanta soltura otra vez. El trato es maravilloso y muy paciente.</p>
+          <p class="testimonial-name">Pilar<span class="testimonial-context">Tercera edad</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO + UBICACIÓN -->
+  <section id="horario" class="alt" aria-labelledby="horario-title">
+    <div class="container info-section">
+      <div class="reveal">
+        <span class="eyebrow">Te esperamos</span>
+        <h2 id="horario-title">Horario y ubicación</h2>
+        <p style="color:var(--muted)">Estamos en el centro de tu ciudad, en tu barrio, con fácil acceso y aparcamiento cercano.</p>
+        <div class="schedule-list js-schedule" aria-label="Horario de apertura"></div>
+        <p style="margin-top:20px;color:var(--muted)" class="js-address"></p>
+      </div>
+      <div class="map-frame reveal">
+        <!-- El src del iframe se rellena vía JS desde CONFIG.mapEmbedUrl -->
+        <iframe class="js-map" title="Ubicación en el mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banda -->
+  <section class="cta-band reveal" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title">Empecemos con tu valoración inicial</h2>
+      <p>Sin compromiso, incluida en tu primera visita. Escríbenos por WhatsApp o llama directamente a la clínica.</p>
+      <a href="#" class="btn btn-primary js-book">Pide cita</a>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" aria-labelledby="contacto-title">
+    <div class="container contact-section">
+      <div class="reveal">
+        <span class="eyebrow">Hablemos</span>
+        <h2 id="contacto-title">Contacto</h2>
+        <p style="color:var(--muted)">Escríbenos, llámanos o pásate por la clínica. Estaremos encantados de atenderte.</p>
+        <ul class="contact-list">
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="label">Teléfono</span>
+              <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 5.54-13.58z"/></svg>
+            </span>
+            <div>
+              <span class="label">WhatsApp</span>
+              <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Escríbenos directamente</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </span>
+            <div>
+              <span class="label">Email</span>
+              <a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <span class="label">Dirección</span>
+              <span class="js-address-contact">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+            </div>
+          </li>
+        </ul>
+        <div class="social-row js-socials" aria-label="Redes sociales"></div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm" aria-label="Formulario de contacto">
+          <div class="form-row">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email o teléfono</label>
+            <input type="text" id="cf-email" name="contact" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Mensaje</label>
+            <textarea id="cf-message" name="message" rows="4" required placeholder="Cuéntanos brevemente tu dolencia o motivo de consulta"></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark btn-block">Enviar mensaje</button>
+          <p class="form-note">Te responderemos por email. Al enviar, se abrirá tu programa de correo con el mensaje ya redactado.</p>
+          <p class="form-success" id="formSuccess" role="status">¡Gracias! Hemos abierto tu cliente de correo con el mensaje listo para enviar.</p>
+          <!-- Slot para widget de citas online embebido (Doctoralia / Booksy / etc.) -->
+          <!--
+          <iframe src="[URL_DEL_WIDGET_DE_CITAS]" title="Pedir cita online" loading="lazy" style="width:100%;border:0;min-height:600px;margin-top:24px;"></iframe>
+          -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand js-business-name"><span class="dot" aria-hidden="true"></span>Tu Clínica de Fisioterapia</a>
+        <p style="margin-top:14px;max-width:320px;">Clínica de fisioterapia en el centro de tu ciudad. Terapia manual, punción seca, ejercicio terapéutico y masaje descontracturante, con valoración inicial incluida.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#ayuda">A quién ayudamos</a></li>
+          <li><a href="#tratamientos">Tratamientos</a></li>
+          <li><a href="#bonos">Bonos</a></li>
+          <li><a href="#equipo">Equipo</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#horario">Horario y ubicación</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a class="js-tel" href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a></li>
+          <li><span class="js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span class="js-year"></span> <span class="js-business-name">Tu Clínica de Fisioterapia</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99zm5.47-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — único punto de edición para adaptar la plantilla
+     a un cliente real (nombre, contacto, horario, mapa, redes...)
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Tu Clínica de Fisioterapia",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { day: "Lunes",    hours: "9:00 – 20:00" },
+      { day: "Martes",   hours: "9:00 – 20:00" },
+      { day: "Miércoles",hours: "9:00 – 20:00" },
+      { day: "Jueves",   hours: "9:00 – 20:00" },
+      { day: "Viernes",  hours: "9:00 – 19:00" },
+      { day: "Sábado",   hours: "10:00 – 14:00" },
+      { day: "Domingo",  hours: "Cerrado" }
+    ],
+    bookingUrl: null, // Si la clínica usa Doctoralia/otro sistema de citas, poner la URL aquí; si no, se usa WhatsApp
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1&output=embed",
+    socials: {
+      instagram: "https://instagram.com/tuclinicadefisioterapia",
+      facebook: "https://facebook.com/tuclinicadefisioterapia"
+    }
+  };
+
+  const SITE_TAGLINE = "Clínica de fisioterapia";
+  const SITE_DESCRIPTION = "Terapia manual, punción seca, ejercicio terapéutico y masaje descontracturante. Valoración inicial incluida en tu primera visita.";
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* --- Nombre del negocio --- */
+    document.querySelectorAll('.js-business-name').forEach(function(el){
+      const dot = el.querySelector('.dot');
+      el.textContent = CONFIG.businessName;
+      if (dot) { el.prepend(dot); }
+    });
+    document.title = CONFIG.businessName + " — " + SITE_TAGLINE;
+
+    /* --- Meta description y Open Graph (generados desde CONFIG) --- */
+    const metaDescription = document.getElementById('metaDescription');
+    if (metaDescription) { metaDescription.setAttribute('content', CONFIG.businessName + ": " + SITE_DESCRIPTION); }
+    const ogSiteName = document.getElementById('ogSiteName');
+    if (ogSiteName) { ogSiteName.setAttribute('content', CONFIG.businessName); }
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) { ogTitle.setAttribute('content', CONFIG.businessName + " — " + SITE_TAGLINE); }
+    const ogDescription = document.getElementById('ogDescription');
+    if (ogDescription) { ogDescription.setAttribute('content', SITE_DESCRIPTION); }
+
+    /* --- Teléfono --- */
+    const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+    document.querySelectorAll('.js-tel').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+      el.textContent = CONFIG.phone;
+    });
+
+    /* --- Email --- */
+    document.querySelectorAll('.js-email').forEach(function(el){
+      el.href = 'mailto:' + CONFIG.email;
+      el.textContent = CONFIG.email;
+    });
+
+    /* --- Dirección --- */
+    document.querySelectorAll('.js-address, .js-address-contact').forEach(function(el){
+      el.textContent = CONFIG.address;
+    });
+
+    /* --- WhatsApp (flotante + enlaces de contacto) --- */
+    const waMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', me gustaría pedir cita.');
+    const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + waMessage;
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(el){
+      el.href = waUrl;
+    });
+
+    /* --- Botón "Pide cita": sistema de citas del cliente si existe, si no WhatsApp --- */
+    const bookHref = CONFIG.bookingUrl ? CONFIG.bookingUrl : waUrl;
+    document.querySelectorAll('.js-book').forEach(function(el){
+      el.href = bookHref;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+
+    /* --- Horario --- */
+    const scheduleContainer = document.querySelector('.js-schedule');
+    if (scheduleContainer) {
+      const jsDay = new Date().getDay(); // 0 = domingo ... 6 = sábado
+      const dayIndexMap = [6,0,1,2,3,4,5]; // convierte getDay() a índice del array CONFIG.schedule (Lunes..Domingo)
+      const todayIndex = dayIndexMap[jsDay];
+      CONFIG.schedule.forEach(function(item, i){
+        const row = document.createElement('div');
+        row.className = 'schedule-row' + (i === todayIndex ? ' today' : '');
+        row.innerHTML = '<span class="day">' + item.day + '</span><span class="hours">' + item.hours + '</span>';
+        scheduleContainer.appendChild(row);
+      });
+    }
+
+    /* --- Mapa --- */
+    document.querySelectorAll('.js-map').forEach(function(el){
+      el.src = CONFIG.mapEmbedUrl;
+      el.title = 'Ubicación de ' + CONFIG.businessName + ' en el mapa';
+    });
+
+    /* --- Redes sociales --- */
+    const socialContainer = document.querySelector('.js-socials');
+    if (socialContainer) {
+      const icons = {
+        instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+      };
+      Object.keys(CONFIG.socials).forEach(function(key){
+        const a = document.createElement('a');
+        a.href = CONFIG.socials[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key.charAt(0).toUpperCase() + key.slice(1));
+        a.innerHTML = icons[key] || '';
+        socialContainer.appendChild(a);
+      });
+    }
+
+    /* --- Año en footer --- */
+    const yearEl = document.querySelector('.js-year');
+    if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+
+    /* --- JSON-LD (datos estructurados MedicalClinic) --- */
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "MedicalClinic",
+      "name": CONFIG.businessName,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "medicalSpecialty": "Physiotherapy",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address,
+        "addressCountry": "ES"
+      },
+      "priceRange": "€€",
+      "openingHoursSpecification": CONFIG.schedule.filter(function(s){return s.hours !== 'Cerrado';}).map(function(s){
+        const parts = s.hours.split('–').map(function(p){return p.trim();});
+        return {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": s.day,
+          "opens": parts[0],
+          "closes": parts[1]
+        };
+      }),
+      "sameAs": Object.values(CONFIG.socials)
+    };
+    const ldScript = document.getElementById('ld-json');
+    if (ldScript) { ldScript.textContent = JSON.stringify(ld, null, 2); }
+
+    /* --- Header sticky que solidifica al hacer scroll --- */
+    const header = document.getElementById('siteHeader');
+    function onScroll(){
+      if (window.scrollY > 40) { header.classList.add('scrolled'); }
+      else { header.classList.remove('scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* --- Menú móvil --- */
+    const navToggle = document.getElementById('navToggle');
+    const iconOpen = document.getElementById('navIconOpen');
+    const iconClose = document.getElementById('navIconClose');
+    function closeMenu(){
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function openMenu(){
+      header.classList.add('nav-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = '';
+      document.body.style.overflow = 'hidden';
+    }
+    navToggle.addEventListener('click', function(){
+      if (header.classList.contains('nav-open')) { closeMenu(); } else { openMenu(); }
+    });
+    document.querySelectorAll('#mainNav a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    /* --- Scroll reveal --- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* --- Formulario de contacto: abre mailto con los datos --- */
+    const form = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const contact = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        const subject = encodeURIComponent('Solicitud de cita — ' + CONFIG.businessName);
+        const body = encodeURIComponent(
+          'Nombre: ' + name + '\n' +
+          'Email/Teléfono: ' + contact + '\n\n' +
+          'Mensaje:\n' + message
+        );
+        window.location.href = 'mailto:' + CONFIG.email + '?subject=' + subject + '&body=' + body;
+        if (formSuccess) { formSuccess.style.display = 'block'; }
+      });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>

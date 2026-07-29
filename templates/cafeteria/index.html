@@ -1,0 +1,1038 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Tu Cafetería — Cafetería de especialidad en tu barrio</title>
+<meta name="description" id="meta-description" content="Tu Cafetería: cafetería de especialidad en el corazón de tu barrio. Desayunos, tostadas, meriendas y café de tueste natural. Abierto todos los días.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" id="og-title" content="Tu Cafetería — Cafetería de especialidad en tu barrio">
+<meta property="og:description" id="og-description" content="Cafetería de especialidad en el corazón de tu barrio. Desayunos, tostadas, meriendas y el mejor café de la zona.">
+<meta property="og:image" content="assets/hero.jpg">
+<meta property="og:locale" content="es_ES">
+
+<!-- Favicon (inline, sin archivo extra) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%95%3C/text%3E%3C/svg%3E">
+
+<!-- Google Fonts (único recurso externo permitido) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- JSON-LD CafeOrCoffeeShop: generado en runtime por JS a partir de CONFIG (ver </body>) -->
+<script type="application/ld+json" id="ld-json">{}</script>
+
+<style>
+  /* ---------- Reset & base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Nunito Sans', sans-serif;
+    color: var(--brown-900);
+    background: var(--cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  h1, h2, h3, h4 { font-family: 'Fraunces', serif; margin: 0 0 .5em; color: var(--brown-900); font-weight: 600; }
+  p { margin: 0 0 1em; }
+  button { font-family: inherit; cursor: pointer; }
+  section { position: relative; }
+
+  :root {
+    --cream: #FBF4E9;
+    --cream-alt: #F3E6D2;
+    --brown-900: #2E1F16;
+    --brown-700: #5A4433;
+    --brown-500: #8A6F58;
+    --accent: #A0431F;
+    --accent-dark: #7C3216;
+    --accent-light: #C96A3E;
+    --whatsapp: #25D366;
+    --radius: 18px;
+    --shadow: 0 20px 50px -20px rgba(46, 31, 22, .35);
+    --container: 1180px;
+    --space-section: clamp(64px, 9vw, 128px);
+  }
+
+  .container {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    font-size: .78rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .section-head { max-width: 620px; margin: 0 auto 48px; text-align: center; }
+  .section-head h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); }
+  .section-head p { color: var(--brown-700); font-size: 1.05rem; }
+
+  .section-alt { background: var(--cream-alt); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 30px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .98rem;
+    border: 2px solid transparent;
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 12px 24px -10px rgba(160,67,31,.6); }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 16px 30px -10px rgba(160,67,31,.7); }
+  .btn-outline { background: transparent; color: var(--cream); border-color: rgba(255,255,255,.7); }
+  .btn-outline:hover { background: rgba(255,255,255,.15); transform: translateY(-2px); }
+  .btn-dark { background: var(--brown-900); color: var(--cream); }
+  .btn-dark:hover { background: #1c130d; transform: translateY(-2px); }
+
+  /* ---------- Reveal animation ---------- */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1.is-visible { transition-delay: .1s; }
+  .reveal-delay-2.is-visible { transition-delay: .2s; }
+  .reveal-delay-3.is-visible { transition-delay: .3s; }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 20px 0;
+    transition: background .35s ease, padding .35s ease, box-shadow .35s ease;
+  }
+  .site-header .container { display: flex; align-items: center; justify-content: space-between; }
+  .site-header.scrolled {
+    background: rgba(251, 244, 233, .92);
+    backdrop-filter: blur(10px);
+    padding: 12px 0;
+    box-shadow: 0 10px 30px -20px rgba(46,31,22,.4);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.35rem; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.45); transition: color .35s ease, text-shadow .35s ease; }
+  .site-header.scrolled .logo { color: var(--brown-900); text-shadow: none; }
+  .logo .logo-mark {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+  .main-nav ul { display: flex; gap: 32px; }
+  .main-nav a {
+    font-weight: 700; font-size: .95rem; color: #fff;
+    text-shadow: 0 1px 6px rgba(0,0,0,.45);
+    position: relative; padding: 4px 0; transition: color .35s ease, text-shadow .35s ease;
+  }
+  .site-header.scrolled .main-nav a { color: var(--brown-900); text-shadow: none; }
+  .main-nav a::after {
+    content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+    background: currentColor; transition: right .25s ease;
+  }
+  .main-nav a:hover::after { right: 0; }
+  .header-actions { display: flex; align-items: center; gap: 18px; }
+  .header-actions .btn { padding: 11px 22px; font-size: .88rem; }
+  .header-cta {
+    background: var(--accent); color: #fff !important; box-shadow: 0 10px 20px -10px rgba(160,67,31,.6);
+  }
+  .header-cta:hover { background: var(--accent-dark); }
+
+  .nav-toggle {
+    display: none;
+    width: 44px; height: 44px;
+    border: none; background: transparent;
+    position: relative;
+    z-index: 600;
+  }
+  .nav-toggle span, .nav-toggle::before, .nav-toggle::after {
+    content: ""; position: absolute; left: 10px; right: 10px; height: 2.5px;
+    background: #fff; transition: transform .3s ease, opacity .3s ease, background .3s ease;
+  }
+  .site-header.scrolled .nav-toggle span,
+  .site-header.scrolled .nav-toggle::before,
+  .site-header.scrolled .nav-toggle::after { background: var(--brown-900); }
+  .nav-toggle::before { top: 14px; }
+  .nav-toggle span { top: 21px; }
+  .nav-toggle::after { top: 28px; }
+  .nav-open .nav-toggle::before { transform: translateY(7px) rotate(45deg); }
+  .nav-open .nav-toggle span { opacity: 0; }
+  .nav-open .nav-toggle::after { transform: translateY(-7px) rotate(-45deg); }
+  .nav-open .nav-toggle span, .nav-open .nav-toggle::before, .nav-open .nav-toggle::after { background: var(--brown-900) !important; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    color: #fff;
+    background: url('assets/hero.jpg') center 62% / cover no-repeat;
+    isolation: isolate;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(100deg, rgba(20,12,7,.92) 5%, rgba(20,12,7,.72) 32%, rgba(20,12,7,.35) 60%, rgba(20,12,7,.15) 100%),
+                linear-gradient(0deg, rgba(20,12,7,.75) 0%, rgba(20,12,7,.05) 45%);
+    z-index: -1;
+  }
+  .hero-content { padding: clamp(120px, 20vh, 190px) 0 90px; }
+  .hero-content .eyebrow { color: var(--accent-light); }
+  .hero-content h1 {
+    color: #fff;
+    font-size: clamp(2.4rem, 6vw, 4.3rem);
+    line-height: 1.08;
+    max-width: 15ch;
+    margin-bottom: .35em;
+  }
+  .hero-content p.lede {
+    max-width: 46ch;
+    font-size: 1.15rem;
+    color: rgba(255,255,255,.9);
+    margin-bottom: 2em;
+  }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 16px; }
+  .hero-scroll-cue {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,.85); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  .hero-scroll-cue .line { width: 1px; height: 34px; background: rgba(255,255,255,.6); }
+  @keyframes bob { 0%,100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+  /* ---------- Menu ---------- */
+  .menu-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 44px;
+  }
+  .menu-tab {
+    background: #fff;
+    border: 2px solid var(--cream-alt);
+    color: var(--brown-700);
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .95rem;
+    transition: all .25s ease;
+  }
+  .menu-tab:hover { border-color: var(--accent-light); color: var(--accent-dark); }
+  .menu-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 10px 22px -12px rgba(160,67,31,.7); }
+
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; animation: fadeIn .5s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 40px;
+  }
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed rgba(90,68,51,.28);
+  }
+  .menu-item-name { font-weight: 700; color: var(--brown-900); font-size: 1.05rem; }
+  .menu-item-desc { display: block; font-weight: 400; color: var(--brown-500); font-size: .86rem; margin-top: 2px; }
+  .menu-item-price { font-family: 'Fraunces', serif; font-weight: 600; color: var(--accent); font-size: 1.1rem; white-space: nowrap; }
+
+  .menu-note { text-align: center; margin-top: 40px; color: var(--brown-500); font-size: .92rem; }
+
+  /* ---------- Gallery ---------- */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 16px;
+  }
+  .gallery-grid figure { margin: 0; overflow: hidden; border-radius: var(--radius); position: relative; }
+  .gallery-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .gallery-grid figure:hover img { transform: scale(1.08); }
+  .gallery-grid figcaption {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 14px 16px 12px;
+    background: linear-gradient(0deg, rgba(20,12,7,.8), transparent);
+    color: #fff; font-size: .85rem; font-weight: 600;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .gallery-grid figure:hover figcaption { opacity: 1; transform: translateY(0); }
+  .gallery-grid .g-wide { grid-column: span 2; }
+  .gallery-grid .g-tall { grid-row: span 2; }
+
+  /* ---------- Historia ---------- */
+  .historia {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .historia-img { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+  .historia-img img { width: 100%; height: 100%; object-fit: cover; min-height: 420px; }
+  .historia-text .eyebrow { display: block; }
+  .historia-text h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
+  .historia-text p { color: var(--brown-700); font-size: 1.02rem; }
+  .historia-stats { display: flex; gap: 36px; margin-top: 30px; }
+  .historia-stats div strong { display: block; font-family: 'Fraunces', serif; font-size: 1.8rem; color: var(--accent); }
+  .historia-stats div span { font-size: .84rem; color: var(--brown-500); }
+
+  /* ---------- Testimonios ---------- */
+  .testimonios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .testimonio-card {
+    background: #fff; border-radius: var(--radius); padding: 30px 28px;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .testimonio-stars { color: var(--accent); font-size: 1rem; letter-spacing: 2px; }
+  .testimonio-quote { color: var(--brown-700); font-style: italic; flex-grow: 1; }
+  .testimonio-author { display: flex; align-items: center; gap: 12px; }
+  .testimonio-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--cream-alt); color: var(--accent-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-weight: 700;
+  }
+  .testimonio-author strong { display: block; font-size: .92rem; }
+  .testimonio-author span { font-size: .8rem; color: var(--brown-500); }
+
+  /* ---------- Ubicación ---------- */
+  .ubicacion-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 40px;
+    align-items: stretch;
+  }
+  .map-wrap { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); min-height: 420px; background: var(--cream-alt); }
+  .map-wrap iframe { width: 100%; height: 100%; min-height: 420px; border: 0; }
+  .horario-card {
+    background: var(--brown-900); color: var(--cream);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    display: flex; flex-direction: column; gap: 26px;
+  }
+  .horario-card h3 { color: #fff; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+  .horario-table { width: 100%; border-collapse: collapse; }
+  .horario-table tr { border-bottom: 1px solid rgba(255,255,255,.14); }
+  .horario-table tr:last-child { border-bottom: none; }
+  .horario-table td { padding: 12px 0; font-size: .98rem; }
+  .horario-table td:last-child { text-align: right; font-weight: 700; color: var(--accent-light); }
+  .horario-address { display: flex; gap: 12px; align-items: flex-start; font-size: .95rem; color: rgba(255,244,233,.85); }
+  .horario-card .btn { align-self: flex-start; }
+
+  /* ---------- Social strip ---------- */
+  .social-strip {
+    background: var(--accent);
+    color: #fff;
+    padding: 46px 0;
+    text-align: center;
+  }
+  .social-strip h3 { color: #fff; font-size: 1.5rem; margin-bottom: 6px; }
+  .social-strip p { color: rgba(255,255,255,.85); margin-bottom: 26px; }
+  .social-icons { display: flex; justify-content: center; gap: 18px; }
+  .social-icons a {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .25s ease, transform .25s ease;
+  }
+  .social-icons a:hover { background: rgba(255,255,255,.3); transform: translateY(-3px); }
+  .social-icons svg { width: 22px; height: 22px; fill: #fff; }
+
+  /* ---------- Contacto ---------- */
+  .contacto-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 54px; }
+  .contacto-info h2 { font-size: clamp(1.9rem, 4vw, 2.5rem); }
+  .contacto-info p { color: var(--brown-700); }
+  .contacto-list { display: flex; flex-direction: column; gap: 18px; margin-top: 26px; }
+  .contacto-list a, .contacto-list div {
+    display: flex; align-items: center; gap: 14px; font-weight: 700; color: var(--brown-900);
+  }
+  .contacto-list .icon-circle {
+    width: 44px; height: 44px; border-radius: 50%; background: var(--cream-alt);
+    display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0;
+  }
+  .contacto-form {
+    background: #fff; border-radius: var(--radius); padding: 40px; box-shadow: var(--shadow);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  .form-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+  .form-field label { font-size: .85rem; font-weight: 700; color: var(--brown-700); }
+  .form-field input, .form-field textarea {
+    font-family: inherit; font-size: 1rem; padding: 13px 16px; border-radius: 12px;
+    border: 1.5px solid var(--cream-alt); background: var(--cream); color: var(--brown-900);
+    transition: border-color .25s ease;
+  }
+  .form-field input:focus, .form-field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(160,67,31,.18); }
+  .form-note { font-size: .8rem; color: var(--brown-500); margin-top: 4px; }
+
+  /* ---------- Footer ---------- */
+  .site-footer { background: var(--brown-900); color: rgba(251,244,233,.75); padding: 60px 0 26px; }
+  .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .footer-logo { display: flex; align-items: center; gap: 10px; color: #fff; font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 14px; }
+  .footer-col h4 { color: #fff; font-size: .95rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; }
+  .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; font-size: .82rem; flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- WhatsApp float ---------- */
+  .whatsapp-float {
+    position: fixed; bottom: 24px; right: 24px; z-index: 400;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--whatsapp);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 28px -8px rgba(37,211,102,.7);
+    opacity: 0; transform: scale(.8); pointer-events: none;
+    transition: transform .25s ease, opacity .3s ease;
+  }
+  .whatsapp-float.is-visible { opacity: 1; transform: scale(1); pointer-events: auto; }
+  .whatsapp-float.is-visible:hover { transform: scale(1.08); }
+  .whatsapp-float svg { width: 30px; height: 30px; fill: #fff; }
+
+  /* ---------- Utilities ---------- */
+  .py-section { padding: var(--space-section) 0; }
+  .skip-link {
+    position: absolute; left: -999px; top: 0; background: var(--accent); color: #fff;
+    padding: 12px 20px; z-index: 1000; border-radius: 0 0 10px 0;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px) {
+    .historia { grid-template-columns: 1fr; gap: 36px; }
+    .historia-img img { min-height: 320px; }
+    .ubicacion-grid { grid-template-columns: 1fr; }
+    .map-wrap, .map-wrap iframe { min-height: 340px; }
+    .contacto-grid { grid-template-columns: 1fr; gap: 36px; }
+    .testimonios-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+    .gallery-grid .g-wide { grid-column: span 2; }
+  }
+
+  @media (max-width: 760px) {
+    .main-nav, .header-actions .btn-primary { display: none; }
+    .nav-toggle { display: block; }
+    .header-actions { gap: 10px; }
+
+    .main-nav {
+      display: flex; position: fixed; inset: 0 0 0 auto; width: min(320px, 82vw);
+      background: var(--cream); flex-direction: column; padding: 110px 32px 40px;
+      transform: translateX(100%); transition: transform .35s ease; box-shadow: -20px 0 50px rgba(0,0,0,.2);
+    }
+    .nav-open .main-nav { transform: translateX(0); }
+    .main-nav ul { flex-direction: column; gap: 26px; }
+    .main-nav a { color: var(--brown-900); text-shadow: none; font-size: 1.05rem; }
+    .main-nav .nav-cta { margin-top: 10px; }
+    .main-nav .btn { display: flex; width: 100%; }
+
+    .hero { align-items: flex-end; background-position: 68% center; }
+    .hero-content { padding: 130px 0 90px; }
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .hero-ctas .btn { width: 100%; }
+    .hero-scroll-cue { display: none; }
+
+    .menu-grid { grid-template-columns: 1fr; gap: 14px; }
+    .menu-tabs { gap: 8px; }
+    .menu-tab { padding: 10px 18px; font-size: .85rem; }
+
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+
+    .testimonios-grid { grid-template-columns: 1fr; }
+
+    .horario-card { padding: 32px 26px; }
+
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .contacto-form { padding: 26px; }
+
+    .footer-top { grid-template-columns: 1fr; gap: 30px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+    .whatsapp-float { bottom: 18px; right: 18px; width: 54px; height: 54px; }
+    .whatsapp-float svg { width: 26px; height: 26px; }
+  }
+
+  @media (max-width: 420px) {
+    .container { padding: 0 18px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a href="#inicio" class="logo">
+      <span class="logo-mark" aria-hidden="true">☕</span>
+      <span id="header-business-name">Tu Cafetería</span>
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#carta">La carta</a></li>
+        <li><a href="#galeria">Galería</a></li>
+        <li><a href="#historia">Nuestra historia</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#ubicacion">Ubicación</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="#" class="btn btn-primary" data-booking-cta>Reservar</a>
+      </div>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#" class="btn header-cta" data-booking-cta>Reservar</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="inicio">
+    <div class="container hero-content">
+      <span class="eyebrow reveal">Cafetería de especialidad · Tu barrio</span>
+      <h1 class="reveal reveal-delay-1">Aroma, calma y buena compañía en el corazón de tu barrio</h1>
+      <p class="lede reveal reveal-delay-2">Café de tueste natural, bollería recién horneada y tostadas caseras en tu plaza de siempre. Abrimos cada día para acompañar tu mañana.</p>
+      <div class="hero-ctas reveal reveal-delay-3">
+        <a href="#carta" class="btn btn-primary">Ver la carta</a>
+        <a href="#ubicacion" class="btn btn-outline">Cómo llegar</a>
+      </div>
+    </div>
+    <div class="hero-scroll-cue" aria-hidden="true">
+      <span>Descubre más</span>
+      <span class="line"></span>
+    </div>
+  </section>
+
+  <!-- ===================== CARTA ===================== -->
+  <section class="py-section" id="carta">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Nuestra carta</span>
+        <h2>Todo lo que preparamos, con cariño</h2>
+        <p>Café de tueste natural, ingredientes de proximidad y recetas caseras. Precios en euros, IVA incluido.</p>
+      </div>
+
+      <div class="menu-tabs reveal" role="tablist" aria-label="Categorías de la carta">
+        <button class="menu-tab active" data-tab="cafes" role="tab" aria-selected="true">Cafés</button>
+        <button class="menu-tab" data-tab="desayunos" role="tab" aria-selected="false">Desayunos</button>
+        <button class="menu-tab" data-tab="meriendas" role="tab" aria-selected="false">Meriendas</button>
+        <button class="menu-tab" data-tab="frias" role="tab" aria-selected="false">Bebidas frías</button>
+      </div>
+
+      <div class="menu-panels reveal">
+        <div class="menu-panel active" id="panel-cafes" role="tabpanel">
+          <div class="menu-grid">
+            <div class="menu-item"><span class="menu-item-name">Café solo<span class="menu-item-desc">Tueste natural, molido al momento</span></span><span class="menu-item-price">1,40 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Cortado<span class="menu-item-desc">Espresso con un toque de leche</span></span><span class="menu-item-price">1,50 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Café con leche<span class="menu-item-desc">Clásico de toda la vida</span></span><span class="menu-item-price">1,60 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Americano<span class="menu-item-desc">Espresso largo</span></span><span class="menu-item-price">1,50 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Capuchino<span class="menu-item-desc">Con espuma cremosa de leche</span></span><span class="menu-item-price">2,20 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Latte macchiato<span class="menu-item-desc">Con arte latte a mano</span></span><span class="menu-item-price">2,40 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Descafeinado<span class="menu-item-desc">De máquina o de sobre</span></span><span class="menu-item-price">1,50 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Chocolate a la taza<span class="menu-item-desc">Espeso, receta tradicional</span></span><span class="menu-item-price">2,10 €</span></div>
+          </div>
+        </div>
+
+        <div class="menu-panel" id="panel-desayunos" role="tabpanel">
+          <div class="menu-grid">
+            <div class="menu-item"><span class="menu-item-name">Tostada con tomate y aceite<span class="menu-item-desc">Pan de horno de leña, AOVE</span></span><span class="menu-item-price">2,80 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Tostada con jamón y aceite<span class="menu-item-desc">Jamón serrano de la tierra</span></span><span class="menu-item-price">3,80 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Tostada integral con aguacate<span class="menu-item-desc">Aguacate, sal maldon y limón</span></span><span class="menu-item-price">4,20 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Croissant a la plancha<span class="menu-item-desc">Con mantequilla o mermelada</span></span><span class="menu-item-price">2,50 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Napolitana de chocolate<span class="menu-item-desc">Hojaldre recién horneado</span></span><span class="menu-item-price">1,80 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Zumo de naranja natural<span class="menu-item-desc">Exprimido al momento</span></span><span class="menu-item-price">3,00 €</span></div>
+          </div>
+        </div>
+
+        <div class="menu-panel" id="panel-meriendas" role="tabpanel">
+          <div class="menu-grid">
+            <div class="menu-item"><span class="menu-item-name">Tarta de queso casera<span class="menu-item-desc">Receta de la abuela, horneada aquí</span></span><span class="menu-item-price">3,90 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Carrot cake<span class="menu-item-desc">Con frosting de queso crema</span></span><span class="menu-item-price">3,80 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Cookie de chocolate<span class="menu-item-desc">Recién horneada, corazón fundente</span></span><span class="menu-item-price">2,20 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Bizcocho de limón<span class="menu-item-desc">Con glaseado cítrico</span></span><span class="menu-item-price">3,20 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Croissant relleno de crema<span class="menu-item-desc">Crema pastelera casera</span></span><span class="menu-item-price">2,90 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Caracola de canela<span class="menu-item-desc">Con nueces y pasas</span></span><span class="menu-item-price">2,60 €</span></div>
+          </div>
+        </div>
+
+        <div class="menu-panel" id="panel-frias" role="tabpanel">
+          <div class="menu-grid">
+            <div class="menu-item"><span class="menu-item-name">Café con hielo<span class="menu-item-desc">Espresso servido con hielo aparte</span></span><span class="menu-item-price">2,20 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Iced latte<span class="menu-item-desc">Con leche fría y hielo</span></span><span class="menu-item-price">3,20 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Limonada natural<span class="menu-item-desc">Con menta fresca</span></span><span class="menu-item-price">2,80 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Té helado<span class="menu-item-desc">Negro o de frutos rojos</span></span><span class="menu-item-price">2,60 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Smoothie de frutas<span class="menu-item-desc">De temporada, sin azúcares añadidos</span></span><span class="menu-item-price">3,90 €</span></div>
+            <div class="menu-item"><span class="menu-item-name">Agua con o sin gas<span class="menu-item-desc">500 ml</span></span><span class="menu-item-price">1,50 €</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="menu-note reveal">¿Alergias o intolerancias? Pregunta a nuestro equipo, tenemos opciones sin gluten y sin lactosa.</p>
+    </div>
+  </section>
+
+  <!-- ===================== GALERÍA ===================== -->
+  <section class="py-section section-alt" id="galeria">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Galería</span>
+        <h2>Un vistazo a nuestro día a día</h2>
+        <p>Momentos de barra, buena luz y mucho mimo en cada taza.</p>
+      </div>
+
+      <div class="gallery-grid reveal">
+        <figure class="g-wide g-tall">
+          <img src="assets/hero.jpg" alt="Mostrador de la cafetería con croissants, napolitanas y máquina de café espresso" loading="lazy">
+          <figcaption>Nuestro mostrador de bollería</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/lattes.jpg" alt="Dos cafés con latte art junto a plantas en una mesa de madera" loading="lazy">
+          <figcaption>Latte art cada mañana</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/tostada.jpg" alt="Tostada con tomate, café con leche y zumo de naranja sobre mesa de madera" loading="lazy">
+          <figcaption>Desayuno de cuchara</figcaption>
+        </figure>
+        <figure class="g-wide">
+          <img src="assets/cafes.jpg" alt="Amigos brindando con cafés con latte art en vista cenital" loading="lazy">
+          <figcaption>Para compartir con amigos</figcaption>
+        </figure>
+        <figure class="g-wide">
+          <img src="assets/interior.jpg" alt="Interior acogedor de la cafetería con plantas y sillas de mimbre" loading="lazy">
+          <figcaption>Nuestro rincón favorito</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HISTORIA ===================== -->
+  <section class="py-section" id="historia">
+    <div class="container historia">
+      <div class="historia-img reveal">
+        <img src="assets/interior-neon.jpg" alt="Letrero luminoso CAFE en el interior del local" loading="lazy">
+      </div>
+      <div class="historia-text reveal reveal-delay-1">
+        <span class="eyebrow">Nuestra historia</span>
+        <h2>Un proyecto familiar nacido en tu plaza de siempre</h2>
+        <p>Abrimos nuestras puertas para devolver el ritual del buen café a tu barrio. Tostamos en pequeños lotes, horneamos cada mañana y elegimos proveedores locales porque creemos que el buen café empieza mucho antes de la taza.</p>
+        <p>Hoy somos punto de encuentro de vecinos, estudiantes y quien pasa por la plaza buscando un rato de calma. Nos encanta que te sientas como en casa.</p>
+        <div class="historia-stats">
+          <div><strong>8</strong><span>años en la plaza</span></div>
+          <div><strong>100%</strong><span>tueste natural</span></div>
+          <div><strong>4,8/5</strong><span>valoración media</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== OPINIONES ===================== -->
+  <section class="py-section section-alt" id="opiniones">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Opiniones</span>
+        <h2>Lo que dicen nuestros clientes</h2>
+      </div>
+      <div class="testimonios-grid">
+        <article class="testimonio-card reveal">
+          <div class="testimonio-stars" aria-label="5 de 5 estrellas">★★★★★</div>
+          <p class="testimonio-quote">«El mejor café con leche que he probado. Vengo cada mañana antes de trabajar y siempre salgo con una sonrisa.»</p>
+          <div class="testimonio-author">
+            <div class="testimonio-avatar">M</div>
+            <div><strong>Marta G.</strong><span>Clienta habitual</span></div>
+          </div>
+        </article>
+        <article class="testimonio-card reveal reveal-delay-1">
+          <div class="testimonio-stars" aria-label="5 de 5 estrellas">★★★★★</div>
+          <p class="testimonio-quote">«Ambiente acogedor, tostadas espectaculares y el personal siempre atento. Mi sitio favorito para desayunar en el centro.»</p>
+          <div class="testimonio-author">
+            <div class="testimonio-avatar">J</div>
+            <div><strong>Javier R.</strong><span>Google Maps</span></div>
+          </div>
+        </article>
+        <article class="testimonio-card reveal reveal-delay-2">
+          <div class="testimonio-stars" aria-label="5 de 5 estrellas">★★★★★</div>
+          <p class="testimonio-quote">«Perfecto para teletrabajar una mañana o quedar con amigas. El carrot cake es una pasada, repito siempre.»</p>
+          <div class="testimonio-author">
+            <div class="testimonio-avatar">L</div>
+            <div><strong>Lucía M.</strong><span>Clienta habitual</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== UBICACIÓN ===================== -->
+  <section class="py-section" id="ubicacion">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Ubicación y horario</span>
+        <h2>Te esperamos en tu plaza de siempre</h2>
+      </div>
+      <div class="ubicacion-grid reveal">
+        <div class="map-wrap">
+          <!-- El src del iframe se rellena por JS desde CONFIG.mapEmbedUrl -->
+          <iframe id="map-embed" title="Mapa de ubicación de Tu Cafetería" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <div class="horario-card">
+          <h3><span aria-hidden="true">🕒</span> Horario</h3>
+          <table class="horario-table" id="horario-table" aria-label="Horario de apertura">
+            <!-- filas generadas por JS desde CONFIG.schedule -->
+          </table>
+          <div class="horario-address">
+            <span aria-hidden="true">📍</span>
+            <span id="footer-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+          </div>
+          <a href="#" class="btn btn-primary" id="directions-link" target="_blank" rel="noopener">Cómo llegar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SÍGUENOS ===================== -->
+  <section class="social-strip" id="social">
+    <div class="container">
+      <h3 class="reveal">Síguenos</h3>
+      <p class="reveal">Novedades, café de temporada y el día a día de tu plaza.</p>
+      <div class="social-icons reveal" id="social-icons">
+        <!-- enlaces generados por JS desde CONFIG.socials -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACTO ===================== -->
+  <section class="py-section" id="contacto">
+    <div class="container contacto-grid">
+      <div class="contacto-info reveal">
+        <span class="eyebrow">Contacto</span>
+        <h2>Hablemos</h2>
+        <p>¿Dudas, reservas de grupo o eventos privados? Escríbenos, llama o pásate a tomar un café.</p>
+        <div class="contacto-list">
+          <a href="#" id="contact-phone">
+            <span class="icon-circle" aria-hidden="true">📞</span> <span id="contact-phone-text">+34 600 000 000</span>
+          </a>
+          <a href="#" id="contact-whatsapp">
+            <span class="icon-circle" aria-hidden="true">💬</span> WhatsApp
+          </a>
+          <a href="#" id="contact-email">
+            <span class="icon-circle" aria-hidden="true">✉️</span> <span id="contact-email-text">hola@tunegocio.es</span>
+          </a>
+          <div>
+            <span class="icon-circle" aria-hidden="true">📍</span> <span id="contact-address-text">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="contacto-form reveal reveal-delay-1" id="contact-form">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="nombre" required autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" required autocomplete="email">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="cf-subject">Asunto</label>
+          <input type="text" id="cf-subject" name="asunto" placeholder="Reserva para grupo, evento privado...">
+        </div>
+        <div class="form-field">
+          <label for="cf-message">Mensaje</label>
+          <textarea id="cf-message" name="mensaje" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark" style="width:100%;">Enviar mensaje</button>
+        <p class="form-note">Te responderemos por email. Este formulario no envía datos a ningún servidor: se abrirá tu cliente de correo con el mensaje ya redactado.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo"><span aria-hidden="true">☕</span> <span id="footer-business-name">Tu Cafetería</span></div>
+        <p>Cafetería de especialidad en el corazón de tu barrio. Café de tueste natural, bollería casera y buena compañía, cada día.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#carta">La carta</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#historia">Nuestra historia</a></li>
+          <li><a href="#ubicacion">Ubicación</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li id="footer-phone-wrap"><a href="#" id="footer-phone">+34 600 000 000</a></li>
+          <li id="footer-email-wrap"><a href="#" id="footer-email">hola@tunegocio.es</a></li>
+          <li><span id="footer-address-2">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="footer-year"></span> <span id="footer-business-name-2">Tu Cafetería</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== WHATSAPP FLOTANTE ===================== -->
+<a href="#" class="whatsapp-float" id="whatsapp-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2.003c-5.514 0-9.997 4.483-9.997 9.997 0 1.764.462 3.489 1.34 5.007L2 22l5.116-1.341a9.958 9.958 0 004.888 1.284h.004c5.514 0 9.997-4.483 9.997-9.997 0-2.671-1.04-5.182-2.928-7.07a9.935 9.935 0 00-7.073-2.873zm0 18.166h-.003a8.32 8.32 0 01-4.24-1.16l-.304-.18-3.037.796.811-2.96-.198-.304a8.312 8.312 0 01-1.274-4.439c0-4.591 3.736-8.327 8.328-8.327a8.27 8.27 0 015.891 2.44 8.27 8.27 0 012.436 5.893c0 4.591-3.736 8.328-8.327 8.328z"/></svg>
+</a>
+
+<!-- Comentario: slot para widget de reserva embebido (Booksy/OpenTable/etc.)
+<div class="booking-embed">
+  <iframe src="ABOUT_BOOKING_WIDGET_URL" title="Widget de reservas" loading="lazy"></iframe>
+</div>
+-->
+
+<script>
+  // ======================================================================
+  // CONFIG — editar este bloque para adaptar la plantilla a cada cliente.
+  // Todo el comportamiento dinámico (tel:, wa.me, mailto, mapa, redes) lee
+  // de aquí. El texto estático de la página es contenido de ejemplo en
+  // español y puede editarse directamente en el HTML.
+  // ======================================================================
+  const CONFIG = {
+    businessName: "Tu Cafetería",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { dias: "Lunes – Viernes", horas: "8:00 – 20:00" },
+      { dias: "Sábado", horas: "9:00 – 21:00" },
+      { dias: "Domingo", horas: "9:00 – 15:00" }
+    ],
+    // Si el cliente tiene sistema de reservas propio (Booksy, OpenTable...),
+    // poner aquí la URL. Si es null, el CTA "Reservar" abre WhatsApp.
+    bookingUrl: null,
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1,+Tu+Ciudad&output=embed",
+    socials: {
+      instagram: "https://instagram.com/tucafeteria",
+      facebook: "https://facebook.com/tucafeteria",
+      tiktok: "https://tiktok.com/@tucafeteria"
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // ---------- Helpers ----------
+    const digitsOnly = (str) => str.replace(/[^\d+]/g, "");
+    const waNumber = digitsOnly(CONFIG.whatsapp).replace("+", "");
+    const waMessage = encodeURIComponent(`Hola ${CONFIG.businessName}, me gustaría reservar mesa.`);
+    const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
+
+    // ---------- Business name / address ----------
+    document.querySelectorAll("#header-business-name, #footer-business-name, #footer-business-name-2")
+      .forEach(el => el.textContent = CONFIG.businessName);
+    document.querySelectorAll("#footer-address, #contact-address-text, #footer-address-2")
+      .forEach(el => el.textContent = CONFIG.address);
+
+    // ---------- SEO: título, meta description, Open Graph y JSON-LD ----------
+    // Fuente única de verdad: se generan aquí a partir de CONFIG, para que
+    // adaptar la plantilla a un cliente sea editar solo el bloque CONFIG.
+    const seoTitle = `${CONFIG.businessName} — Cafetería de especialidad en tu barrio`;
+    const seoDescription = `${CONFIG.businessName}: cafetería de especialidad en el corazón de tu barrio. Desayunos, tostadas, meriendas y café de tueste natural. Abierto todos los días.`;
+    document.title = seoTitle;
+    document.getElementById("meta-description").setAttribute("content", seoDescription);
+    document.getElementById("og-title").setAttribute("content", seoTitle);
+    document.getElementById("og-description").setAttribute("content", seoDescription);
+
+    const mapIframeTitle = document.getElementById("map-embed");
+    if (mapIframeTitle) mapIframeTitle.setAttribute("title", `Mapa de ubicación de ${CONFIG.businessName}`);
+
+    const ldJson = {
+      "@context": "https://schema.org",
+      "@type": "CafeOrCoffeeShop",
+      "name": CONFIG.businessName,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "priceRange": "€",
+      "servesCuisine": "Cafetería, desayunos y meriendas",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address
+      },
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "20:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "21:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "15:00" }
+      ],
+      "sameAs": Object.values(CONFIG.socials).filter(Boolean)
+    };
+    const ldScript = document.getElementById("ld-json");
+    if (ldScript) ldScript.textContent = JSON.stringify(ldJson, null, 2);
+
+    // ---------- Teléfono ----------
+    const telHref = `tel:${digitsOnly(CONFIG.phone)}`;
+    ["contact-phone", "footer-phone"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.href = telHref;
+    });
+    document.getElementById("contact-phone-text").textContent = CONFIG.phone;
+    document.getElementById("footer-phone").textContent = CONFIG.phone;
+
+    // ---------- Email ----------
+    const mailtoHref = `mailto:${CONFIG.email}`;
+    ["contact-email", "footer-email"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.href = mailtoHref;
+    });
+    document.getElementById("contact-email-text").textContent = CONFIG.email;
+    document.getElementById("footer-email").textContent = CONFIG.email;
+
+    // ---------- WhatsApp ----------
+    document.getElementById("whatsapp-float").href = waLink;
+    document.getElementById("contact-whatsapp").href = waLink;
+
+    // ---------- Booking CTA (Reservar/Contactar) ----------
+    // Si hay bookingUrl, todos los CTAs de reserva enlazan ahí.
+    // Si no, caen en WhatsApp con mensaje prefijado.
+    document.querySelectorAll("[data-booking-cta]").forEach(el => {
+      if (CONFIG.bookingUrl) {
+        el.href = CONFIG.bookingUrl;
+        el.target = "_blank";
+        el.rel = "noopener";
+      } else {
+        el.href = waLink;
+        el.target = "_blank";
+        el.rel = "noopener";
+      }
+    });
+
+    // ---------- Mapa ----------
+    document.getElementById("map-embed").src = CONFIG.mapEmbedUrl;
+    document.getElementById("directions-link").href =
+      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONFIG.address)}`;
+
+    // ---------- Horario ----------
+    const horarioTable = document.getElementById("horario-table");
+    CONFIG.schedule.forEach(row => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${row.dias}</td><td>${row.horas}</td>`;
+      horarioTable.appendChild(tr);
+    });
+
+    // ---------- Redes sociales ----------
+    const icons = {
+      instagram: '<svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 2.02.25 2.75.54.75.3 1.38.68 2 1.3.62.62 1 1.25 1.3 2 .29.73.48 1.58.54 2.75.07 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.25 2.02-.54 2.75-.3.75-.68 1.38-1.3 2-.62.62-1.25 1-2 1.3-.73.29-1.58.48-2.75.54-1.25.07-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-2.02-.25-2.75-.54-.75-.3-1.38-.68-2-1.3-.62-.62-1-1.25-1.3-2-.29-.73-.48-1.58-.54-2.75C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.17.25-2.02.54-2.75.3-.75.68-1.38 1.3-2 .62-.62 1.25-1 2-1.3.73-.29 1.58-.48 2.75-.54C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.14 0-3.51 0-4.75.07-1 .04-1.54.21-1.9.35-.48.19-.82.4-1.18.76-.36.36-.58.7-.76 1.18-.14.36-.31.9-.35 1.9C3 9.49 3 9.86 3 13s0 3.51.07 4.75c.04 1 .21 1.54.35 1.9.19.48.4.82.76 1.18.36.36.7.58 1.18.76.36.14.9.31 1.9.35 1.24.06 1.61.07 4.75.07s3.51 0 4.75-.07c1-.04 1.54-.21 1.9-.35.48-.19.82-.4 1.18-.76.36-.36.58-.7.76-1.18.14-.36.31-.9.35-1.9.06-1.24.07-1.61.07-4.75s0-3.51-.07-4.75c-.04-1-.21-1.54-.35-1.9a3.06 3.06 0 00-.76-1.18 3.06 3.06 0 00-1.18-.76c-.36-.14-.9-.31-1.9-.35C15.51 4 15.14 4 12 4zm0 3.6a4.4 4.4 0 110 8.8 4.4 4.4 0 010-8.8zm0 1.8a2.6 2.6 0 100 5.2 2.6 2.6 0 000-5.2zm4.6-2a1 1 0 110 2 1 1 0 010-2z"/></svg>',
+      facebook: '<svg viewBox="0 0 24 24"><path d="M13.5 21v-8.1h2.7l.4-3.2h-3.1V7.7c0-.9.3-1.6 1.6-1.6h1.7V3.2C16.5 3.1 15.4 3 14.2 3c-2.6 0-4.4 1.6-4.4 4.5v2.2H7.1v3.2h2.7V21h3.7z"/></svg>',
+      tiktok: '<svg viewBox="0 0 24 24"><path d="M16.6 2h-3.2v13.3c0 1.5-1.2 2.7-2.7 2.7a2.7 2.7 0 01-2.7-2.7 2.7 2.7 0 012.7-2.7c.3 0 .6.05.9.14v-3.3a6 6 0 00-.9-.07 6 6 0 00-6 6 6 6 0 006 6 6 6 0 006-6V8.4a8.3 8.3 0 004.9 1.6V6.8a5 5 0 01-4.9-4.8z"/></svg>'
+    };
+    const socialWrap = document.getElementById("social-icons");
+    Object.keys(CONFIG.socials).forEach(key => {
+      if (!CONFIG.socials[key] || !icons[key]) return;
+      const a = document.createElement("a");
+      a.href = CONFIG.socials[key];
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.setAttribute("aria-label", key.charAt(0).toUpperCase() + key.slice(1));
+      a.innerHTML = icons[key];
+      socialWrap.appendChild(a);
+    });
+
+    // ---------- Año footer ----------
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+    // ---------- Formulario de contacto -> mailto ----------
+    document.getElementById("contact-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("cf-name").value;
+      const emailCliente = document.getElementById("cf-email").value;
+      const asunto = document.getElementById("cf-subject").value || "Contacto desde la web";
+      const mensaje = document.getElementById("cf-message").value;
+      const body = encodeURIComponent(
+        `Nombre: ${nombre}\nEmail: ${emailCliente}\n\n${mensaje}`
+      );
+      window.location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(asunto)}&body=${body}`;
+    });
+
+    // ---------- Menú móvil ----------
+    const navToggle = document.getElementById("nav-toggle");
+    navToggle.addEventListener("click", () => {
+      const isOpen = document.body.classList.toggle("nav-open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    document.querySelectorAll("#main-nav a").forEach(a => {
+      a.addEventListener("click", () => {
+        document.body.classList.remove("nav-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    // ---------- Header sticky translucido + botón flotante de WhatsApp ----------
+    const header = document.getElementById("site-header");
+    const whatsappFloat = document.getElementById("whatsapp-float");
+    const heroEl = document.getElementById("inicio");
+    const onScroll = () => {
+      header.classList.toggle("scrolled", window.scrollY > 40);
+      const heroBottom = heroEl.offsetTop + heroEl.offsetHeight - 160;
+      whatsappFloat.classList.toggle("is-visible", window.scrollY > heroBottom);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // ---------- Tabs de la carta ----------
+    const tabs = document.querySelectorAll(".menu-tab");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => { t.classList.remove("active"); t.setAttribute("aria-selected", "false"); });
+        tab.classList.add("active");
+        tab.setAttribute("aria-selected", "true");
+        document.querySelectorAll(".menu-panel").forEach(p => p.classList.remove("active"));
+        document.getElementById(`panel-${tab.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    // ---------- Scroll reveal ----------
+    const revealEls = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  });
+</script>
+</body>
+</html>

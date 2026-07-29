@@ -1,0 +1,1038 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Restaurante — plantilla demo</title>
+<meta name="description" id="metaDescription" content="Plantilla demo de restaurante: cocina de mercado, carta por categorías, chef y reserva de mesa online o por WhatsApp.">
+<meta name="theme-color" content="#1a1614">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" id="ogSiteName" content="Restaurante">
+<meta property="og:title" id="ogTitle" content="Restaurante — plantilla demo">
+<meta property="og:description" id="ogDescription" content="Cocina de mercado, carta por categorías, chef y reserva de mesa en un minuto.">
+<meta property="og:image" content="assets/hero.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231a1614'/%3E%3Cpath d='M22 16v14a6 6 0 0 0 6 6v0v16M22 16v10M28 16v10' stroke='%23c9a24d' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M42 16c-4 4-4 10-4 14s2 6 4 6 4-2 4-6-0-10-4-14zM42 36v16' stroke='%23c9a24d' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<!-- Fonts (única fuente externa permitida) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">
+{}
+</script>
+
+<style>
+  :root{
+    --carbon:#1a1614;
+    --carbon-soft:#221c18;
+    --carbon-card:#28211c;
+    --cream:#f4ecdf;
+    --cream-dim:rgba(244,236,223,.72);
+    --cream-faint:rgba(244,236,223,.5);
+    --copper:#c17f45;
+    --copper-light:#dba36c;
+    --gold:#c9a24d;
+    --line:rgba(244,236,223,.14);
+    --line-soft:rgba(244,236,223,.08);
+    --whatsapp:#25D366;
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-body:'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --container:1180px;
+    --radius-sm:3px;
+    --radius-md:6px;
+    --shadow-md:0 30px 70px -30px rgba(0,0,0,.6);
+    --ease:cubic-bezier(.22,.68,.32,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--cream);
+    background:var(--carbon);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .5em;font-weight:600;line-height:1.15;color:var(--cream);}
+  p{margin:0 0 1em;}
+  ul{margin:0;padding:0;list-style:none;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 24px;}
+  section{padding:120px 0;position:relative;}
+  section.alt{background:var(--carbon-soft);}
+  @media (max-width:780px){
+    section{padding:76px 0;}
+  }
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--gold);color:var(--carbon);
+    padding:12px 18px;border-radius:var(--radius-sm);z-index:1000;transition:top .2s var(--ease);
+    font-size:.9rem;font-weight:700;
+  }
+  .skip-link:focus{top:12px;}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:14px;font-family:var(--font-body);letter-spacing:.24em;text-transform:uppercase;
+    font-size:.72rem;font-weight:700;color:var(--copper-light);margin-bottom:18px;
+  }
+  .eyebrow::before{content:'';width:32px;height:1px;background:var(--copper);flex:none;}
+  .section-head{max-width:640px;margin:0 auto 60px;text-align:center;}
+  .section-head .eyebrow{justify-content:center;}
+  .section-head .eyebrow::before{display:none;}
+  .section-head .eyebrow::after{content:'';width:32px;height:1px;background:var(--copper);}
+  .section-head h2{font-size:clamp(2rem,3.6vw,2.9rem);}
+  .section-head p{color:var(--cream-dim);font-size:1.05rem;margin:0;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:16px 32px;border-radius:2px;font-family:var(--font-body);font-weight:700;font-size:.85rem;
+    text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease);
+    letter-spacing:.1em;text-transform:uppercase;
+  }
+  .btn-primary{background:var(--copper);color:var(--carbon);box-shadow:0 14px 30px -12px rgba(193,127,69,.5);}
+  .btn-primary:hover{background:var(--copper-light);transform:translateY(-2px);}
+  .btn-outline{background:transparent;color:var(--cream);border-color:rgba(244,236,223,.4);}
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);}
+  .btn-ghost{background:transparent;color:var(--copper-light);border-color:var(--copper);}
+  .btn-ghost:hover{background:var(--copper);color:var(--carbon);}
+  .btn-block{width:100%;}
+
+  /* Header */
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:500;
+    padding:26px 0;transition:background .4s var(--ease),box-shadow .4s var(--ease),padding .4s var(--ease),border-color .4s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .brand{
+    display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--cream);
+  }
+  .brand-mark{
+    width:38px;height:38px;border:1px solid var(--copper);border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-family:var(--font-display);font-weight:700;color:var(--gold);font-size:1rem;flex:none;
+  }
+  .brand-word{font-family:var(--font-display);font-size:1.32rem;font-weight:700;letter-spacing:.01em;}
+  .main-nav{display:flex;align-items:center;gap:40px;}
+  .main-nav ul{display:flex;gap:0;align-items:center;}
+  .main-nav ul li{position:relative;}
+  .main-nav ul li:not(:last-child)::after{
+    content:'';display:inline-block;width:1px;height:12px;background:var(--line);margin:0 22px;vertical-align:middle;
+  }
+  .main-nav a:not(.btn){
+    color:var(--cream-dim);text-decoration:none;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    transition:color .3s var(--ease);
+  }
+  .main-nav a:not(.btn):hover{color:var(--gold);}
+  .nav-toggle{
+    display:none;background:none;border:0;cursor:pointer;padding:8px;color:var(--cream);z-index:600;
+  }
+  .nav-toggle svg{display:block;width:26px;height:26px;}
+
+  .site-header.scrolled{
+    background:rgba(26,22,20,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    padding:14px 0;border-bottom-color:var(--line-soft);
+  }
+
+  @media (max-width:960px){
+    .main-nav ul{display:none;}
+    .main-nav .btn{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .site-header.nav-open .main-nav{
+      display:flex;position:fixed;inset:0;background:var(--carbon);flex-direction:column;
+      align-items:center;justify-content:center;gap:0;
+    }
+    .site-header.nav-open .main-nav ul{
+      display:flex;flex-direction:column;align-items:center;gap:30px;margin-bottom:40px;
+    }
+    .site-header.nav-open .main-nav ul li::after{display:none;}
+    .site-header.nav-open .main-nav a:not(.btn){color:var(--cream);font-size:1.2rem;}
+    .site-header.nav-open .main-nav .btn{display:inline-flex;}
+    .main-nav{position:static;}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:100vh;display:flex;align-items:center;position:relative;color:var(--cream);
+    background:
+      linear-gradient(180deg, rgba(15,12,10,.5) 0%, rgba(15,12,10,.35) 35%, rgba(15,12,10,.92) 100%),
+      url('assets/hero.jpg') center 40%/cover no-repeat;
+  }
+  .hero::after{
+    content:'';position:absolute;inset:0;box-shadow:inset 0 0 160px rgba(0,0,0,.6);pointer-events:none;
+  }
+  .hero-inner{max-width:700px;padding-top:120px;position:relative;z-index:1;}
+  .hero .eyebrow{color:var(--gold);}
+  .hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem);color:var(--cream);text-shadow:0 6px 30px rgba(0,0,0,.4);}
+  .hero h1 em{font-style:italic;color:var(--copper-light);}
+  .hero p.lead{font-size:1.2rem;color:rgba(244,236,223,.85);max-width:520px;margin-bottom:2.4em;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:18px;}
+  .scroll-cue{
+    position:absolute;right:36px;bottom:40px;color:rgba(244,236,223,.65);
+    font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;
+    align-items:center;gap:12px;writing-mode:vertical-rl;
+  }
+  .scroll-cue::after{content:'';width:1px;height:46px;background:rgba(244,236,223,.5);animation:scrolldown 2.4s infinite;}
+  @keyframes scrolldown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.01%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+  @media (max-width:780px){.scroll-cue{display:none;}}
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* CARTA */
+  .carta-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:start;}
+  @media (max-width:940px){.carta-layout{grid-template-columns:1fr;gap:44px;}}
+
+  .tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:44px;border-bottom:1px solid var(--line);padding-bottom:0;}
+  .tab-btn{
+    background:none;border:none;color:var(--cream-faint);font-family:var(--font-body);font-weight:700;
+    font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;padding:12px 4px;cursor:pointer;position:relative;
+    margin-right:28px;transition:color .3s var(--ease);
+  }
+  .tab-btn::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--copper);transform:scaleX(0);transition:transform .3s var(--ease);}
+  .tab-btn:hover{color:var(--cream);}
+  .tab-btn.active{color:var(--gold);}
+  .tab-btn.active::after{transform:scaleX(1);}
+
+  .menu-panel{display:none;}
+  .menu-panel.active{display:block;animation:fadein .5s var(--ease);}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  .menu-item{
+    display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:20px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .menu-item:first-child{padding-top:0;}
+  .menu-item .name-wrap{flex:1;}
+  .menu-item .name{font-family:var(--font-display);font-size:1.14rem;font-weight:600;color:var(--cream);}
+  .menu-item .desc{display:block;color:var(--cream-faint);font-size:.86rem;margin-top:5px;font-weight:400;font-family:var(--font-body);}
+  .menu-item .price{font-family:var(--font-display);font-weight:700;color:var(--copper-light);white-space:nowrap;font-size:1.12rem;}
+  .menu-note{margin-top:28px;color:var(--cream-faint);font-size:.85rem;font-style:italic;}
+
+  .carta-media{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px;}
+  .carta-media figure{margin:0;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);position:relative;}
+  .carta-media img{width:100%;height:100%;object-fit:cover;}
+  .carta-media .img-a{height:340px;}
+  .carta-media .img-b{height:220px;margin-left:14%;width:86%;}
+  .carta-media figcaption{
+    position:absolute;left:0;right:0;bottom:0;padding:16px 20px;color:var(--cream);font-size:.85rem;font-weight:700;
+    letter-spacing:.04em;background:linear-gradient(0deg, rgba(15,12,10,.82) 0%, rgba(15,12,10,0) 75%);
+  }
+  @media (max-width:940px){
+    .carta-media{position:static;flex-direction:row;}
+    .carta-media .img-a{height:260px;flex:1;}
+    .carta-media .img-b{height:260px;margin-left:0;width:100%;flex:1;}
+  }
+  @media (max-width:600px){.carta-media{flex-direction:column;}.carta-media .img-b{width:100%;}}
+
+  /* CHEF */
+  .chef-section .container{display:grid;grid-template-columns:1fr 1.05fr;gap:70px;align-items:center;}
+  @media (max-width:900px){.chef-section .container{grid-template-columns:1fr;gap:36px;}}
+  .chef-media{position:relative;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);}
+  .chef-media img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;}
+  .chef-media .frame{
+    position:absolute;inset:18px;border:1px solid rgba(244,236,223,.35);pointer-events:none;
+  }
+  .chef-text .quote{
+    font-family:var(--font-display);font-style:italic;font-size:1.5rem;color:var(--copper-light);
+    line-height:1.4;margin:26px 0;position:relative;padding-left:26px;border-left:2px solid var(--copper);
+  }
+  .chef-text p:not(.quote){color:var(--cream-dim);}
+  .chef-cred{display:flex;gap:36px;margin-top:30px;flex-wrap:wrap;}
+  .chef-cred div strong{display:block;font-family:var(--font-display);font-size:1.7rem;color:var(--gold);}
+  .chef-cred div span{color:var(--cream-faint);font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;}
+
+  /* AMBIENTE banner */
+  .ambient-banner{
+    position:relative;min-height:64vh;display:flex;align-items:center;justify-content:center;text-align:center;
+    background:linear-gradient(180deg, rgba(15,12,10,.55), rgba(15,12,10,.8)), url('assets/vino.jpg') center 25%/cover no-repeat;
+    padding:100px 24px;
+  }
+  .ambient-banner .inner{max-width:640px;}
+  .ambient-banner .eyebrow{justify-content:center;color:var(--gold);}
+  .ambient-banner .eyebrow::before{display:none;}
+  .ambient-banner .eyebrow::after{content:'';width:32px;height:1px;background:var(--copper);}
+  .ambient-banner h2{font-size:clamp(1.9rem,4vw,2.6rem);}
+  .ambient-banner p{color:rgba(244,236,223,.85);font-size:1.08rem;}
+
+  /* SOBRE NOSOTROS */
+  .about-section .container{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+  @media (max-width:900px){.about-section .container{grid-template-columns:1fr;gap:40px;}}
+  .about-media{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:end;}
+  .about-media img{border-radius:var(--radius-md);box-shadow:var(--shadow-md);object-fit:cover;}
+  .about-media .tall{height:420px;width:100%;}
+  .about-media .short{height:280px;width:100%;}
+  @media (max-width:560px){.about-media{grid-template-columns:1fr 1fr;}.about-media .tall{height:280px;}.about-media .short{height:200px;}}
+  .about-text p{color:var(--cream-dim);}
+  .about-stats{display:flex;gap:0;margin:32px 0;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:28px;}
+  .about-stats div{flex:1;min-width:120px;padding-right:20px;}
+  .about-stats strong{display:block;font-family:var(--font-display);font-size:2.1rem;color:var(--copper-light);}
+  .about-stats span{color:var(--cream-faint);font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;}
+
+  /* Opiniones */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media (max-width:860px){.testimonials-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    background:var(--carbon-card);border:1px solid var(--line-soft);border-radius:var(--radius-md);
+    padding:36px 32px;position:relative;
+  }
+  .testimonial-card .quote-mark{
+    font-family:var(--font-display);font-size:3.2rem;color:var(--copper);line-height:1;opacity:.55;margin-bottom:6px;
+  }
+  .stars{color:var(--gold);letter-spacing:2px;font-size:1rem;margin-bottom:14px;}
+  .testimonial-card p.quote-text{font-style:italic;color:var(--cream-dim);margin-bottom:18px;font-family:var(--font-display);font-size:1.05rem;}
+  .testimonial-name{font-weight:700;font-family:var(--font-body);letter-spacing:.03em;text-transform:uppercase;font-size:.82rem;color:var(--copper-light);}
+
+  /* Horario + ubicación */
+  .info-section .container{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;}
+  @media (max-width:860px){.info-section .container{grid-template-columns:1fr;}}
+  .schedule-list{border-top:1px solid var(--line);}
+  .schedule-row{
+    display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:.95rem;
+  }
+  .schedule-row.today{font-weight:700;color:var(--gold);}
+  .map-frame{border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-md);height:100%;min-height:360px;filter:grayscale(.15) contrast(1.05);}
+  .map-frame iframe{width:100%;height:100%;min-height:360px;border:0;display:block;}
+
+  /* Contacto */
+  .contact-section .container{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;}
+  @media (max-width:860px){.contact-section .container{grid-template-columns:1fr;}}
+  .contact-list{margin-top:24px;}
+  .contact-list li{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;}
+  .contact-list .icon{
+    width:40px;height:40px;flex:none;border-radius:50%;border:1px solid var(--copper);color:var(--copper-light);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-list a{text-decoration:none;font-weight:700;}
+  .contact-list a:hover{color:var(--copper-light);}
+  .contact-list .label{display:block;font-size:.74rem;color:var(--cream-faint);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;}
+  .social-row{display:flex;gap:12px;margin-top:30px;}
+  .social-row a{
+    width:42px;height:42px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;
+    justify-content:center;transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
+  }
+  .social-row a:hover{background:var(--copper);border-color:var(--copper);color:var(--carbon);}
+
+  form.contact-form{background:var(--carbon-card);border:1px solid var(--line-soft);border-radius:var(--radius-md);padding:36px;}
+  .form-row{margin-bottom:20px;}
+  .form-row label{display:block;font-size:.78rem;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--cream-dim);}
+  .form-row input,.form-row textarea{
+    width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:var(--radius-sm);
+    font-family:var(--font-body);font-size:.95rem;background:var(--carbon);color:var(--cream);
+    transition:border-color .25s var(--ease);
+  }
+  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--copper);}
+  .form-note{font-size:.8rem;color:var(--cream-faint);margin-top:12px;}
+  .form-success{display:none;color:var(--copper-light);font-size:.88rem;margin-top:10px;font-weight:700;}
+
+  /* CTA banda final */
+  .cta-band{
+    text-align:center;background:linear-gradient(180deg, var(--carbon-soft), var(--carbon));
+    border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+  }
+  .cta-band p{color:var(--cream-dim);max-width:520px;margin:0 auto 32px;}
+
+  /* Footer */
+  .site-footer{background:var(--carbon-soft);color:var(--cream-faint);padding:70px 0 30px;border-top:1px solid var(--line-soft);}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:52px;}
+  @media (max-width:780px){.footer-grid{grid-template-columns:1fr;gap:32px;}}
+  .footer-grid h4{color:var(--cream);font-size:.85rem;margin-bottom:18px;font-family:var(--font-body);font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+  .footer-grid .brand-word{color:var(--cream);}
+  .footer-grid p{color:var(--cream-faint);}
+  .footer-links li{margin-bottom:12px;}
+  .footer-links a{text-decoration:none;color:var(--cream-faint);transition:color .25s var(--ease);}
+  .footer-links a:hover{color:var(--gold);}
+  .footer-bottom{
+    border-top:1px solid var(--line-soft);padding-top:26px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;font-size:.8rem;color:var(--cream-faint);
+  }
+
+  /* Floating WhatsApp button */
+  .whatsapp-float{
+    position:fixed;right:24px;bottom:24px;width:60px;height:60px;border-radius:50%;background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,.4);
+    z-index:400;text-decoration:none;transition:transform .25s var(--ease);
+  }
+  .whatsapp-float:hover{transform:scale(1.08);}
+  .whatsapp-float svg{width:30px;height:30px;}
+
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#inicio" class="brand">
+      <span class="brand-mark" aria-hidden="true">TR</span>
+      <span class="brand-word js-business-name">Tu Restaurante</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#carta">La carta</a></li>
+        <li><a href="#chef">El chef</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#horario">Horario</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#" class="btn btn-ghost js-book">Reservar mesa</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+      <svg id="navIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="navIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-label="Presentación">
+    <div class="container hero-inner">
+      <span class="eyebrow">Cocina de mercado &amp; sala íntima</span>
+      <h1>Una mesa,<br><em>una historia</em> que contar</h1>
+      <p class="lead">Producto de temporada, técnica de cocina contemporánea y un espacio cálido en el corazón de tu ciudad. Te esperamos con la mesa preparada.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary js-book">Reservar mesa</a>
+        <a href="#carta" class="btn btn-outline">Ver la carta</a>
+      </div>
+    </div>
+    <span class="scroll-cue" aria-hidden="true">Descubre más</span>
+  </section>
+
+  <!-- LA CARTA -->
+  <section id="carta" aria-labelledby="carta-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Cocina de temporada</span>
+        <h2 id="carta-title">La carta</h2>
+        <p>Platos pensados para compartir, elaborados cada día con producto fresco de proveedores locales. Precios finales, IVA incluido.</p>
+      </div>
+
+      <div class="carta-layout">
+        <div class="reveal">
+          <div class="tabs" role="tablist" aria-label="Categorías de la carta">
+            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-entrantes" id="tab-entrantes" data-tab="entrantes">Entrantes</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-principales" id="tab-principales" data-tab="principales">Principales</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-postres" id="tab-postres" data-tab="postres">Postres</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-bebidas" id="tab-bebidas" data-tab="bebidas">Bebidas</button>
+          </div>
+
+          <div class="menu-panel active" id="panel-entrantes" role="tabpanel" aria-labelledby="tab-entrantes">
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Tartar de atún rojo</span><span class="desc">Aguacate, sésamo tostado y toque de yuzu</span></span>
+              <span class="price">18 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Croquetas de jamón ibérico</span><span class="desc">Bechamel cremosa, seis unidades</span></span>
+              <span class="price">14 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Steak tartar cortado a cuchillo</span><span class="desc">Yema curada, mostaza antigua y encurtidos</span></span>
+              <span class="price">19 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Carpaccio de solomillo</span><span class="desc">Parmesano 24 meses, rúcula y aceite de trufa</span></span>
+              <span class="price">17 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Ensalada templada de txangurro</span><span class="desc">Tomate de temporada y vinagreta cítrica</span></span>
+              <span class="price">16 €</span>
+            </div>
+          </div>
+
+          <div class="menu-panel" id="panel-principales" role="tabpanel" aria-labelledby="tab-principales">
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Solomillo de ternera madurada</span><span class="desc">A la brasa, verduras de temporada glaseadas</span></span>
+              <span class="price">28 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Rodaballo salvaje a la brasa</span><span class="desc">Velouté de marisco y algas</span></span>
+              <span class="price">26 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Arroz meloso de bogavante</span><span class="desc">Mínimo dos personas, precio por persona</span></span>
+              <span class="price">24 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Magret de pato</span><span class="desc">Puré de manzana y reducción de vino tinto</span></span>
+              <span class="price">23 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Risotto de setas de temporada</span><span class="desc">Parmesano curado y láminas de trufa negra</span></span>
+              <span class="price">19 €</span>
+            </div>
+          </div>
+
+          <div class="menu-panel" id="panel-postres" role="tabpanel" aria-labelledby="tab-postres">
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Esfera de chocolate y frambuesa</span><span class="desc">Helado de frutos rojos y crujiente de cacao</span></span>
+              <span class="price">9 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Torrija caramelizada</span><span class="desc">Helado de vainilla de la casa</span></span>
+              <span class="price">8 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Tarta de queso al horno</span><span class="desc">Compota de frutos rojos de temporada</span></span>
+              <span class="price">8 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Coulant de chocolate</span><span class="desc">Corazón líquido y helado de nata</span></span>
+              <span class="price">9 €</span>
+            </div>
+          </div>
+
+          <div class="menu-panel" id="panel-bebidas" role="tabpanel" aria-labelledby="tab-bebidas">
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Copa de vino tinto D.O.</span><span class="desc">Selección de la casa</span></span>
+              <span class="price">5 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Copa de vino blanco D.O.</span><span class="desc">Selección de la casa</span></span>
+              <span class="price">5 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Maridaje de vinos por plato</span><span class="desc">Recomendado por nuestro sumiller</span></span>
+              <span class="price">6 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Cóctel de autor</span><span class="desc">Carta de coctelería de temporada</span></span>
+              <span class="price">9 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Agua mineral</span><span class="desc">Con o sin gas, 75 cl</span></span>
+              <span class="price">3 €</span>
+            </div>
+            <div class="menu-item">
+              <span class="name-wrap"><span class="name">Café o infusión</span><span class="desc">De comercio de proximidad</span></span>
+              <span class="price">2,5 €</span>
+            </div>
+          </div>
+
+          <p class="menu-note">Consulta alérgenos e ingredientes con nuestro equipo de sala. Carta sujeta a cambios según mercado.</p>
+        </div>
+
+        <div class="carta-media reveal" aria-hidden="false">
+          <figure class="img-a">
+            <img src="assets/plato-principal.jpg" alt="Plato principal de carne madurada a la brasa con verduras de temporada servido en cerámica negra" loading="lazy" width="1600" height="1067">
+            <figcaption>De nuestra brasa</figcaption>
+          </figure>
+          <figure class="img-b">
+            <img src="assets/postre.jpg" alt="Postre de chocolate con frambuesas y helado de frutos rojos emplatado con detalle de repostería fina" loading="lazy" width="1600" height="1067">
+            <figcaption>Repostería de la casa</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EL CHEF -->
+  <section id="chef" class="alt chef-section" aria-labelledby="chef-title">
+    <div class="container">
+      <div class="chef-media reveal">
+        <img src="assets/chef.jpg" alt="Chef emplatando con detalle en la cocina profesional del restaurante" loading="lazy" width="1600" height="1067">
+        <div class="frame" aria-hidden="true"></div>
+      </div>
+      <div class="chef-text reveal">
+        <span class="eyebrow">De la cocina a la mesa</span>
+        <h2 id="chef-title">El chef</h2>
+        <p>Al frente de los fogones, un equipo con más de una década de experiencia en cocina de producto. Cada plato nace de una idea sencilla: respetar el ingrediente y dejar que hable por sí mismo.</p>
+        <p class="quote">«Cocinamos lo que compramos esa misma mañana. Sin atajos, sin prisa.»</p>
+        <p>La brigada de cocina trabaja a la vista parcial de la sala, con temporada corta y proveedores de tu zona seleccionados uno a uno.</p>
+        <div class="chef-cred">
+          <div><strong>12</strong><span>años de trayectoria</span></div>
+          <div><strong>100%</strong><span>producto de temporada</span></div>
+          <div><strong>4</strong><span>cocineros en brigada</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AMBIENTE / VINOS banner -->
+  <section class="ambient-banner" aria-labelledby="ambiente-title">
+    <div class="inner reveal">
+      <span class="eyebrow">Sumillería</span>
+      <h2 id="ambiente-title">Una copa, el maridaje justo</h2>
+      <p>Nuestro sumiller selecciona cada vino pensando en el plato que acompaña, con una carta corta y honesta de denominaciones de tu zona y clásicos internacionales.</p>
+      <a href="#carta" class="btn btn-outline js-tab-bebidas-link">Ver carta de bebidas</a>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section id="nosotros" class="about-section alt" aria-labelledby="nosotros-title">
+    <div class="container">
+      <div class="about-media reveal">
+        <img class="tall" src="assets/sala.jpg" alt="Comedor moderno con sillas negras y estructura de madera vista, fotografía real de la sala" loading="lazy" width="1600" height="1067">
+        <img class="short" src="assets/detalle-mesa.jpg" alt="Detalle de mesa puesta con copas de vino, vela encendida y servilleta de tela" loading="lazy" width="1600" height="1067">
+      </div>
+      <div class="about-text reveal">
+        <span class="eyebrow">Nuestra historia</span>
+        <h2 id="nosotros-title">Sobre nosotros</h2>
+        <p>Nacimos con la idea de traer a tu barrio una cocina honesta, sin artificios, servida en un espacio pensado para quedarse. Una sala cálida, luz cuidada y un equipo de sala que trata cada mesa como si fuera la única de la noche.</p>
+        <p>Trabajamos con productores de cercanía y una carta corta que cambia con las estaciones, porque creemos que la mejor cocina es la que respeta su tiempo.</p>
+        <div class="about-stats">
+          <div><strong>8</strong><span>años en tu ciudad</span></div>
+          <div><strong>+40</strong><span>comensales por noche</span></div>
+          <div><strong>4,8</strong><span>valoración media</span></div>
+        </div>
+        <a href="#" class="btn btn-primary js-book">Reservar mesa</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" aria-labelledby="opiniones-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Lo que dicen de nosotros</span>
+        <h2 id="opiniones-title">Opiniones</h2>
+        <p>La mesa vuelve a llenarse gracias a quienes ya nos han visitado.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <div class="quote-mark" aria-hidden="true">“</div>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote-text">Cenamos el solomillo y el coulant de postre, todo perfecto de punto y de sala atenta sin ser invasiva. Repetiremos seguro.</p>
+          <p class="testimonial-name">Alejandro M.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="quote-mark" aria-hidden="true">“</div>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote-text">Reservamos por WhatsApp sin líos y la mesa estaba lista al llegar. El maridaje que nos recomendó el sumiller acertó de lleno.</p>
+          <p class="testimonial-name">Beatriz L.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="quote-mark" aria-hidden="true">“</div>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote-text">Ambiente precioso para una ocasión especial, iluminación muy cuidada y el arroz de bogavante para repetir cada mes.</p>
+          <p class="testimonial-name">Rubén T.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO + UBICACIÓN -->
+  <section id="horario" class="alt" aria-labelledby="horario-title">
+    <div class="container info-section">
+      <div class="reveal">
+        <span class="eyebrow">Te esperamos</span>
+        <h2 id="horario-title">Horario y ubicación</h2>
+        <p style="color:var(--cream-dim)">Estamos en el centro de tu ciudad, en tu barrio, con fácil acceso y parking cercano.</p>
+        <div class="schedule-list js-schedule" aria-label="Horario de apertura"></div>
+        <p style="margin-top:22px;color:var(--cream-dim)" class="js-address"></p>
+      </div>
+      <div class="map-frame reveal">
+        <!-- El src del iframe se rellena vía JS desde CONFIG.mapEmbedUrl -->
+        <iframe class="js-map" title="Ubicación en el mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banda -->
+  <section class="cta-band reveal" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title">Tu mesa te está esperando</h2>
+      <p>Reserva en menos de un minuto por WhatsApp o a través de nuestro sistema de reservas online.</p>
+      <a href="#" class="btn btn-primary js-book">Reservar mesa</a>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" aria-labelledby="contacto-title">
+    <div class="container contact-section">
+      <div class="reveal">
+        <span class="eyebrow">Hablemos</span>
+        <h2 id="contacto-title">Contacto</h2>
+        <p style="color:var(--cream-dim)">Escríbenos, llámanos o pásate por el restaurante. Estaremos encantados de atenderte.</p>
+        <ul class="contact-list">
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="label">Teléfono</span>
+              <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 5.54-13.58z"/></svg>
+            </span>
+            <div>
+              <span class="label">WhatsApp</span>
+              <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Escríbenos directamente</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </span>
+            <div>
+              <span class="label">Email</span>
+              <a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <span class="label">Dirección</span>
+              <span class="js-address-contact">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+            </div>
+          </li>
+        </ul>
+        <div class="social-row js-socials" aria-label="Redes sociales"></div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm" aria-label="Formulario de contacto">
+          <div class="form-row">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email o teléfono</label>
+            <input type="text" id="cf-email" name="contact" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Mensaje</label>
+            <textarea id="cf-message" name="message" rows="4" required placeholder="Fecha, hora y número de comensales"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Enviar mensaje</button>
+          <p class="form-note">Te responderemos por email. Al enviar, se abrirá tu programa de correo con el mensaje ya redactado.</p>
+          <p class="form-success" id="formSuccess" role="status">¡Gracias! Hemos abierto tu cliente de correo con el mensaje listo para enviar.</p>
+          <!-- Slot para widget de reservas embebido (OpenTable / Covermanager / TheFork / etc.) -->
+          <!--
+          <iframe src="[URL_DEL_WIDGET_DE_RESERVAS]" title="Reservar mesa online" loading="lazy" style="width:100%;border:0;min-height:600px;margin-top:24px;"></iframe>
+          -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand" style="margin-bottom:14px;display:inline-flex;">
+          <span class="brand-mark" aria-hidden="true">TR</span>
+          <span class="brand-word js-business-name">Tu Restaurante</span>
+        </a>
+        <p style="margin-top:14px;max-width:320px;">Cocina de mercado y sala íntima en el centro de tu ciudad. Carta de temporada, maridaje y reserva en un minuto.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#carta">La carta</a></li>
+          <li><a href="#chef">El chef</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#horario">Horario y ubicación</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a class="js-tel" href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a></li>
+          <li><span class="js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span class="js-year"></span> <span class="js-business-name">Tu Restaurante</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99zm5.47-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — único punto de edición para adaptar la plantilla
+     a un cliente real (nombre, contacto, horario, mapa, redes...)
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Tu Restaurante",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { day: "Lunes",    hours: "Cerrado" },
+      { day: "Martes",   hours: "13:00 – 16:00, 20:00 – 23:30" },
+      { day: "Miércoles",hours: "13:00 – 16:00, 20:00 – 23:30" },
+      { day: "Jueves",   hours: "13:00 – 16:00, 20:00 – 23:30" },
+      { day: "Viernes",  hours: "13:00 – 16:00, 20:00 – 00:00" },
+      { day: "Sábado",   hours: "13:00 – 16:30, 20:00 – 00:00" },
+      { day: "Domingo",  hours: "13:00 – 16:30" }
+    ],
+    bookingUrl: null, // Si el cliente tiene TheFork/Covermanager/OpenTable, poner la URL aquí; si no, se usa WhatsApp
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1&output=embed",
+    socials: {
+      instagram: "https://instagram.com/turestaurante",
+      facebook: "https://facebook.com/turestaurante"
+    }
+  };
+
+  const SITE_TAGLINE = "Restaurante";
+  const SITE_DESCRIPTION = "Cocina de mercado, carta por categorías, chef y reserva de mesa online o por WhatsApp.";
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* --- Nombre del negocio --- */
+    document.querySelectorAll('.js-business-name').forEach(function(el){
+      el.textContent = CONFIG.businessName;
+    });
+    document.title = CONFIG.businessName + " — " + SITE_TAGLINE;
+
+    /* --- Iniciales del logotipo --- */
+    const initials = CONFIG.businessName.split(/\s+/).filter(function(w){ return w.length; })
+      .map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,2) || 'TR';
+    document.querySelectorAll('.brand-mark').forEach(function(el){ el.textContent = initials; });
+
+    /* --- Meta description y Open Graph (generados desde CONFIG) --- */
+    const metaDescription = document.getElementById('metaDescription');
+    if (metaDescription) { metaDescription.setAttribute('content', CONFIG.businessName + ": " + SITE_DESCRIPTION); }
+    const ogSiteName = document.getElementById('ogSiteName');
+    if (ogSiteName) { ogSiteName.setAttribute('content', CONFIG.businessName); }
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) { ogTitle.setAttribute('content', CONFIG.businessName + " — " + SITE_TAGLINE); }
+    const ogDescription = document.getElementById('ogDescription');
+    if (ogDescription) { ogDescription.setAttribute('content', SITE_DESCRIPTION); }
+
+    /* --- Teléfono --- */
+    const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+    document.querySelectorAll('.js-tel').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+      el.textContent = CONFIG.phone;
+    });
+
+    /* --- Email --- */
+    document.querySelectorAll('.js-email').forEach(function(el){
+      el.href = 'mailto:' + CONFIG.email;
+      el.textContent = CONFIG.email;
+    });
+
+    /* --- Dirección --- */
+    document.querySelectorAll('.js-address, .js-address-contact').forEach(function(el){
+      el.textContent = CONFIG.address;
+    });
+
+    /* --- WhatsApp (flotante + enlaces de contacto) --- */
+    const waMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', me gustaría reservar una mesa.');
+    const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + waMessage;
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(el){
+      el.href = waUrl;
+    });
+
+    /* --- Botón "Reservar mesa": booking del cliente si existe, si no WhatsApp --- */
+    const bookHref = CONFIG.bookingUrl ? CONFIG.bookingUrl : waUrl;
+    document.querySelectorAll('.js-book').forEach(function(el){
+      el.href = bookHref;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+
+    /* --- Horario --- */
+    const scheduleContainer = document.querySelector('.js-schedule');
+    if (scheduleContainer) {
+      const jsDay = new Date().getDay(); // 0 = domingo ... 6 = sábado
+      const dayIndexMap = [6,0,1,2,3,4,5]; // convierte getDay() a índice del array CONFIG.schedule (Lunes..Domingo)
+      const todayIndex = dayIndexMap[jsDay];
+      CONFIG.schedule.forEach(function(item, i){
+        const row = document.createElement('div');
+        row.className = 'schedule-row' + (i === todayIndex ? ' today' : '');
+        row.innerHTML = '<span class="day">' + item.day + '</span><span class="hours">' + item.hours + '</span>';
+        scheduleContainer.appendChild(row);
+      });
+    }
+
+    /* --- Mapa --- */
+    document.querySelectorAll('.js-map').forEach(function(el){
+      el.src = CONFIG.mapEmbedUrl;
+      el.title = 'Ubicación de ' + CONFIG.businessName + ' en el mapa';
+    });
+
+    /* --- Redes sociales --- */
+    const socialContainer = document.querySelector('.js-socials');
+    if (socialContainer) {
+      const icons = {
+        instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+      };
+      Object.keys(CONFIG.socials).forEach(function(key){
+        const a = document.createElement('a');
+        a.href = CONFIG.socials[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key.charAt(0).toUpperCase() + key.slice(1));
+        a.innerHTML = icons[key] || '';
+        socialContainer.appendChild(a);
+      });
+    }
+
+    /* --- Año en footer --- */
+    const yearEl = document.querySelector('.js-year');
+    if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+
+    /* --- JSON-LD (datos estructurados Restaurant) --- */
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": CONFIG.businessName,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "servesCuisine": "Cocina de mercado",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address,
+        "addressCountry": "ES"
+      },
+      "priceRange": "€€€",
+      "acceptsReservations": "True",
+      "openingHoursSpecification": CONFIG.schedule.filter(function(s){return s.hours !== 'Cerrado';}).map(function(s){
+        // Puede haber dos franjas separadas por coma (comida y cena)
+        return s.hours.split(',').map(function(range){
+          const parts = range.trim().split('–').map(function(p){return p.trim();});
+          return {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": s.day,
+            "opens": parts[0],
+            "closes": parts[1]
+          };
+        });
+      }).flat(),
+      "sameAs": Object.values(CONFIG.socials)
+    };
+    const ldScript = document.getElementById('ld-json');
+    if (ldScript) { ldScript.textContent = JSON.stringify(ld, null, 2); }
+
+    /* --- Header sticky que solidifica al hacer scroll --- */
+    const header = document.getElementById('siteHeader');
+    function onScroll(){
+      if (window.scrollY > 40) { header.classList.add('scrolled'); }
+      else { header.classList.remove('scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* --- Menú móvil --- */
+    const navToggle = document.getElementById('navToggle');
+    const iconOpen = document.getElementById('navIconOpen');
+    const iconClose = document.getElementById('navIconClose');
+    function closeMenu(){
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function openMenu(){
+      header.classList.add('nav-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = '';
+      document.body.style.overflow = 'hidden';
+    }
+    navToggle.addEventListener('click', function(){
+      if (header.classList.contains('nav-open')) { closeMenu(); } else { openMenu(); }
+    });
+    document.querySelectorAll('#mainNav a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    /* --- Pestañas de la carta --- */
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.menu-panel');
+    tabButtons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        tabButtons.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+        panels.forEach(function(p){ p.classList.remove('active'); });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected','true');
+        const panel = document.getElementById('panel-' + btn.dataset.tab);
+        if (panel) { panel.classList.add('active'); }
+      });
+    });
+    const bebidasLink = document.querySelector('.js-tab-bebidas-link');
+    if (bebidasLink) {
+      bebidasLink.addEventListener('click', function(){
+        const tabBebidas = document.getElementById('tab-bebidas');
+        if (tabBebidas) { tabBebidas.click(); }
+      });
+    }
+
+    /* --- Scroll reveal --- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* --- Formulario de contacto: abre mailto con los datos --- */
+    const form = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const contact = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        const subject = encodeURIComponent('Solicitud de reserva — ' + CONFIG.businessName);
+        const body = encodeURIComponent(
+          'Nombre: ' + name + '\n' +
+          'Email/Teléfono: ' + contact + '\n\n' +
+          'Mensaje:\n' + message
+        );
+        window.location.href = 'mailto:' + CONFIG.email + '?subject=' + subject + '&body=' + body;
+        if (formSuccess) { formSuccess.style.display = 'block'; }
+      });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>

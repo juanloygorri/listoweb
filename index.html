@@ -1,0 +1,407 @@
+<!-- ListoWeb — landing (listoweb.es)
+     Una sola pantalla. Sin scroll. CSS y JS en línea, sin build.
+     Única dependencia externa: Google Fonts.
+     Para cambiar el teléfono o el WhatsApp: bloque CONFIG al final del archivo. -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ListoWeb — Webs para negocios locales</title>
+<meta name="description" id="metaDescription" content="Diseñamos y publicamos la web de tu negocio. Nos ocupamos de todo.">
+<meta name="theme-color" content="#08090A">
+<link rel="canonical" href="https://listoweb.es/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="ListoWeb">
+<meta property="og:title" content="ListoWeb — Webs para negocios locales">
+<meta property="og:description" content="Diseñamos y publicamos la web de tu negocio. Nos ocupamos de todo.">
+<meta property="og:url" content="https://listoweb.es/">
+<meta property="og:image" content="assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23FF5A3C'/%3E%3Cpath d='M9 16.5l4.6 4.6L23 11.4' stroke='%23fff' stroke-width='3.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">{}</script>
+
+<style>
+  :root{
+    --black:#08090A;
+    --ink:#0C0D0F;
+    --paper:#F6F4F0;
+    --dim:rgba(246,244,240,.52);
+    --faint:rgba(246,244,240,.28);
+    --hair:rgba(246,244,240,.14);
+    --coral:#FF5A3C;
+    --wa:#25D366;
+    --sans:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+    --ease:cubic-bezier(.22,.68,.3,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:var(--sans);
+    background:var(--black);
+    color:var(--paper);
+    min-height:100svh;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{display:block;width:100%;height:auto;}
+  :focus-visible{outline:2px solid var(--coral);outline-offset:4px;border-radius:6px;}
+  .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;}
+
+  /* ============ MURO DE SITIOS ============ */
+  .wall{
+    position:fixed;top:50%;left:50%;z-index:0;
+    width:2900px;height:165vh;
+    display:grid;grid-template-columns:repeat(9,1fr);gap:18px;
+    transform:translate(-50%,-50%) rotate(-11deg) scale(1.04);
+    will-change:transform;
+    pointer-events:none;
+  }
+  .col{display:flex;flex-direction:column;gap:18px;overflow:hidden;}
+  .col-inner{display:flex;flex-direction:column;gap:18px;animation:drift-up var(--dur,80s) linear infinite;}
+  .col.down .col-inner{animation-name:drift-down;}
+  @keyframes drift-up{from{transform:translateY(0);}to{transform:translateY(-50%);}}
+  @keyframes drift-down{from{transform:translateY(-50%);}to{transform:translateY(0);}}
+
+  .shot{
+    position:relative;border-radius:9px;overflow:hidden;flex:none;
+    background:#131416;
+    box-shadow:0 18px 44px -16px rgba(0,0,0,.9);
+    outline:1px solid rgba(255,255,255,.08);outline-offset:-1px;
+  }
+  .shot img{filter:saturate(.82) brightness(.74) contrast(1.04);}
+  /* Al pasar por la llamada a la acción, los sitios del fondo «se encienden» */
+  @media (hover:hover) and (pointer:fine){
+    .shot img{transition:filter .85s var(--ease);}
+    body.hot .shot img{filter:saturate(1) brightness(1.02) contrast(1);}
+  }
+
+  /* Velos: oscurecen el muro y garantizan contraste del texto */
+  .veil{position:fixed;inset:0;z-index:1;pointer-events:none;}
+  .veil-a{
+    background:
+      radial-gradient(ellipse clamp(430px,56vw,1120px) clamp(280px,40vh,540px) at 50% 45%,
+        rgba(8,9,10,.985) 0%, rgba(8,9,10,.95) 38%, rgba(8,9,10,.78) 66%, rgba(8,9,10,.44) 88%, rgba(8,9,10,.26) 100%);
+  }
+  .veil-b{
+    background:
+      linear-gradient(180deg, rgba(8,9,10,.97) 0%, rgba(8,9,10,.62) 7%, rgba(8,9,10,.26) 15%, rgba(8,9,10,.22) 80%, rgba(8,9,10,.80) 94%, rgba(8,9,10,.99) 100%);
+  }
+  .veil-c{
+    opacity:.16;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ============ ESTRUCTURA ============ */
+  .frame{
+    position:relative;z-index:2;
+    min-height:100svh;
+    display:grid;grid-template-rows:auto 1fr;
+    padding:clamp(20px,3.2vw,38px) clamp(20px,4vw,52px);
+    padding-bottom:max(clamp(20px,3.2vw,38px),env(safe-area-inset-bottom));
+  }
+
+  /* --- Barra superior --- */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .brand{display:inline-flex;align-items:center;gap:11px;}
+  .brand-mark{width:30px;height:30px;flex:none;}
+  .brand-name{
+    font-size:.98rem;font-weight:700;letter-spacing:-.02em;
+  }
+  .brand-name i{font-style:normal;color:var(--coral);}
+  .top-tel{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:.82rem;font-weight:500;letter-spacing:.02em;color:var(--dim);
+    padding:9px 16px;border:1px solid var(--hair);border-radius:999px;background:rgba(8,9,10,.5);
+    transition:color .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease);
+  }
+  .top-tel svg{width:13px;height:13px;}
+  .top-tel:hover{color:var(--paper);border-color:rgba(246,244,240,.34);background:rgba(246,244,240,.05);}
+
+  /* --- Centro --- */
+  .stage{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px 0;}
+  .kicker{
+    display:inline-flex;align-items:center;gap:11px;
+    font-size:.66rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--faint);
+    margin-bottom:clamp(20px,3vw,34px);
+  }
+  .kicker::before,.kicker::after{content:'';width:26px;height:1px;background:var(--hair);}
+
+  h1{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:clamp(2.6rem,7.4vw,7rem);
+    line-height:.98;
+    letter-spacing:-.045em;
+    max-width:16ch;
+  }
+  h1 em{
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    letter-spacing:-.012em;
+    background:linear-gradient(96deg,#FF7A4F,#FFB877);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    padding-right:.06em;
+  }
+  .sub{
+    margin-top:clamp(20px,2.6vw,30px);
+    font-size:clamp(.95rem,1.35vw,1.1rem);
+    font-weight:400;line-height:1.55;color:var(--dim);max-width:34ch;
+  }
+
+  .actions{display:flex;align-items:center;gap:clamp(14px,2vw,22px);flex-wrap:wrap;justify-content:center;margin-top:clamp(30px,4vw,46px);}
+  .cta{
+    display:inline-flex;align-items:center;gap:11px;
+    padding:17px 30px;border-radius:999px;
+    background:var(--paper);color:var(--ink);
+    font-size:.94rem;font-weight:600;letter-spacing:-.005em;
+    position:relative;overflow:hidden;
+    transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+    box-shadow:0 18px 44px -20px rgba(0,0,0,.9);
+  }
+  .cta svg{width:17px;height:17px;flex:none;}
+  .cta::after{
+    content:'';position:absolute;inset:0;border-radius:inherit;
+    background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);
+    transform:translateX(-130%);transition:transform .75s var(--ease);
+  }
+  .cta:hover{transform:translateY(-3px);box-shadow:0 26px 54px -20px rgba(0,0,0,1);}
+  .cta:hover::after{transform:translateX(130%);}
+
+
+  /* ============ ENTRADA ============ */
+  .rise{opacity:0;transform:translateY(22px);}
+  body.ready .rise{opacity:1;transform:none;transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  body.ready .rise:nth-child(1){transition-delay:.05s;}
+  body.ready .rise:nth-child(2){transition-delay:.14s;}
+  body.ready .rise:nth-child(3){transition-delay:.23s;}
+  body.ready .rise:nth-child(4){transition-delay:.32s;}
+  .wall{opacity:0;transition:opacity 1.6s var(--ease);}
+  body.ready .wall{opacity:1;}
+  .top{opacity:0;transition:opacity 1s var(--ease) .5s;}
+  body.ready .top{opacity:1;}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1100px){
+    .wall{grid-template-columns:repeat(7,1fr);width:2100px;}
+  }
+  @media (max-width:760px){
+    .wall{grid-template-columns:repeat(6,1fr);width:940px;height:175vh;gap:10px;transform:translate(-50%,-50%) rotate(-13deg) scale(1.05);}
+    .col-inner,.col{gap:10px;}
+    .shot{border-radius:5px;box-shadow:0 10px 22px -10px rgba(0,0,0,.9);}
+    .veil-a{background:radial-gradient(ellipse 108vw clamp(260px,34vh,420px) at 50% 45%,rgba(8,9,10,.985) 0%,rgba(8,9,10,.95) 48%,rgba(8,9,10,.66) 100%);}
+    h1{font-size:clamp(2.5rem,11.5vw,4rem);max-width:12ch;}
+    .sub{font-size:.98rem;max-width:30ch;}
+    .top-tel span:not(.vh){display:none;}
+    .top-tel{padding:11px;border-radius:50%;}
+  }
+  @media (max-height:640px) and (min-width:761px){
+    h1{font-size:clamp(2.2rem,5vw,3.4rem);}
+    .stage{padding:16px 0;}
+    .kicker{margin-bottom:16px;}
+    .actions{margin-top:24px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .col-inner{animation:none;}
+    .rise{opacity:1;transform:none;transition:none;}
+    .wall,.top{opacity:1;transition:none;}
+    .cta::after{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Muro de sitios reales (se construye desde SITES en el script) -->
+<div class="wall" id="wall" aria-hidden="true"></div>
+<div class="veil veil-a"></div>
+<div class="veil veil-b"></div>
+<div class="veil veil-c"></div>
+
+<div class="frame">
+
+  <header class="top">
+    <a class="brand" href="/" aria-label="ListoWeb">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="lw" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FF5A3C"/><stop offset="100%" stop-color="#FFA53B"/>
+          </linearGradient></defs>
+          <rect width="32" height="32" rx="9" fill="url(#lw)"/>
+          <path d="M9 16.5l4.6 4.6L23 11.4" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-name">Listo<i>Web</i></span>
+    </a>
+    <a class="top-tel js-tel" href="tel:+34679928855">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span class="js-tel-text">+34 679 92 88 55</span>
+      <span class="vh">Llamar a ListoWeb</span>
+    </a>
+  </header>
+
+  <main class="stage">
+    <span class="kicker rise">Estudio de diseño web</span>
+    <h1 class="rise">Webs para negocios <em>locales.</em></h1>
+    <p class="sub rise">Diseño, textos, fotos y publicación. Nos ocupamos de todo; tú sigues con lo tuyo.</p>
+    <div class="actions rise">
+      <a class="cta js-whatsapp" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.43 12.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/></svg>
+        Hablemos
+      </a>
+    </div>
+  </main>
+
+
+</div>
+
+
+<script>
+(function(){
+  'use strict';
+
+  /* ==========================================================
+     CONFIG — lo único que hay que editar.
+     ========================================================== */
+  const CONFIG = {
+    businessName: "ListoWeb",
+    domain:   "listoweb.es",
+    phone:    "+34 679 92 88 55",
+    whatsapp: "34679928855",         // sin + ni espacios
+    email:    "hola@listoweb.es",    // solo para el JSON-LD; no se muestra
+    whatsappMessage: "Hola, tengo un negocio y me gustaría información sobre la web."
+  };
+
+  /* Capturas reales de nuestras plantillas (assets/sitios/) */
+  const SITES = [
+    "restaurante","peluqueria","gimnasio","floristeria","clinica-dental",
+    "inmobiliaria","tienda-ropa","cafeteria","taller-mecanico"
+  ];
+  const ALT = {
+    "restaurante":"Web de restaurante","peluqueria":"Web de peluquería","gimnasio":"Web de gimnasio",
+    "floristeria":"Web de floristería","clinica-dental":"Web de clínica dental","inmobiliaria":"Web de inmobiliaria",
+    "tienda-ropa":"Web de tienda de moda","cafeteria":"Web de cafetería","taller-mecanico":"Web de taller mecánico"
+  };
+
+  /* ---------- Muro ----------
+     Cada columna se rellena con tantas capturas como haga falta para que
+     su mitad (el bucle) cubra toda la altura visible: así nunca aparece
+     un hueco vacío al final del ciclo, sea cual sea la pantalla. */
+  const wall = document.getElementById('wall');
+  const DUR = ['92s','118s','78s','106s','86s','124s','96s','82s','112s'];
+  const RATIO = 787 / 560;   // alto/ancho de las capturas
+
+  function buildWall(){
+    wall.innerHTML = '';
+    const cs = getComputedStyle(wall);
+    const cols = cs.gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+    const gap = parseFloat(cs.gap) || 16;
+    const colW = (wall.clientWidth - gap * (cols - 1)) / cols;
+    const cardH = colW * RATIO + gap;
+    const need = Math.max(3, Math.ceil((wall.clientHeight + cardH) / cardH));
+
+    for (let c = 0; c < cols; c++) {
+      const col = document.createElement('div');
+      col.className = 'col' + (c % 2 ? ' down' : '');
+      const inner = document.createElement('div');
+      inner.className = 'col-inner';
+      inner.style.setProperty('--dur', DUR[c % DUR.length]);
+
+      const half = [];
+      for (let i = 0; i < need; i++) half.push(SITES[(c * 4 + i * 2) % SITES.length]);
+
+      [...half, ...half].forEach(function(name, i){
+        const fig = document.createElement('div');
+        fig.className = 'shot';
+        const img = document.createElement('img');
+        img.src = 'assets/sitios/' + name + '.jpg';
+        img.alt = '';
+        img.width = 560; img.height = 787;
+        img.decoding = 'async';
+        if (i >= need) img.loading = 'lazy';
+        fig.appendChild(img);
+        inner.appendChild(fig);
+      });
+      col.appendChild(inner);
+      wall.appendChild(col);
+    }
+  }
+  buildWall();
+
+  let rebuild;
+  window.addEventListener('resize', function(){
+    clearTimeout(rebuild);
+    rebuild = setTimeout(buildWall, 250);
+  }, { passive:true });
+
+  /* ---------- CONFIG → DOM ---------- */
+  const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+  document.querySelectorAll('.js-tel').forEach(function(el){ el.href = 'tel:' + telDigits; });
+  document.querySelectorAll('.js-tel-text').forEach(function(el){ el.textContent = CONFIG.phone; });
+  const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(CONFIG.whatsappMessage);
+  document.querySelectorAll('.js-whatsapp').forEach(function(el){ el.href = waUrl; });
+
+  /* ---------- JSON-LD ---------- */
+  const ld = {
+    "@context":"https://schema.org",
+    "@type":"ProfessionalService",
+    "name": CONFIG.businessName,
+    "url": "https://" + CONFIG.domain + "/",
+    "image": "https://" + CONFIG.domain + "/assets/og.jpg",
+    "description": "Diseñamos y publicamos la web de tu negocio local. Nos ocupamos de todo.",
+    "telephone": CONFIG.phone,
+    "email": CONFIG.email,
+    "areaServed": { "@type":"Country", "name":"España" },
+    "address": { "@type":"PostalAddress", "addressCountry":"ES" },
+    "knowsAbout": ["Diseño web","Páginas web para negocios locales","SEO local"]
+  };
+  document.getElementById('ld-json').textContent = JSON.stringify(ld, null, 2);
+
+  /* ---------- Parallax suave con el ratón (solo puntero fino) ---------- */
+  const fine = window.matchMedia('(pointer:fine)').matches;
+  const calm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if (fine && !calm) {
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+    const base = 'translate(-50%,-50%) rotate(-11deg) scale(1.04)';
+    window.addEventListener('mousemove', function(e){
+      tx = (e.clientX / window.innerWidth  - .5) * -26;
+      ty = (e.clientY / window.innerHeight - .5) * -18;
+      if (!raf) raf = requestAnimationFrame(loop);
+    }, { passive:true });
+    function loop(){
+      cx += (tx - cx) * .06; cy += (ty - cy) * .06;
+      wall.style.transform = base + ' translate3d(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px,0)';
+      raf = (Math.abs(tx - cx) > .1 || Math.abs(ty - cy) > .1) ? requestAnimationFrame(loop) : null;
+    }
+  }
+
+  /* ---------- «Encender» el fondo desde la llamada a la acción ---------- */
+  const cta = document.querySelector('.cta');
+  if (cta && !calm) {
+    const on  = function(){ document.body.classList.add('hot'); };
+    const off = function(){ document.body.classList.remove('hot'); };
+    cta.addEventListener('mouseenter', on);
+    cta.addEventListener('mouseleave', off);
+    cta.addEventListener('focus', on);
+    cta.addEventListener('blur', off);
+  }
+
+  /* ---------- Entrada ---------- */
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){ document.body.classList.add('ready'); });
+  });
+})();
+</script>
+</body>
+</html>

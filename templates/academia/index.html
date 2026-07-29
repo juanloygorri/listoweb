@@ -1,0 +1,994 @@
+<!-- plantilla genérica ListoWeb, personalización → ver templates/ADAPTACION.md -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Academia de idiomas y refuerzo escolar — plantilla demo</title>
+<meta name="description" id="metaDescription" content="Plantilla demo de academia: inglés para adultos y niños, refuerzo escolar de ESO y Bachillerato, y preparación de oposiciones. Grupos reducidos y matrícula abierta.">
+<meta name="theme-color" content="#1E5FA8">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" id="ogSiteName" content="Academia">
+<meta property="og:title" id="ogTitle" content="Academia de idiomas y refuerzo escolar — plantilla demo">
+<meta property="og:description" id="ogDescription" content="Inglés, refuerzo escolar y oposiciones con grupos reducidos y seguimiento personalizado. Matrícula abierta.">
+<meta property="og:image" content="assets/hero.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E5FA8'/%3E%3Cpath d='M32 16 L54 26 L32 36 L10 26 Z' fill='%23FF6B5A'/%3E%3Cpath d='M20 30v10c0 3 5 6 12 6s12-3 12-6V30' fill='none' stroke='%23FF6B5A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<!-- Fonts (única fuente externa permitida) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json" id="ld-json">
+{}
+</script>
+
+<style>
+  :root{
+    --blue:#1E5FA8;
+    --blue-dark:#123E73;
+    --blue-pale:#EAF1FB;
+    --coral:#FF6B5A;
+    --coral-dark:#E24F3E;
+    --coral-pale:#FFEDEA;
+    --ink:#152238;
+    --text:#152238;
+    --muted:#5B6B82;
+    --paper:#FFFFFF;
+    --bg:#F5F8FC;
+    --border:rgba(21,34,56,.10);
+    --whatsapp:#25D366;
+    --font-display:'Poppins', -apple-system, sans-serif;
+    --font-body:'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --container:1200px;
+    --radius-sm:8px;
+    --radius-md:16px;
+    --radius-lg:26px;
+    --shadow-sm:0 4px 16px rgba(21,34,56,.07);
+    --shadow-md:0 24px 56px -22px rgba(18,62,115,.35);
+    --ease:cubic-bezier(.25,.7,.35,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0 0 .5em;font-weight:700;line-height:1.18;color:var(--ink);}
+  p{margin:0 0 1em;}
+  ul{margin:0;padding:0;list-style:none;}
+  .container{max-width:var(--container);margin:0 auto;padding:0 24px;}
+  section{padding:112px 0;position:relative;}
+  section.alt{background:var(--paper);}
+  @media (max-width:780px){
+    section{padding:68px 0;}
+  }
+
+  .visually-hidden{
+    position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
+  .skip-link{
+    position:absolute;left:12px;top:-60px;background:var(--blue-dark);color:#fff;
+    padding:12px 18px;border-radius:var(--radius-sm);z-index:1000;transition:top .2s var(--ease);
+    font-size:.9rem;
+  }
+  .skip-link:focus{top:12px;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);letter-spacing:.14em;text-transform:uppercase;
+    font-size:.72rem;font-weight:700;color:var(--coral-dark);margin-bottom:16px;
+  }
+  .eyebrow::before{content:'';width:22px;height:3px;border-radius:2px;background:var(--coral);}
+  .section-head{max-width:660px;margin:0 auto 56px;text-align:center;}
+  .section-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);}
+  .section-head p{color:var(--muted);font-size:1.05rem;margin:0;}
+
+  /* Pill badge (matrícula abierta) */
+  .pill-badge{
+    display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);color:#fff;
+    border:1px solid rgba(255,255,255,.35);padding:8px 18px;border-radius:999px;font-size:.82rem;font-weight:600;
+    letter-spacing:.02em;backdrop-filter:blur(4px);
+  }
+  .pill-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);flex:none;animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .pill-badge.on-light{background:var(--blue-pale);color:var(--blue-dark);border-color:rgba(30,95,168,.25);}
+  .pill-badge.on-light .dot{background:var(--coral-dark);}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;white-space:nowrap;
+    padding:15px 32px;border-radius:999px;font-family:var(--font-display);font-weight:600;font-size:.95rem;
+    text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
+    letter-spacing:.01em;
+  }
+  .btn-primary{background:var(--coral);color:#fff;box-shadow:var(--shadow-sm);}
+  .btn-primary:hover{background:var(--coral-dark);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.6);}
+  .btn-outline:hover{background:rgba(255,255,255,.14);transform:translateY(-2px);border-color:#fff;}
+  .btn-outline-blue{background:transparent;color:var(--blue-dark);border-color:var(--blue);}
+  .btn-outline-blue:hover{background:var(--blue-pale);transform:translateY(-2px);}
+  .btn-dark{background:var(--blue-dark);color:#fff;}
+  .btn-dark:hover{background:var(--blue);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .btn-block{width:100%;}
+
+  /* Header */
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:500;
+    background:linear-gradient(180deg, rgba(18,30,52,.42), rgba(18,30,52,0));
+    padding:22px 0;transition:background .35s var(--ease),box-shadow .35s var(--ease),padding .35s var(--ease);
+  }
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .brand{
+    font-family:var(--font-display);font-size:1.4rem;font-weight:800;text-decoration:none;color:#fff;
+    letter-spacing:.01em;transition:color .35s var(--ease);display:flex;align-items:center;gap:10px;
+    flex-shrink:0;white-space:nowrap;
+  }
+  .brand .brand-mark{
+    width:34px;height:34px;border-radius:10px;background:var(--coral);display:flex;align-items:center;justify-content:center;
+    flex:none;
+  }
+  .brand .brand-mark svg{width:19px;height:19px;}
+  .main-nav{display:flex;align-items:center;gap:20px;}
+  .main-nav ul{display:flex;gap:2px;}
+  .main-nav a:not(.btn){
+    color:#fff;text-decoration:none;font-size:.92rem;font-weight:600;letter-spacing:.01em;white-space:nowrap;
+    padding:9px 14px;border-radius:999px;transition:background .3s var(--ease),color .3s var(--ease);
+  }
+  .main-nav a:not(.btn):hover{background:rgba(255,255,255,.16);}
+  .nav-toggle{
+    display:none;background:none;border:0;cursor:pointer;padding:8px;color:#fff;z-index:600;
+  }
+  .nav-toggle svg{display:block;width:26px;height:26px;}
+
+  .site-header.scrolled{
+    background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    box-shadow:var(--shadow-sm);padding:12px 0;
+  }
+  .site-header.scrolled .brand{color:var(--ink);}
+  .site-header.scrolled .main-nav a:not(.btn){color:var(--ink);}
+  .site-header.scrolled .main-nav a:not(.btn):hover{background:var(--blue-pale);color:var(--blue-dark);}
+  .site-header.scrolled .nav-toggle{color:var(--ink);}
+
+  @media (max-width:980px){
+    .main-nav ul{display:none;}
+    .main-nav .btn{display:none;}
+    .nav-toggle{display:inline-flex;}
+    .site-header.nav-open .main-nav{
+      display:flex;position:fixed;inset:0;background:rgba(18,30,52,.98);flex-direction:column;
+      align-items:center;justify-content:center;gap:0;
+    }
+    .site-header.nav-open .main-nav ul{
+      display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:36px;
+    }
+    .site-header.nav-open .main-nav a:not(.btn){color:#fff;font-size:1.25rem;}
+    .site-header.nav-open .main-nav .btn{display:inline-flex;}
+    .main-nav{position:static;}
+  }
+
+  /* Hero */
+  .hero{
+    min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:stretch;
+    background:var(--blue-dark);
+  }
+  .hero-content{
+    display:flex;flex-direction:column;justify-content:center;padding:150px 5vw 80px 5vw;color:#fff;
+    background:linear-gradient(160deg, var(--blue) 0%, var(--blue-dark) 78%);position:relative;overflow:hidden;
+  }
+  .hero-content::after{
+    content:'';position:absolute;right:-90px;bottom:-110px;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,107,90,.28),transparent 70%);
+  }
+  .hero-content .pill-badge{margin-bottom:22px;align-self:flex-start;}
+  .hero-content h1{font-size:clamp(2.3rem,4.6vw,3.4rem);color:#fff;max-width:560px;}
+  .hero-content h1 em{font-style:normal;color:var(--coral);}
+  .hero-content p.lead{font-size:1.12rem;color:rgba(255,255,255,.88);max-width:480px;margin-bottom:2em;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:16px;position:relative;z-index:1;}
+  .hero-media{position:relative;overflow:hidden;min-height:340px;}
+  .hero-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+  .hero-media::before{
+    content:'';position:absolute;inset:0;z-index:1;
+    background:linear-gradient(100deg, var(--blue-dark) 0%, rgba(18,62,115,0) 22%);
+  }
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr;}
+    .hero-media{min-height:280px;order:1;}
+    .hero-content{order:2;padding:130px 24px 64px;}
+    .hero-media::before{background:linear-gradient(0deg, var(--blue) 0%, rgba(30,95,168,0) 40%);}
+  }
+
+  /* Reveal animation */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+  .reveal.is-visible{opacity:1;transform:none;}
+
+  /* Cursos */
+  .courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media (max-width:980px){.courses-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:660px){.courses-grid{grid-template-columns:1fr;}}
+  .course-card{
+    background:var(--paper);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);
+    border:1px solid var(--border);display:flex;flex-direction:column;transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  }
+  .course-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+  .course-top{height:8px;}
+  .course-body{padding:28px 26px 26px;display:flex;flex-direction:column;flex:1;}
+  .course-icon{
+    width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .course-icon svg{width:26px;height:26px;}
+  .course-body h3{font-size:1.22rem;margin-bottom:6px;}
+  .course-level{font-size:.82rem;color:var(--muted);font-weight:600;margin-bottom:14px;}
+  .course-desc{color:var(--muted);font-size:.94rem;margin-bottom:20px;flex:1;}
+  .course-meta{border-top:1px dashed var(--border);padding-top:16px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;}
+  .course-schedule{font-size:.82rem;color:var(--muted);}
+  .course-price{font-family:var(--font-display);font-weight:800;font-size:1.4rem;white-space:nowrap;}
+  .course-price span{font-size:.72rem;font-weight:600;color:var(--muted);display:block;}
+  .courses-cta{text-align:center;margin-top:48px;}
+
+  /* Resultados */
+  .results-section .container{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;}
+  @media (max-width:900px){.results-section .container{grid-template-columns:1fr;gap:36px;}}
+  .results-media{position:relative;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);}
+  .results-media img{width:100%;height:100%;object-fit:cover;}
+  .results-media::after{
+    content:'';position:absolute;left:-18px;top:-18px;width:90px;height:90px;border-radius:20px;background:var(--coral);
+    z-index:-1;
+  }
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:32px 0 8px;}
+  .stat-card{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px 22px;box-shadow:var(--shadow-sm);}
+  .stat-card strong{display:block;font-family:var(--font-display);font-size:2.1rem;font-weight:800;color:var(--blue);}
+  .stat-card span{color:var(--muted);font-size:.86rem;}
+  .results-text p{color:var(--muted);}
+
+  /* Matrícula banda */
+  .cta-band{
+    background:linear-gradient(120deg, var(--blue) 0%, var(--blue-dark) 100%);color:#fff;text-align:center;
+    position:relative;overflow:hidden;
+  }
+  .cta-band::before{
+    content:'';position:absolute;left:8%;top:-60px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,107,90,.3),transparent 70%);
+  }
+  .cta-band::after{
+    content:'';position:absolute;right:6%;bottom:-70px;width:260px;height:260px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);
+  }
+  .cta-band .container{position:relative;z-index:1;}
+  .cta-band h2{color:#fff;}
+  .cta-band p{color:rgba(255,255,255,.85);max-width:540px;margin:0 auto 30px;}
+  .cta-band .pill-badge{margin-bottom:22px;}
+
+  /* Profesorado / método */
+  .method-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;}
+  @media (max-width:980px){.method-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.method-grid{grid-template-columns:1fr;}}
+  .method-card{background:var(--paper);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease);}
+  .method-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);}
+  .method-media{height:160px;overflow:hidden;}
+  .method-media img{width:100%;height:100%;object-fit:cover;}
+  .method-body{padding:22px 22px 26px;}
+  .method-body h3{font-size:1.05rem;margin-bottom:8px;}
+  .method-body p{color:var(--muted);font-size:.88rem;margin:0;}
+
+  /* Opiniones */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media (max-width:860px){.testimonials-grid{grid-template-columns:1fr;}}
+  .testimonial-card{
+    background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:32px 28px;box-shadow:var(--shadow-sm);position:relative;
+  }
+  .stars{color:var(--coral);letter-spacing:2px;font-size:1rem;margin-bottom:14px;}
+  .testimonial-card p.quote{font-style:italic;color:var(--ink);margin-bottom:18px;}
+  .testimonial-name{font-weight:700;font-family:var(--font-display);color:var(--blue-dark);}
+
+  /* Horario + ubicación */
+  .info-section .container{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;}
+  @media (max-width:860px){.info-section .container{grid-template-columns:1fr;}}
+  .schedule-list{border-top:1px solid var(--border);margin-top:8px;}
+  .schedule-row{
+    display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--border);font-size:.95rem;
+  }
+  .schedule-row.today{font-weight:700;color:var(--coral-dark);}
+  .map-frame{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);height:100%;min-height:340px;}
+  .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;display:block;}
+
+  /* Contacto */
+  .contact-section .container{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;}
+  @media (max-width:860px){.contact-section .container{grid-template-columns:1fr;}}
+  .contact-list{margin-top:24px;}
+  .contact-list li{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+  .contact-list .icon{
+    width:40px;height:40px;flex:none;border-radius:12px;background:var(--blue-pale);color:var(--blue-dark);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-list a{text-decoration:none;font-weight:600;}
+  .contact-list a:hover{color:var(--coral-dark);}
+  .contact-list .label{display:block;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;}
+  .social-row{display:flex;gap:12px;margin-top:28px;}
+  .social-row a{
+    width:40px;height:40px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;
+    justify-content:center;transition:background .25s var(--ease),color .25s var(--ease);
+  }
+  .social-row a:hover{background:var(--blue-dark);color:#fff;}
+
+  form.contact-form{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-sm);}
+  .form-row{margin-bottom:18px;}
+  .form-row label{display:block;font-size:.85rem;font-weight:700;margin-bottom:6px;}
+  .form-row input,.form-row textarea{
+    width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);
+    font-family:var(--font-body);font-size:.95rem;background:var(--bg);color:var(--text);
+    transition:border-color .25s var(--ease);
+  }
+  .form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--blue);}
+  .form-note{font-size:.8rem;color:var(--muted);margin-top:10px;}
+  .form-success{display:none;color:var(--blue-dark);font-size:.88rem;margin-top:10px;font-weight:700;}
+
+  /* Footer */
+  .site-footer{background:var(--blue-dark);color:rgba(255,255,255,.8);padding:64px 0 28px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+  @media (max-width:780px){.footer-grid{grid-template-columns:1fr;gap:32px;}}
+  .footer-grid h4{color:#fff;font-size:.95rem;margin-bottom:16px;font-family:var(--font-display);font-weight:700;letter-spacing:.03em;text-transform:uppercase;}
+  .footer-grid .brand{color:#fff;font-size:1.25rem;}
+  .footer-grid p{color:rgba(255,255,255,.65);}
+  .footer-links li{margin-bottom:10px;}
+  .footer-links a{text-decoration:none;color:rgba(255,255,255,.75);transition:color .25s var(--ease);}
+  .footer-links a:hover{color:var(--coral);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,.14);padding-top:24px;display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:12px;font-size:.82rem;color:rgba(255,255,255,.55);
+  }
+
+  /* Floating WhatsApp button */
+  .whatsapp-float{
+    position:fixed;right:22px;bottom:22px;width:60px;height:60px;border-radius:50%;background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(0,0,0,.28);
+    z-index:400;text-decoration:none;transition:transform .25s var(--ease);
+  }
+  .whatsapp-float:hover{transform:scale(1.08);}
+  .whatsapp-float svg{width:30px;height:30px;}
+
+  :focus-visible{outline:2px solid var(--coral);outline-offset:2px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#inicio" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 10.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-5.5"/></svg>
+      </span>
+      <span class="js-business-name">Tu Academia</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#resultados">Resultados</a></li>
+        <li><a href="#profesorado">Profesorado</a></li>
+        <li><a href="#opiniones">Opiniones</a></li>
+        <li><a href="#horario">Horario y ubicación</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#" class="btn btn-primary js-book">Reserva tu plaza</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+      <svg id="navIconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="navIconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio" aria-label="Presentación">
+    <div class="hero-content">
+      <span class="pill-badge"><span class="dot" aria-hidden="true"></span> Matrícula abierta · Plazas limitadas</span>
+      <h1>Aprende de verdad,<br>a <em>tu</em> ritmo</h1>
+      <p class="lead">Inglés para adultos y niños, refuerzo escolar de ESO y Bachillerato, y preparación de oposiciones. Grupos reducidos y seguimiento cercano en tu ciudad.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary js-book">Reserva tu plaza</a>
+        <a href="#cursos" class="btn btn-outline">Ver cursos</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img src="assets/hero.jpg" alt="Aula luminosa con una profesora explicando en la pizarra ante un grupo de alumnos adultos atentos" width="1600" height="1067">
+    </div>
+  </section>
+
+  <!-- CURSOS -->
+  <section id="cursos" aria-labelledby="cursos-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Nuestra oferta formativa</span>
+        <h2 id="cursos-title">Cursos y precios</h2>
+        <p>Grupos reducidos, horarios flexibles y precios claros desde el primer día. Sin permanencia.</p>
+      </div>
+
+      <div class="courses-grid">
+        <article class="course-card reveal">
+          <div class="course-top" style="background:var(--blue)"></div>
+          <div class="course-body">
+            <div class="course-icon" style="background:var(--blue-pale);color:var(--blue)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+            </div>
+            <h3>Inglés para adultos</h3>
+            <p class="course-level">Nivel A1 – C1 · Marco Común Europeo</p>
+            <p class="course-desc">Conversación desde la primera clase, en grupos reducidos y con horarios compatibles con tu trabajo.</p>
+            <div class="course-meta">
+              <span class="course-schedule">2 sesiones/semana<br>90 min por sesión</span>
+              <span class="course-price">49 €<span>al mes</span></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course-card reveal">
+          <div class="course-top" style="background:var(--coral)"></div>
+          <div class="course-body">
+            <div class="course-icon" style="background:var(--coral-pale);color:var(--coral-dark)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+            </div>
+            <h3>Inglés para niños y adolescentes</h3>
+            <p class="course-level">De 6 a 16 años</p>
+            <p class="course-desc">Aprendizaje dinámico con juegos, canciones y actividades adaptadas a cada edad y nivel.</p>
+            <div class="course-meta">
+              <span class="course-schedule">1 sesión/semana<br>60 min por sesión</span>
+              <span class="course-price">39 €<span>al mes</span></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course-card reveal">
+          <div class="course-top" style="background:var(--blue-dark)"></div>
+          <div class="course-body">
+            <div class="course-icon" style="background:var(--blue-pale);color:var(--blue-dark)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+            </div>
+            <h3>Refuerzo escolar ESO y Bachillerato</h3>
+            <p class="course-level">Todas las asignaturas</p>
+            <p class="course-desc">Seguimiento personalizado, control de deberes y comunicación continua con las familias.</p>
+            <div class="course-meta">
+              <span class="course-schedule">Tardes<br>2–3 sesiones/semana</span>
+              <span class="course-price">59 €<span>al mes</span></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course-card reveal">
+          <div class="course-top" style="background:var(--coral-dark)"></div>
+          <div class="course-body">
+            <div class="course-icon" style="background:var(--coral-pale);color:var(--coral-dark)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M9.5 18.5 8 22l4-2 4 2-1.5-3.5"/></svg>
+            </div>
+            <h3>Preparación de oposiciones</h3>
+            <p class="course-level">Administración pública y educación</p>
+            <p class="course-desc">Temario actualizado, simulacros de examen periódicos y tutorías individuales de seguimiento.</p>
+            <div class="course-meta">
+              <span class="course-schedule">Intensivo<br>mañana o tarde</span>
+              <span class="course-price">89 €<span>al mes</span></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course-card reveal">
+          <div class="course-top" style="background:var(--blue)"></div>
+          <div class="course-body">
+            <div class="course-icon" style="background:var(--blue-pale);color:var(--blue)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <h3>Preparación de certificaciones oficiales</h3>
+            <p class="course-level">Nivel B1 – C1</p>
+            <p class="course-desc">Práctica de las cuatro destrezas del idioma orientada a la preparación de certificaciones oficiales.</p>
+            <div class="course-meta">
+              <span class="course-schedule">2 sesiones/semana<br>90 min por sesión</span>
+              <span class="course-price">65 €<span>al mes</span></span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="courses-cta reveal">
+        <a href="#" class="btn btn-dark js-book">Reserva tu plaza</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section id="resultados" class="alt results-section" aria-labelledby="resultados-title">
+    <div class="container">
+      <div class="results-media reveal">
+        <img src="assets/clase.jpg" alt="Profesor explicando gráficos de resultados y progreso en la pizarra ante un grupo de alumnos adultos" loading="lazy" width="1600" height="1067">
+      </div>
+      <div class="results-text reveal">
+        <span class="eyebrow">Resultados que hablan por nosotros</span>
+        <h2 id="resultados-title">Formación con resultados reales</h2>
+        <p>Detrás de cada aprobado hay un método probado: grupos reducidos, seguimiento constante y materiales propios actualizados cada curso.</p>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <strong>92%</strong>
+            <span>de aprobados en certificaciones y oposiciones</span>
+          </div>
+          <div class="stat-card">
+            <strong>15</strong>
+            <span>años formando alumnos en tu ciudad</span>
+          </div>
+          <div class="stat-card">
+            <strong>+1.200</strong>
+            <span>alumnos formados hasta hoy</span>
+          </div>
+          <div class="stat-card">
+            <strong>≤8</strong>
+            <span>alumnos por grupo, como máximo</span>
+          </div>
+        </div>
+        <a href="#" class="btn btn-outline-blue js-book">Reserva tu plaza</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATRÍCULA ABIERTA -->
+  <section class="cta-band reveal" aria-labelledby="cta-title">
+    <div class="container">
+      <span class="pill-badge"><span class="dot" aria-hidden="true"></span> Matrícula abierta · Plazas limitadas</span>
+      <h2 id="cta-title">Empieza este trimestre, no esperes al que viene</h2>
+      <p>Reserva tu plaza en menos de un minuto por WhatsApp y te contamos todo sobre el curso que mejor encaja contigo.</p>
+      <a href="#" class="btn btn-primary js-book">Reserva tu plaza</a>
+    </div>
+  </section>
+
+  <!-- PROFESORADO Y MÉTODO -->
+  <section id="profesorado" aria-labelledby="profesorado-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Cómo trabajamos</span>
+        <h2 id="profesorado-title">Profesorado y método</h2>
+        <p>Un equipo docente cercano y grupos reducidos para que el progreso de cada alumno sea siempre visible.</p>
+      </div>
+      <div class="method-grid">
+        <div class="method-card reveal">
+          <div class="method-media">
+            <img src="assets/grupo.jpg" alt="Grupo de estudiantes colaborando y sonriendo alrededor de un portátil en la biblioteca" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="method-body">
+            <h3>Grupos reducidos</h3>
+            <p>Máximo 8 alumnos por grupo para que el profesor pueda atender a cada uno de verdad.</p>
+          </div>
+        </div>
+        <div class="method-card reveal">
+          <div class="method-media">
+            <img src="assets/profesor.jpg" alt="Tutora ayudando a una niña con sus deberes en una mesa de estudio" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="method-body">
+            <h3>Seguimiento personalizado</h3>
+            <p>Tutorías individuales y comunicación constante con cada alumno y, en el caso de los más pequeños, con sus familias.</p>
+          </div>
+        </div>
+        <div class="method-card reveal">
+          <div class="method-media">
+            <img src="assets/aula.jpg" alt="Aula moderna y vacía con sillas azules y pizarra blanca" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="method-body">
+            <h3>Instalaciones modernas</h3>
+            <p>Aulas luminosas y equipadas, pensadas para facilitar la concentración y el aprendizaje.</p>
+          </div>
+        </div>
+        <div class="method-card reveal">
+          <div class="method-media">
+            <img src="assets/estudio.jpg" alt="Alumna tomando notas en un cuaderno junto a su portátil" loading="lazy" width="1600" height="1067">
+          </div>
+          <div class="method-body">
+            <h3>Acompañamiento continuo</h3>
+            <p>Material propio, ejercicios y seguimiento del progreso entre clase y clase.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section id="opiniones" class="alt" aria-labelledby="opiniones-title">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Lo que dicen de nosotros</span>
+        <h2 id="opiniones-title">Opiniones</h2>
+        <p>La confianza de nuestros alumnos y sus familias es nuestra mejor carta de presentación.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Con el curso de inglés para adultos por fin perdí el miedo a hablar. Se nota muchísimo que los grupos son reducidos.»</p>
+          <p class="testimonial-name">Elena R.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Mi hijo empezó refuerzo de matemáticas y ha subido dos puntos en un solo trimestre. El seguimiento con las familias es constante.»</p>
+          <p class="testimonial-name">Javier M.</p>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <span class="visually-hidden">Valoración: 5 de 5 estrellas</span>
+          <p class="quote">«Preparé mi oposición aquí y aprobé a la primera. El método y los simulacros de examen marcan la diferencia.»</p>
+          <p class="testimonial-name">Beatriz L.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO + UBICACIÓN -->
+  <section id="horario" aria-labelledby="horario-title">
+    <div class="container info-section">
+      <div class="reveal">
+        <span class="eyebrow">Te esperamos</span>
+        <h2 id="horario-title">Horario y ubicación</h2>
+        <p style="color:var(--muted)">Estamos en tu ciudad, en tu barrio, con fácil acceso y transporte cercano.</p>
+        <div class="schedule-list js-schedule" aria-label="Horario de apertura"></div>
+        <p style="margin-top:20px;color:var(--muted)" class="js-address"></p>
+      </div>
+      <div class="map-frame reveal">
+        <!-- El src del iframe se rellena vía JS desde CONFIG.mapEmbedUrl -->
+        <iframe class="js-map" title="Ubicación en el mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="alt contact-section" aria-labelledby="contacto-title">
+    <div class="container">
+      <div class="reveal">
+        <span class="eyebrow">Hablemos</span>
+        <h2 id="contacto-title">Contacto</h2>
+        <p style="color:var(--muted)">Escríbenos, llámanos o pásate por la academia. Te ayudamos a elegir el curso que mejor encaja contigo.</p>
+        <ul class="contact-list">
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <span class="label">Teléfono</span>
+              <a class="js-tel" href="tel:+34600000000">+34 600 000 000</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.9 11.9L4 20l4.2-1.1a7.9 7.9 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 5.54-13.58z"/></svg>
+            </span>
+            <div>
+              <span class="label">WhatsApp</span>
+              <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Escríbenos directamente</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            </span>
+            <div>
+              <span class="label">Email</span>
+              <a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a>
+            </div>
+          </li>
+          <li>
+            <span class="icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <span class="label">Dirección</span>
+              <span class="js-address-contact">Calle Ejemplo, 1 · 00000 Tu Ciudad</span>
+            </div>
+          </li>
+        </ul>
+        <div class="social-row js-socials" aria-label="Redes sociales"></div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm" aria-label="Formulario de contacto">
+          <div class="form-row">
+            <label for="cf-name">Nombre</label>
+            <input type="text" id="cf-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email o teléfono</label>
+            <input type="text" id="cf-email" name="contact" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Mensaje</label>
+            <textarea id="cf-message" name="message" rows="4" required placeholder="Cuéntanos qué curso te interesa y tu disponibilidad horaria..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark btn-block">Enviar mensaje</button>
+          <p class="form-note">Te responderemos por email. Al enviar, se abrirá tu programa de correo con el mensaje ya redactado.</p>
+          <p class="form-success" id="formSuccess" role="status">¡Gracias! Hemos abierto tu cliente de correo con el mensaje listo para enviar.</p>
+          <!-- Slot para widget de reservas/matrícula embebido -->
+          <!--
+          <iframe src="[URL_DEL_WIDGET_DE_MATRICULA]" title="Reservar plaza online" loading="lazy" style="width:100%;border:0;min-height:600px;margin-top:24px;"></iframe>
+          -->
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#inicio" class="brand js-business-name">Tu Academia</a>
+        <p style="margin-top:14px;max-width:320px;">Academia de idiomas, refuerzo escolar y oposiciones en tu ciudad. Grupos reducidos y matrícula abierta todo el curso.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#cursos">Cursos</a></li>
+          <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#profesorado">Profesorado</a></li>
+          <li><a href="#opiniones">Opiniones</a></li>
+          <li><a href="#horario">Horario y ubicación</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li><a class="js-tel" href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a class="js-email" href="mailto:hola@tunegocio.es">hola@tunegocio.es</a></li>
+          <li><span class="js-address">Calle Ejemplo, 1 · 00000 Tu Ciudad</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span class="js-year"></span> <span class="js-business-name">Tu Academia</span>. Todos los derechos reservados.</span>
+      <span>Plantilla demo creada por ListoWeb</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.24.6 4.42 1.75 6.33L4 29l7.83-1.7a12.9 12.9 0 0 0 4.19.7h.01c6.63 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 22.02c-1.32 0-2.62-.35-3.75-1.01l-.27-.16-4.65 1.01 1.02-4.53-.18-.28a9.94 9.94 0 0 1-1.53-5.03c0-5.5 4.48-9.98 9.98-9.98 2.67 0 5.17 1.04 7.05 2.93a9.9 9.9 0 0 1 2.93 7.06c0 5.5-4.48 9.99-9.98 9.99zm5.47-7.47c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.04-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG — único punto de edición para adaptar la plantilla
+     a un cliente real (nombre, contacto, horario, mapa, redes...)
+     ============================================================ */
+  const CONFIG = {
+    businessName: "Tu Academia",
+    phone: "+34 600 000 000",
+    whatsapp: "34600000000",
+    email: "hola@tunegocio.es",
+    address: "Calle Ejemplo, 1 · 00000 Tu Ciudad",
+    schedule: [
+      { day: "Lunes",    hours: "9:00 – 21:00" },
+      { day: "Martes",   hours: "9:00 – 21:00" },
+      { day: "Miércoles",hours: "9:00 – 21:00" },
+      { day: "Jueves",   hours: "9:00 – 21:00" },
+      { day: "Viernes",  hours: "9:00 – 20:00" },
+      { day: "Sábado",   hours: "10:00 – 13:00" },
+      { day: "Domingo",  hours: "Cerrado" }
+    ],
+    bookingUrl: null, // Si la academia usa un sistema de matrícula/reservas online, poner la URL aquí; si no, se usa WhatsApp
+    mapEmbedUrl: "https://www.google.com/maps?q=Calle+Ejemplo+1&output=embed",
+    socials: {
+      instagram: "https://instagram.com/tuacademia",
+      facebook: "https://facebook.com/tuacademia"
+    }
+  };
+
+  const SITE_TAGLINE = "Academia de idiomas, refuerzo y oposiciones";
+  const SITE_DESCRIPTION = "Inglés para adultos y niños, refuerzo escolar de ESO y Bachillerato, y preparación de oposiciones. Grupos reducidos y matrícula abierta.";
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+    /* --- Nombre del negocio --- */
+    document.querySelectorAll('.js-business-name').forEach(function(el){
+      el.textContent = CONFIG.businessName;
+    });
+    document.title = CONFIG.businessName + " — " + SITE_TAGLINE;
+
+    /* --- Meta description y Open Graph (generados desde CONFIG) --- */
+    const metaDescription = document.getElementById('metaDescription');
+    if (metaDescription) { metaDescription.setAttribute('content', CONFIG.businessName + ": " + SITE_DESCRIPTION); }
+    const ogSiteName = document.getElementById('ogSiteName');
+    if (ogSiteName) { ogSiteName.setAttribute('content', CONFIG.businessName); }
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) { ogTitle.setAttribute('content', CONFIG.businessName + " — " + SITE_TAGLINE); }
+    const ogDescription = document.getElementById('ogDescription');
+    if (ogDescription) { ogDescription.setAttribute('content', SITE_DESCRIPTION); }
+
+    /* --- Teléfono --- */
+    const telDigits = CONFIG.phone.replace(/[^\d+]/g, '');
+    document.querySelectorAll('.js-tel').forEach(function(el){
+      el.href = 'tel:' + telDigits;
+      el.textContent = CONFIG.phone;
+    });
+
+    /* --- Email --- */
+    document.querySelectorAll('.js-email').forEach(function(el){
+      el.href = 'mailto:' + CONFIG.email;
+      el.textContent = CONFIG.email;
+    });
+
+    /* --- Dirección --- */
+    document.querySelectorAll('.js-address, .js-address-contact').forEach(function(el){
+      el.textContent = CONFIG.address;
+    });
+
+    /* --- WhatsApp (flotante + enlaces de contacto) --- */
+    const waMessage = encodeURIComponent('Hola ' + CONFIG.businessName + ', me gustaría información sobre matrícula y plazas disponibles.');
+    const waUrl = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + waMessage;
+    document.querySelectorAll('.js-whatsapp-link').forEach(function(el){
+      el.href = waUrl;
+    });
+
+    /* --- Botón "Reserva tu plaza": sistema de matrícula del cliente si existe, si no WhatsApp --- */
+    const bookHref = CONFIG.bookingUrl ? CONFIG.bookingUrl : waUrl;
+    document.querySelectorAll('.js-book').forEach(function(el){
+      el.href = bookHref;
+      el.target = '_blank';
+      el.rel = 'noopener';
+    });
+
+    /* --- Horario --- */
+    const scheduleContainer = document.querySelector('.js-schedule');
+    if (scheduleContainer) {
+      const jsDay = new Date().getDay(); // 0 = domingo ... 6 = sábado
+      const dayIndexMap = [6,0,1,2,3,4,5]; // convierte getDay() a índice del array CONFIG.schedule (Lunes..Domingo)
+      const todayIndex = dayIndexMap[jsDay];
+      CONFIG.schedule.forEach(function(item, i){
+        const row = document.createElement('div');
+        row.className = 'schedule-row' + (i === todayIndex ? ' today' : '');
+        row.innerHTML = '<span class="day">' + item.day + '</span><span class="hours">' + item.hours + '</span>';
+        scheduleContainer.appendChild(row);
+      });
+    }
+
+    /* --- Mapa --- */
+    document.querySelectorAll('.js-map').forEach(function(el){
+      el.src = CONFIG.mapEmbedUrl;
+      el.title = 'Ubicación de ' + CONFIG.businessName + ' en el mapa';
+    });
+
+    /* --- Redes sociales --- */
+    const socialContainer = document.querySelector('.js-socials');
+    if (socialContainer) {
+      const icons = {
+        instagram: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+        facebook: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>'
+      };
+      Object.keys(CONFIG.socials).forEach(function(key){
+        const a = document.createElement('a');
+        a.href = CONFIG.socials[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key.charAt(0).toUpperCase() + key.slice(1));
+        a.innerHTML = icons[key] || '';
+        socialContainer.appendChild(a);
+      });
+    }
+
+    /* --- Año en footer --- */
+    const yearEl = document.querySelector('.js-year');
+    if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+
+    /* --- JSON-LD (datos estructurados EducationalOrganization) --- */
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": CONFIG.businessName,
+      "description": SITE_DESCRIPTION,
+      "image": "assets/hero.jpg",
+      "telephone": CONFIG.phone,
+      "email": CONFIG.email,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": CONFIG.address,
+        "addressCountry": "ES"
+      },
+      "openingHoursSpecification": CONFIG.schedule.filter(function(s){return s.hours !== 'Cerrado';}).map(function(s){
+        const parts = s.hours.split('–').map(function(p){return p.trim();});
+        return {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": s.day,
+          "opens": parts[0],
+          "closes": parts[1]
+        };
+      }),
+      "sameAs": Object.values(CONFIG.socials)
+    };
+    const ldScript = document.getElementById('ld-json');
+    if (ldScript) { ldScript.textContent = JSON.stringify(ld, null, 2); }
+
+    /* --- Header sticky que solidifica al hacer scroll --- */
+    const header = document.getElementById('siteHeader');
+    function onScroll(){
+      if (window.scrollY > 40) { header.classList.add('scrolled'); }
+      else { header.classList.remove('scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    /* --- Menú móvil --- */
+    const navToggle = document.getElementById('navToggle');
+    const iconOpen = document.getElementById('navIconOpen');
+    const iconClose = document.getElementById('navIconClose');
+    function closeMenu(){
+      header.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+      iconOpen.style.display = '';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    function openMenu(){
+      header.classList.add('nav-open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      navToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+      iconOpen.style.display = 'none';
+      iconClose.style.display = '';
+      document.body.style.overflow = 'hidden';
+    }
+    navToggle.addEventListener('click', function(){
+      if (header.classList.contains('nav-open')) { closeMenu(); } else { openMenu(); }
+    });
+    document.querySelectorAll('#mainNav a').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+
+    /* --- Scroll reveal --- */
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* --- Formulario de contacto: abre mailto con los datos --- */
+    const form = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+    if (form) {
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const contact = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        const subject = encodeURIComponent('Solicitud de información — ' + CONFIG.businessName);
+        const body = encodeURIComponent(
+          'Nombre: ' + name + '\n' +
+          'Email/Teléfono: ' + contact + '\n\n' +
+          'Mensaje:\n' + message
+        );
+        window.location.href = 'mailto:' + CONFIG.email + '?subject=' + subject + '&body=' + body;
+        if (formSuccess) { formSuccess.style.display = 'block'; }
+      });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>
